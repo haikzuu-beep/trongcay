@@ -1,104 +1,77 @@
 // ===============================
-// MUA HẠT GIỐNG
+// DỮ LIỆU GAME
 // ===============================
 
-function buySeed(type, price){
+let money = Number(localStorage.getItem("money")) || 200;
 
-    if(money < price){
-        alert("❌ Bạn không đủ xu!");
-        return;
-    }
+let selectedSeed = "";
 
-    money -= price;
-    bag[type]++;
+let bag = JSON.parse(localStorage.getItem("bag")) || {
+    lua:0,
+    carot:0,
+    cachua:0,
+    bap:0,
+    huongduong:0
+};
 
-    saveGame();
-    updateUI();
+let garden = JSON.parse(localStorage.getItem("garden")) || new Array(16).fill("");
 
-    alert("✅ Đã mua thành công!");
+
+// ===============================
+// HIỂN THỊ
+// ===============================
+
+function updateUI(){
+
+    document.getElementById("money").innerText = money;
+
+    document.getElementById("luaCount").innerText = bag.lua;
+
+    document.getElementById("carotCount").innerText = bag.carot;
+
+    document.getElementById("cachuaCount").innerText = bag.cachua;
+
+    document.getElementById("bapCount").innerText = bag.bap;
+
+    document.getElementById("huongduongCount").innerText = bag.huongduong;
+
+    document.getElementById("selected").innerText =
+    selectedSeed=="" ? "Chưa chọn" : selectedSeed;
+
 }
 
+updateUI();
+
 
 // ===============================
-// CHỌN HẠT GIỐNG
+// LƯU GAME
 // ===============================
 
-function selectSeed(type){
+function saveGame(){
 
-    if(bag[type] <= 0){
-        alert("❌ Bạn không có hạt giống này!");
-        return;
-    }
+    localStorage.setItem("money",money);
 
-    selectedSeed = type;
+    localStorage.setItem("bag",JSON.stringify(bag));
 
-    let name = "";
-
-    switch(type){
-
-        case "lua":
-            name = "🌾 Hạt lúa";
-            break;
-
-        case "carot":
-            name = "🥕 Hạt cà rốt";
-            break;
-
-        case "cachua":
-            name = "🍅 Hạt cà chua";
-            break;
-
-        case "bap":
-            name = "🌽 Hạt bắp";
-            break;
-
-        case "huongduong":
-            name = "🌻 Hạt hướng dương";
-            break;
-
-    }
-
-    document.getElementById("selected").innerText = name;
+    localStorage.setItem("garden",JSON.stringify(garden));
 
 }
 
 
 // ===============================
-// HIỂN THỊ KHU VƯỜN
+// CHUYỂN MENU
 // ===============================
 
-function drawGarden(){
+function openTab(name){
 
-    let plots = document.getElementsByClassName("plot");
+    let tabs=document.getElementsByClassName("tab");
 
-    for(let i=0;i<plots.length;i++){
+    for(let t of tabs){
 
-        if(garden[i] == ""){
-            plots[i].innerHTML = "";
-        }
-
-        if(garden[i] == "lua"){
-            plots[i].innerHTML = "🌾";
-        }
-
-        if(garden[i] == "carot"){
-            plots[i].innerHTML = "🥕";
-        }
-
-        if(garden[i] == "cachua"){
-            plots[i].innerHTML = "🍅";
-        }
-
-        if(garden[i] == "bap"){
-            plots[i].innerHTML = "🌽";
-        }
-
-        if(garden[i] == "huongduong"){
-            plots[i].innerHTML = "🌻";
-        }
+        t.style.display="none";
 
     }
 
-}
+    document.getElementById(name).style.display="block";
 
-drawGarden();
+}
