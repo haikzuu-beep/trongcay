@@ -171,7 +171,37 @@ function addExp(amount){
     updateUI();
 
 }
+function randomWateringCan(){
 
+    let r=Math.random()*100;
+
+    if(r<50){
+
+        return "basic";
+
+    }
+
+    if(r<75){
+
+        return "normal";
+
+    }
+
+    if(r<90){
+
+        return "advanced";
+
+    }
+
+    if(r<98){
+
+        return "vip";
+
+    }
+
+    return "legendary";
+
+}
 // ===============================
 // CHUYỂN MENU
 // ===============================
