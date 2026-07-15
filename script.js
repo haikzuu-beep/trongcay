@@ -15,7 +15,19 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
 };
 
 let garden = JSON.parse(localStorage.getItem("garden")) || new Array(16).fill("");
+if(garden.length===0){
 
+    for(let i=0;i<16;i++){
+
+        garden.push({
+            seed:"",
+            stage:0,
+            progress:0
+        });
+
+    }
+
+}
 
 // ===============================
 // HIỂN THỊ
@@ -141,79 +153,6 @@ function selectSeed(type){
 
 
 // ===============================
-// HIỂN THỊ KHU VƯỜN
-// ===============================
-
-function drawGarden(){
-
-    let plots = document.getElementsByClassName("plot");
-
-    for(let i=0;i<plots.length;i++){
-
-        if(garden[i] == ""){
-            plots[i].innerHTML = "";
-        }
-
-        if(garden[i] == "lua"){
-            plots[i].innerHTML = "🌾";
-        }
-
-        if(garden[i] == "carot"){
-            plots[i].innerHTML = "🥕";
-        }
-
-        if(garden[i] == "cachua"){
-            plots[i].innerHTML = "🍅";
-        }
-
-        if(garden[i] == "bap"){
-            plots[i].innerHTML = "🌽";
-        }
-
-        if(garden[i] == "huongduong"){
-            plots[i].innerHTML = "🌻";
-        }
-
-    }
-
-}
-
-drawGarden();// ===============================
-// TRỒNG CÂY
-// ===============================
-
-function plant(index){
-
-    // Ô đã có cây
-    if(garden[index] != ""){
-        alert("🌳 Ô này đã có cây rồi!");
-        return;
-    }
-
-    // Chưa chọn hạt
-    if(selectedSeed == ""){
-        alert("🌱 Hãy vào Túi đồ và chọn hạt giống trước!");
-        return;
-    }
-
-    // Hết hạt
-    if(bag[selectedSeed] <= 0){
-        alert("❌ Bạn đã hết hạt giống này!");
-        return;
-    }
-
-    // Trồng
-    bag[selectedSeed]--;
-    garden[index] = selectedSeed;
-
-    saveGame();
-    updateUI();
-    drawGarden();
-
-}
-
-
-// ===============================
 // THU HOẠCH
 // (tạm thời bằng nút chuột phải)
 // ===============================
@@ -280,3 +219,314 @@ document.addEventListener("contextmenu", function(e){
 
 updateUI();
 drawGarden();
+// ===============================
+// HỆ THỐNG SINH TRƯỞNG CÂY
+// ===============================
+
+const plantData = {
+
+    lua:{
+        icon:["🌱","🌿","🌾"],
+        time:30,
+        reward:30
+    },
+
+    carot:{
+        icon:["🌱","🌿","🥕"],
+        time:45,
+        reward:60
+    },
+
+    cachua:{
+        icon:["🌱","🌿","🍅"],
+        time:60,
+        reward:90
+    },
+
+    bap:{
+        icon:["🌱","🌿","🌽"],
+        time:90,
+        reward:150
+    },
+
+    huongduong:{
+        icon:["🌱","🌿","🌻"],
+        time:120,
+        reward:250
+    }
+
+};
+
+
+// sửa dữ liệu khu vườn cũ
+for(let i=0;i<16;i++){
+
+    if(typeof garden[i] === "string"){
+
+        if(garden[i]!=""){
+
+            garden[i]={
+                seed:garden[i],
+                stage:1,
+                time:Date.now()
+            };
+
+        }
+        else{
+
+            garden[i]={
+                seed:"",
+                stage:0,
+                time:0
+            };
+
+        }
+
+    }
+
+}
+
+
+// ===============================
+// VẼ LẠI VƯỜN MỚI
+// ===============================
+
+function drawGarden(){
+
+    let plots=document.getElementsByClassName("plot");
+
+
+    for(let i=0;i<plots.length;i++){
+
+        let cell=garden[i];
+
+
+        if(cell.seed==""){
+
+            plots[i].innerHTML="";
+
+            continue;
+
+        }
+
+
+        let plant=plantData[cell.seed];
+
+
+        let passed=(Date.now()-cell.time)/1000;
+
+
+        if(passed >= plant.time){
+
+            cell.stage=2;
+
+        }
+        else if(passed >= plant.time/2){
+
+            cell.stage=1;
+
+        }
+        else{
+
+            cell.stage=0;
+
+        }
+
+
+        plots[i].innerHTML=
+        plant.icon[cell.stage];
+
+
+    }
+
+
+    saveGame();
+
+}
+
+
+drawGarden();
+
+
+// ===============================
+// TỰ LỚN THEO THỜI GIAN
+// ===============================
+
+setInterval(()=>{
+
+    drawGarden();
+
+},1000);
+
+
+
+
+// ===============================
+// TRỒNG CÂY MỚI
+// ===============================
+
+function plant(index){
+
+
+    if(garden[index].seed!=""){
+
+        alert("🌳 Ô này đã có cây!");
+
+        return;
+
+    }
+
+
+    if(selectedSeed==""){
+
+        alert("🌱 Hãy chọn hạt giống!");
+
+        return;
+
+    }
+
+
+    if(bag[selectedSeed]<=0){
+
+        alert("❌ Hết hạt!");
+
+        return;
+
+    }
+
+
+
+    bag[selectedSeed]--;
+
+
+    garden[index]={
+
+        seed:selectedSeed,
+
+        stage:0,
+
+        time:Date.now()
+
+    };
+
+
+
+    saveGame();
+
+    updateUI();
+
+    drawGarden();
+
+
+}
+
+
+
+
+// ===============================
+// CLICK ĐỂ THU HOẠCH
+// ===============================
+
+document.addEventListener("click",function(e){
+
+
+    if(!e.target.classList.contains("plot"))
+        return;
+
+
+
+    let plots=document.getElementsByClassName("plot");
+
+    let index=Array.from(plots)
+    .indexOf(e.target);
+
+
+
+    let cell=garden[index];
+
+
+    if(cell.seed=="")
+        return;
+
+
+
+    let plant=plantData[cell.seed];
+
+
+    let grow=(Date.now()-cell.time)/1000;
+
+
+
+    if(grow < plant.time){
+
+        alert(
+        "🌱 Cây chưa lớn!\nCòn "
+        +
+        Math.ceil(plant.time-grow)
+        +
+        " giây"
+        );
+
+        return;
+
+    }
+
+
+
+    money += plant.reward;
+
+
+
+    alert(
+    "🎉 Thu hoạch "
+    +
+    cell.seed
+    +
+    " +" 
+    +
+    plant.reward
+    +
+    " xu"
+    );
+
+
+
+    garden[index]={
+
+        seed:"",
+
+        stage:0,
+
+        time:0
+
+    };
+
+
+
+    saveGame();
+
+    updateUI();
+
+    drawGarden();
+
+
+});
+
+
+
+
+// ===============================
+// NÚT XÓA GAME
+// ===============================
+
+function resetGame(){
+
+    if(confirm("Xóa toàn bộ dữ liệu?")){
+
+        localStorage.clear();
+
+        location.reload();
+
+    }
+
+}
