@@ -11,6 +11,50 @@ function expNeed(){
 }
 
 let selectedSeed = "";
+// ===============================
+// BÌNH TƯỚI
+// ===============================
+
+let wateringCan = JSON.parse(localStorage.getItem("wateringCan")) || null;
+
+const wateringData = {
+
+    basic:{
+        name:"⭐ Bình tưới Sơ cấp",
+        speed:0.9,
+        durability:10,
+        price:1000
+    },
+
+    normal:{
+        name:"⭐⭐ Bình tưới Thường",
+        speed:0.8,
+        durability:10,
+        price:5000
+    },
+
+    advanced:{
+        name:"⭐⭐⭐ Bình tưới Cao cấp",
+        speed:0.65,
+        durability:20,
+        price:10000
+    },
+
+    vip:{
+        name:"⭐⭐⭐⭐ Bình tưới VIP",
+        speed:0.5,
+        durability:20,
+        price:30000
+    },
+
+    legendary:{
+        name:"⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
+        speed:0.3,
+        durability:20,
+        price:50000
+    }
+
+};
 
 let bag = JSON.parse(localStorage.getItem("bag")) || {
     lua:0,
@@ -105,7 +149,7 @@ function saveGame(){
 
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
-
+    localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
 }
 
 function addExp(amount){
