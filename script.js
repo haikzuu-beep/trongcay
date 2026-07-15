@@ -520,7 +520,125 @@ document.addEventListener("click",function(e){
 
     drawGarden();
 
+// ===============================
+// VẼ VƯỜN + THANH TIẾN TRÌNH
+// ===============================
 
+function drawGarden(){
+
+    let plots = document.getElementsByClassName("plot");
+
+
+    for(let i=0;i<plots.length;i++){
+
+
+        let cell = garden[i];
+
+
+        if(cell.seed === ""){
+
+            plots[i].innerHTML = "";
+
+            continue;
+
+        }
+
+
+
+        let plant = plantData[cell.seed];
+
+
+
+        let growTime =
+        (Date.now() - cell.time) / 1000;
+
+
+
+        let percent =
+        Math.floor(
+            (growTime / plant.time) * 100
+        );
+
+
+
+        if(percent > 100){
+
+            percent = 100;
+
+        }
+
+
+
+        // cập nhật giai đoạn cây
+
+        if(percent >= 100){
+
+            cell.stage = 2;
+
+        }
+
+        else if(percent >= 50){
+
+            cell.stage = 1;
+
+        }
+
+        else{
+
+            cell.stage = 0;
+
+        }
+
+
+
+        let barLength = 10;
+
+        let filled =
+        Math.floor(
+            percent / 10
+        );
+
+
+
+        let bar =
+        "█".repeat(filled)
+        +
+        "░".repeat(barLength-filled);
+
+
+
+        plots[i].innerHTML = `
+
+            <div class="plant">
+            
+            <div class="plantIcon">
+                ${plant.icon[cell.stage]}
+            </div>
+
+
+            <div class="progress">
+
+                ${bar}
+
+            </div>
+
+
+            <small>
+                ${percent}%
+            </small>
+
+
+            </div>
+
+        `;
+
+
+    }
+
+
+    saveGame();
+
+}
 });
 
 
