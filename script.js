@@ -440,6 +440,7 @@ document.addEventListener("click",function(e){
 
 
     money += plantInfo.reward;
+addExp(20);
 
 const seedName = {
     lua:"🌾 Lúa",
