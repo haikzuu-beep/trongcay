@@ -11,7 +11,10 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     carot:0,
     cachua:0,
     bap:0,
-    huongduong:0
+    huongduong:0,
+    dautay:0,
+    xoai:0,
+    dua:0
 };
 
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
@@ -53,6 +56,12 @@ function updateUI(){
     document.getElementById("bapCount").innerText = bag.bap;
 
     document.getElementById("huongduongCount").innerText = bag.huongduong;
+
+    document.getElementById("dautayCount").innerText = bag.dautay;
+
+    document.getElementById("xoaiCount").innerText = bag.xoai;
+
+    document.getElementById("duaCount").innerText = bag.dua;
 
     document.getElementById("selected").innerText =
     selectedSeed=="" ? "Chưa chọn" : selectedSeed;
