@@ -223,3 +223,38 @@ nav button:hover{
     font-size:12px;
 
 }
+.playerInfo{
+
+    margin-top:15px;
+
+    font-size:18px;
+
+}
+
+.expBar{
+
+    width:250px;
+
+    height:20px;
+
+    background:#d9d9d9;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:8px;
+
+}
+
+#expFill{
+
+    width:0%;
+
+    height:100%;
+
+    background:linear-gradient(to right,#4CAF50,#8BC34A);
+
+    transition:0.3s;
+
+}
