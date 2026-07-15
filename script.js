@@ -14,21 +14,28 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     huongduong:0
 };
 
-let garden = JSON.parse(localStorage.getItem("garden")) || new Array(16).fill("");
-if(garden.length===0){
+let garden = JSON.parse(localStorage.getItem("garden")) || [];
+
+
+if(garden.length !== 16){
+
+    garden=[];
 
     for(let i=0;i<16;i++){
 
         garden.push({
+
             seed:"",
+
             stage:0,
-            progress:0
+
+            time:0
+
         });
 
     }
 
 }
-
 // ===============================
 // HIỂN THỊ
 // ===============================
@@ -217,8 +224,7 @@ document.addEventListener("contextmenu", function(e){
 // KHỞI ĐỘNG GAME
 // ===============================
 
-updateUI();
-drawGarden();
+
 // ===============================
 // HỆ THỐNG SINH TRƯỞNG CÂY
 // ===============================
