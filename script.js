@@ -159,65 +159,6 @@ function selectSeed(type){
 }
 
 
-// ===============================
-// THU HOẠCH
-// (tạm thời bằng nút chuột phải)
-// ===============================
-
-document.addEventListener("contextmenu", function(e){
-
-    if(!e.target.classList.contains("plot")) return;
-
-    e.preventDefault();
-
-    let plots = document.getElementsByClassName("plot");
-
-    let index = Array.from(plots).indexOf(e.target);
-
-    if(index == -1) return;
-
-    if(garden[index] == ""){
-        alert("🌱 Ô này chưa có cây!");
-        return;
-    }
-
-    let reward = 0;
-
-    switch(garden[index]){
-
-        case "lua":
-            reward = 30;
-            break;
-
-        case "carot":
-            reward = 60;
-            break;
-
-        case "cachua":
-            reward = 90;
-            break;
-
-        case "bap":
-            reward = 150;
-            break;
-
-        case "huongduong":
-            reward = 250;
-            break;
-
-    }
-
-    money += reward;
-
-    garden[index] = "";
-
-    saveGame();
-    updateUI();
-    drawGarden();
-
-    alert("🎉 Thu hoạch thành công! +" + reward + " xu");
-
-});
 
 
 // ===============================
