@@ -120,7 +120,7 @@ function openTab(name){
 function buySeed(type, price){
 
     if(money < price){
-        alert("❌ Xu đâu mà đòi mua hả skibidi");
+        alert("❌ Xu đâu mà đòi mua hả cưng, XU ĐÂUUU");
         return;
     }
 
@@ -130,7 +130,7 @@ function buySeed(type, price){
     saveGame();
     updateUI();
 
-    alert("✅ Mua thành công rồi đó, chia miếng đi");
+    alert("✅ Mua thành công rồi đó, chia miếng đi. Nói chứ ai thèm.");
 }
 
 
@@ -141,7 +141,7 @@ function buySeed(type, price){
 function selectSeed(type){
 
     if(bag[type] <= 0){
-        alert("❌ Bạn không đủ trình có hạt giống này! Đi mua đi.");
+        alert("❌ hạt giống đâu hả mày? có cái lò tôn mà cho free nhé!");
         return;
     }
 
@@ -247,7 +247,7 @@ const plantData = {
     dua:{
         icon:["🌱","🪴","🍍"],
         time:50,
-        reward:150
+        reward:210
     }
         
     
