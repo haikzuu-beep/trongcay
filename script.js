@@ -7,7 +7,7 @@ let money = Number(localStorage.getItem("money")) || 100;
 let selectedSeed = "";
 
 let bag = JSON.parse(localStorage.getItem("bag")) || {
-    lua:5,
+    lua:0,
     carot:0,
     cachua:0,
     bap:0,
@@ -101,7 +101,7 @@ function openTab(name){
 function buySeed(type, price){
 
     if(money < price){
-        alert("❌ Bạn không đủ xu!");
+        alert("❌ Xu đâu mà đòi mua hả skibidi");
         return;
     }
 
@@ -111,7 +111,7 @@ function buySeed(type, price){
     saveGame();
     updateUI();
 
-    alert("✅ Đã mua thành công!");
+    alert("✅ Mua thành công rồi đó, chia miếng đi");
 }
 
 
@@ -122,7 +122,7 @@ function buySeed(type, price){
 function selectSeed(type){
 
     if(bag[type] <= 0){
-        alert("❌ Bạn không có hạt giống này!");
+        alert("❌ Bạn không đủ trình có hạt giống này! Đi mua đi.");
         return;
     }
 
@@ -151,7 +151,18 @@ function selectSeed(type){
         case "huongduong":
             name = "🌻 Hạt hướng dương";
             break;
+        case "dautay":
+            name = "🍓 Hạt dâu tây";
+            break;
 
+        case "xoai"
+            name = "🥭 Hạt xoài";
+            break;
+
+        case "dua"
+            name = "🍍 Hạt dứa";
+            break;
+            
     }
 
     document.getElementById("selected").innerText = name;
@@ -174,33 +185,53 @@ const plantData = {
 
     lua:{
         icon:["🌱","🌿","🌾"],
-        time:30,
+        time:7,
         reward:30
     },
 
     carot:{
         icon:["🌱","🌿","🥕"],
-        time:45,
+        time:14,
         reward:60
     },
 
     cachua:{
-        icon:["🌱","🌿","🍅"],
-        time:60,
+        icon:["🌱","🪴","🍅"],
+        time:24,
         reward:90
     },
 
     bap:{
-        icon:["🌱","🌿","🌽"],
-        time:90,
+        icon:["🌱","🪴","🌽"],
+        time:34,
         reward:150
     },
 
     huongduong:{
-        icon:["🌱","🌿","🌻"],
-        time:120,
+        icon:["🌱","🪴","🌻"],
+        time:44,
         reward:250
+    },
+
+    dautay:{
+        icon:["🌱","🪴","🍓"],
+        time:44,
+        reward:200
+    },
+
+    xoai:{
+        icon:[""🌱","🌳","🥭"],
+        time:54,
+        reward:250
+    },
+
+    dua:{
+        icon:[""🌱","🪴","🍍"],
+        time:50,
+        reward:150
     }
+        
+    
 
 };
 
@@ -246,7 +277,7 @@ function plant(index){
     // kiểm tra ô đất
     if(garden[index].seed !== ""){
 
-        alert("🌳 Ô này đã có cây!");
+        alert("🌳 Ô này bạn đã trồng cây rồi mà skibidi!");
 
         return;
 
@@ -256,7 +287,7 @@ function plant(index){
     // chưa chọn hạt
     if(selectedSeed === ""){
 
-        alert("🌱 Hãy chọn hạt giống trước!");
+        alert("🌱 Hãy chọn hạt giống trước đê!");
 
         return;
 
@@ -266,7 +297,7 @@ function plant(index){
     // hết hạt
     if(bag[selectedSeed] <= 0){
 
-        alert("❌ Bạn đã hết hạt giống!");
+        alert("❌ Bạn đã hết hạt giống mất rồi, hãy mua thêm ở cửa hàng!");
 
         return;
 
