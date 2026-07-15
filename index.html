@@ -1,122 +1,214 @@
+ạn hãy xóa toàn bộ nội dung file index.html hiện tại và dán đoạn này vào.
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌱 Trồng Cây</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Nông Trại Của Tôi</title>
 
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#dff6dd;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-}
-
-.box{
-    background:white;
-    width:700px;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,.2);
-}
-
-h1{
-    color:#168f2c;
-}
-
-button{
-    background:#168f2c;
-    color:white;
-    border:none;
-    padding:15px 30px;
-    border-radius:10px;
-    font-size:18px;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#0f6e21;
-}
-
-#garden{
-    margin-top:25px;
-    min-height:220px;
-    background:#eefbe9;
-    border:2px dashed #8dc98d;
-    border-radius:15px;
-    padding:15px;
-
-    display:grid;
-    grid-template-columns:repeat(8,1fr);
-    gap:10px;
-    font-size:40px;
-}
-
-.info{
-    font-size:22px;
-    margin:20px;
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="box">
+<header>
+    <h1>🌱 Nông Trại Của Tôi</h1>
 
-<h1>🌱 Trồng Cây</h1>
+    <div class="money">
+        💰 Xu:
+        <span id="money">200</span>
+    </div>
+</header>
 
-<p>Hãy biến nơi này thành một khu rừng!</p>
+<nav>
 
-<button onclick="plant()">🌱 Trồng cây</button>
+    <button onclick="openTab('farm')">🌾 Nông trại</button>
 
-<div class="info">
-🌳 Đã trồng: <span id="count">0</span> cây
+    <button onclick="openTab('shop')">🛒 Cửa hàng</button>
+
+    <button onclick="openTab('bag')">🎒 Túi đồ</button>
+
+</nav>
+
+<!-- ==================== FARM ==================== -->
+
+<section id="farm" class="tab">
+
+<h2>Khu Vườn</h2>
+
+<p>Chọn hạt giống rồi bấm vào ô đất để trồng.</p>
+
+<div id="garden">
+
+<div class="plot" onclick="plant(0)"></div>
+<div class="plot" onclick="plant(1)"></div>
+<div class="plot" onclick="plant(2)"></div>
+<div class="plot" onclick="plant(3)"></div>
+
+<div class="plot" onclick="plant(4)"></div>
+<div class="plot" onclick="plant(5)"></div>
+<div class="plot" onclick="plant(6)"></div>
+<div class="plot" onclick="plant(7)"></div>
+
+<div class="plot" onclick="plant(8)"></div>
+<div class="plot" onclick="plant(9)"></div>
+<div class="plot" onclick="plant(10)"></div>
+<div class="plot" onclick="plant(11)"></div>
+
+<div class="plot" onclick="plant(12)"></div>
+<div class="plot" onclick="plant(13)"></div>
+<div class="plot" onclick="plant(14)"></div>
+<div class="plot" onclick="plant(15)"></div>
+
 </div>
 
-<div id="garden"></div>
+</section>
+
+<!-- ==================== SHOP ==================== -->
+
+<section id="shop" class="tab" style="display:none;">
+
+<h2>🛒 Cửa Hàng</h2>
+
+<div class="shopItem">
+
+<h3>🌾 Hạt Lúa</h3>
+
+<p>Giá: 20 xu</p>
+
+<button onclick="buySeed('lua',20)">
+Mua
+</button>
 
 </div>
 
-<script>
+<div class="shopItem">
 
-let tree = Number(localStorage.getItem("tree")) || 0;
+<h3>🥕 Hạt Cà Rốt</h3>
 
-const garden = document.getElementById("garden");
-const count = document.getElementById("count");
+<p>Giá: 40 xu</p>
 
-function draw(){
+<button onclick="buySeed('carot',40)">
+Mua
+</button>
 
-    garden.innerHTML="";
+</div>
 
-    for(let i=0;i<tree;i++){
+<div class="shopItem">
 
-        let t=document.createElement("div");
-        t.innerHTML="🌳";
+<h3>🍅 Hạt Cà Chua</h3>
 
-        garden.appendChild(t);
-    }
+<p>Giá: 60 xu</p>
 
-    count.innerHTML=tree;
+<button onclick="buySeed('cachua',60)">
+Mua
+</button>
 
-    localStorage.setItem("tree",tree);
-}
+</div>
 
-function plant(){
+<div class="shopItem">
 
-    tree++;
+<h3>🌽 Hạt Bắp</h3>
 
-    draw();
+<p>Giá: 100 xu</p>
 
-}
+<button onclick="buySeed('bap',100)">
+Mua
+</button>
 
-draw();
+</div>
 
-</script>
+<div class="shopItem">
+
+<h3>🌻 Hướng Dương</h3>
+
+<p>Giá: 150 xu</p>
+
+<button onclick="buySeed('huongduong',150)">
+Mua
+</button>
+
+</div>
+
+</section>
+
+<!-- ==================== BAG ==================== -->
+
+<section id="bag" class="tab" style="display:none;">
+
+<h2>🎒 Túi Đồ</h2>
+
+<p>Chọn hạt giống muốn trồng.</p>
+
+<div class="bagItem">
+
+🌾 Hạt lúa:
+<span id="luaCount">0</span>
+
+<button onclick="selectSeed('lua')">
+Chọn
+</button>
+
+</div>
+
+<div class="bagItem">
+
+🥕 Hạt cà rốt:
+<span id="carotCount">0</span>
+
+<button onclick="selectSeed('carot')">
+Chọn
+</button>
+
+</div>
+
+<div class="bagItem">
+
+🍅 Hạt cà chua:
+<span id="cachuaCount">0</span>
+
+<button onclick="selectSeed('cachua')">
+Chọn
+</button>
+
+</div>
+
+<div class="bagItem">
+
+🌽 Hạt bắp:
+<span id="bapCount">0</span>
+
+<button onclick="selectSeed('bap')">
+Chọn
+</button>
+
+</div>
+
+<div class="bagItem">
+
+🌻 Hạt hướng dương:
+<span id="huongduongCount">0</span>
+
+<button onclick="selectSeed('huongduong')">
+Chọn
+</button>
+
+</div>
+
+<h3>
+
+Đang chọn:
+
+<span id="selected">
+Chưa chọn
+</span>
+
+</h3>
+
+</section>
+
+<script src="script.js"></script>
 
 </body>
 </html>
