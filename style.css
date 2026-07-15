@@ -78,7 +78,7 @@ nav button:hover{
 }
 
 .plot{
-    width:150px;
+     width:150px;
     height:150px;
     background:#9b6b43;
     border-radius:15px;
@@ -86,9 +86,9 @@ nav button:hover{
     display:flex;
     justify-content:center;
     align-items:center;
-    font-size:60px;
     cursor:pointer;
     transition:.2s;
+    overflow:hidden;
 }
 
 .plot:hover{
@@ -162,7 +162,6 @@ nav button:hover{
     .plot{
         width:120px;
         height:120px;
-        font-size:45px;
     }
 
     header{
@@ -172,24 +171,55 @@ nav button:hover{
     }
 
 }
-/* ===== Thanh tiến trình cây ===== */
+
+/* ===== CÂY + THANH TIẾN TRÌNH ===== */
+
+.plant{
+    width:100%;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+}
+
+
+
+.plantIcon{
+
+    font-size:40px;
+
+    height:50px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+
 
 .progress{
-    width:100%;
-    height:8px;
-    background:#ddd;
-    border-radius:5px;
-    margin-top:8px;
+
+    font-size:10px;
+
+    width:90px;
+
+    height:15px;
+
+    line-height:15px;
+
     overflow:hidden;
+
+    white-space:nowrap;
+
 }
 
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:#4CAF50;
-    transition:width .3s;
-}
 
-.stage{
-    font-size:42px;
+
+.plant small{
+
+    font-size:12px;
+
 }
