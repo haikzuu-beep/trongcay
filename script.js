@@ -2,7 +2,7 @@
 // DỮ LIỆU GAME
 // ===============================
 
-let money = Number(localStorage.getItem("money")) || 200;
+let money = Number(localStorage.getItem("money")) || 100;
 
 let selectedSeed = "";
 
@@ -234,17 +234,6 @@ for(let i=0;i<16;i++){
 }
 
 
-// ===============================
-// TỰ LỚN THEO THỜI GIAN
-// ===============================
-
-setInterval(()=>{
-
-    drawGarden();
-
-},1000);
-
-
 
 
 // ===============================
@@ -312,49 +301,52 @@ function plant(index){
 
 }
 
-
-
 // ===============================
-// CLICK ĐỂ THU HOẠCH
+// CLICK TRỒNG + THU HOẠCH
 // ===============================
 
 document.addEventListener("click",function(e){
 
-let plot = e.target.closest(".plot");
+    let plot = e.target.closest(".plot");
 
-if(!plot)
-    return;
-   
+    if(!plot)
+        return;
 
 
     let plots=document.getElementsByClassName("plot");
 
-    let index=Array.from(plots)
-    .indexOf(plot);
+    let index=Array.from(plots).indexOf(plot);
 
 
+    let cell = garden[index];
 
-    let cell=garden[index];
 
+    // ô trống -> trồng cây
+    if(cell.seed === ""){
 
-    if(cell.seed=="")
+        plant(index);
         return;
 
-
-
-    let plant=plantData[cell.seed];
-
-
-    let grow=(Date.now()-cell.time)/1000;
+    }
 
 
 
-    if(grow < plant.time){
+    // ô có cây -> kiểm tra thu hoạch
+
+    let plantInfo = plantData[cell.seed];
+
+
+    let grow =
+    (Date.now()-cell.time)/1000;
+
+
+
+    if(grow < plantInfo.time){
 
         alert(
         "🌱 Cây chưa lớn!\nCòn "
         +
-        Math.ceil(plant.time-grow)
+        Math.ceil(plantInfo.time-grow)
         +
         " giây"
         );
@@ -365,7 +357,7 @@ if(!plot)
 
 
 
-    money += plant.reward;
+    money += plantInfo.reward;
 
 
 
@@ -374,25 +366,21 @@ if(!plot)
     +
     cell.seed
     +
-    " +" 
+    " +"
     +
-    plant.reward
+    plantInfo.reward
     +
     " xu"
     );
 
 
-
     garden[index]={
 
         seed:"",
-
         stage:0,
-
         time:0
 
     };
-
 
 
     saveGame();
@@ -401,7 +389,8 @@ if(!plot)
 
     drawGarden();
 
-    });  
+
+});
 
 // ===============================
 // VẼ VƯỜN + THANH TIẾN TRÌNH
@@ -523,7 +512,18 @@ function drawGarden(){
 
 }
 
+drawGarden();
 
+
+// ===============================
+// TỰ LỚN THEO THỜI GIAN
+// ===============================
+
+setInterval(()=>{
+
+    drawGarden();
+
+},1000);
 
 
 
