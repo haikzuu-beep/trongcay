@@ -362,13 +362,14 @@ setInterval(()=>{
 
 
 // ===============================
-// TRỒNG CÂY MỚI
+// TRỒNG CÂY
 // ===============================
 
 function plant(index){
 
 
-    if(garden[index].seed!=""){
+    // kiểm tra ô đất
+    if(garden[index].seed !== ""){
 
         alert("🌳 Ô này đã có cây!");
 
@@ -377,35 +378,40 @@ function plant(index){
     }
 
 
-    if(selectedSeed==""){
+    // chưa chọn hạt
+    if(selectedSeed === ""){
 
-        alert("🌱 Hãy chọn hạt giống!");
-
-        return;
-
-    }
-
-
-    if(bag[selectedSeed]<=0){
-
-        alert("❌ Hết hạt!");
+        alert("🌱 Hãy chọn hạt giống trước!");
 
         return;
 
     }
 
 
+    // hết hạt
+    if(bag[selectedSeed] <= 0){
 
+        alert("❌ Bạn đã hết hạt giống!");
+
+        return;
+
+    }
+
+
+
+    // trừ hạt
     bag[selectedSeed]--;
 
 
-    garden[index]={
 
-        seed:selectedSeed,
+    // tạo cây mới
+    garden[index] = {
 
-        stage:0,
+        seed: selectedSeed,
 
-        time:Date.now()
+        stage: 0,
+
+        time: Date.now()
 
     };
 
@@ -419,7 +425,6 @@ function plant(index){
 
 
 }
-
 
 
 
