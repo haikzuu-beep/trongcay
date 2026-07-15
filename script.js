@@ -7,7 +7,7 @@ let money = Number(localStorage.getItem("money")) || 100;
 let selectedSeed = "";
 
 let bag = JSON.parse(localStorage.getItem("bag")) || {
-    lua:0,
+    lua:5,
     carot:0,
     cachua:0,
     bap:0,
