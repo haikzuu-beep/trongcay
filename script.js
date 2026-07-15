@@ -2,7 +2,13 @@
 // DỮ LIỆU GAME
 // ===============================
 
-let money = Number(localStorage.getItem("money")) || 100;
+let money = Number(localStorage.getItem("money")) || 136;
+let level = Number(localStorage.getItem("level")) || 1;
+let exp = Number(localStorage.getItem("exp")) || 0;
+function expNeed(){
+
+    return Math.floor(100 * Math.pow(1.5, level - 1));
+}
 
 let selectedSeed = "";
 
@@ -46,7 +52,13 @@ if(garden.length !== 16){
 function updateUI(){
 
     document.getElementById("money").innerText = money;
+    document.getElementById("level").innerText = level;
 
+    document.getElementById("expText").innerText =
+    exp + " / " + expNeed();
+
+    document.getElementById("expFill").style.width =
+    (exp / expNeed() * 100) + "%";
     document.getElementById("luaCount").innerText = bag.lua;
 
     document.getElementById("carotCount").innerText = bag.carot;
@@ -88,13 +100,33 @@ updateUI();
 function saveGame(){
 
     localStorage.setItem("money",money);
+    localStorage.setItem("level",level);
+    localStorage.setItem("exp",exp);
 
     localStorage.setItem("bag",JSON.stringify(bag));
-
     localStorage.setItem("garden",JSON.stringify(garden));
 
 }
 
+function addExp(amount){
+
+    exp += amount;
+
+    while(exp >= expNeed()){
+
+        exp -= expNeed();
+
+        level++;
+
+        alert("🎉 Chúc mừng! Bạn đã lên cấp " + level);
+
+    }
+
+    saveGame();
+
+    updateUI();
+
+}
 
 // ===============================
 // CHUYỂN MENU
