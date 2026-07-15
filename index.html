@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trồng Cây</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#dff6dd;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            margin:0;
+        }
+
+        .box{
+            background:white;
+            padding:40px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 0 20px rgba(0,0,0,.2);
+        }
+
+        h1{
+            color:green;
+        }
+
+        button{
+            padding:12px 25px;
+            font-size:18px;
+            border:none;
+            border-radius:8px;
+            background:green;
+            color:white;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#0b7a0b;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>🌱 Trồng Cây</h1>
+
+    <p>Chào mừng bạn đến với website đầu tiên!</p>
+
+    <button onclick="plant()">Trồng cây</button>
+
+    <h2 id="count">🌳 0 cây</h2>
+</div>
+
+<script>
+let tree=0;
+
+function plant(){
+    tree++;
+    document.getElementById("count").innerHTML="🌳 "+tree+" cây";
+}
+</script>
+
+</body>
+</html>
