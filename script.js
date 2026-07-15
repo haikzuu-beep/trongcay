@@ -294,67 +294,6 @@ for(let i=0;i<16;i++){
 
 
 // ===============================
-// VẼ LẠI VƯỜN MỚI
-// ===============================
-
-function drawGarden(){
-
-    let plots=document.getElementsByClassName("plot");
-
-
-    for(let i=0;i<plots.length;i++){
-
-        let cell=garden[i];
-
-
-        if(cell.seed==""){
-
-            plots[i].innerHTML="";
-
-            continue;
-
-        }
-
-
-        let plant=plantData[cell.seed];
-
-
-        let passed=(Date.now()-cell.time)/1000;
-
-
-        if(passed >= plant.time){
-
-            cell.stage=2;
-
-        }
-        else if(passed >= plant.time/2){
-
-            cell.stage=1;
-
-        }
-        else{
-
-            cell.stage=0;
-
-        }
-
-
-        plots[i].innerHTML=
-        plant.icon[cell.stage];
-
-
-    }
-
-
-    saveGame();
-
-}
-
-
-drawGarden();
-
-
-// ===============================
 // TỰ LỚN THEO THỜI GIAN
 // ===============================
 
@@ -520,6 +459,8 @@ document.addEventListener("click",function(e){
 
     drawGarden();
 
+    });  
+
 // ===============================
 // VẼ VƯỜN + THANH TIẾN TRÌNH
 // ===============================
@@ -639,7 +580,7 @@ function drawGarden(){
     saveGame();
 
 }
-});
+
 
 
 
