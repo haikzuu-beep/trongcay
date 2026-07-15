@@ -320,16 +320,17 @@ function plant(index){
 
 document.addEventListener("click",function(e){
 
+let plot = e.target.closest(".plot");
 
-    if(!e.target.classList.contains("plot"))
-        return;
-
+if(!plot)
+    return;
+   
 
 
     let plots=document.getElementsByClassName("plot");
 
     let index=Array.from(plots)
-    .indexOf(e.target);
+    .indexOf(plot);
 
 
 
