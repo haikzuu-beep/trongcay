@@ -63,9 +63,19 @@ function updateUI(){
 
     document.getElementById("duaCount").innerText = bag.dua;
 
-    document.getElementById("selected").innerText =
-    selectedSeed=="" ? "Chưa chọn" : selectedSeed;
+    const seedName = {
+    lua:"🌾 Hạt lúa",
+    carot:"🥕 Hạt cà rốt",
+    cachua:"🍅 Hạt cà chua",
+    bap:"🌽 Hạt bắp",
+    huongduong:"🌻 Hạt hướng dương",
+    dautay:"🍓 Hạt dâu tây",
+    xoai:"🥭 Hạt xoài",
+    dua:"🍍 Hạt dứa"
+};
 
+document.getElementById("selected").innerText =
+selectedSeed=="" ? "Chưa chọn" : seedName[selectedSeed];
 }
 
 updateUI();
@@ -164,11 +174,11 @@ function selectSeed(type){
             name = "🍓 Hạt dâu tây";
             break;
 
-        case "xoai"
+        case "xoai":
             name = "🥭 Hạt xoài";
             break;
 
-        case "dua"
+        case "dua":
             name = "🍍 Hạt dứa";
             break;
             
@@ -229,13 +239,13 @@ const plantData = {
     },
 
     xoai:{
-        icon:[""🌱","🌳","🥭"],
+        icon:["🌱","🌳","🥭"],
         time:54,
         reward:250
     },
 
     dua:{
-        icon:[""🌱","🪴","🍍"],
+        icon:["🌱","🪴","🍍"],
         time:50,
         reward:150
     }
@@ -399,19 +409,20 @@ document.addEventListener("click",function(e){
 
     money += plantInfo.reward;
 
+const seedName = {
+    lua:"🌾 Lúa",
+    carot:"🥕 Cà rốt",
+    cachua:"🍅 Cà chua",
+    bap:"🌽 Bắp",
+    huongduong:"🌻 Hướng dương",
+    dautay:"🍓 Dâu tây",
+    xoai:"🥭 Xoài",
+    dua:"🍍 Dứa"
+};
 
-
-    alert(
-    "🎉 Thu hoạch "
-    +
-    cell.seed
-    +
-    " +"
-    +
-    plantInfo.reward
-    +
-    " xu"
-    );
+alert(
+`🎉 Thu hoạch ${seedName[cell.seed]} +${plantInfo.reward} xu`
+);
 
 
     garden[index]={
