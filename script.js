@@ -1101,14 +1101,20 @@ function dropRareItem(){
 
     let chance = Math.random() * 100;
 
-    // Mỗi điểm vận may tăng 0.5%
-    chance -= luck * 0.5;
+    // tăng tỉ lệ rơi
+    chance -= luck * 0.2;
+
+
+    let received = false;
+
 
     if(chance < 1){
 
         items.diamond++;
 
         alert("💎 Bạn nhận được Kim cương!");
+
+        received = true;
 
     }
 
@@ -1118,6 +1124,8 @@ function dropRareItem(){
 
         alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
 
+        received = true;
+
     }
 
     else if(chance < 6){
@@ -1126,16 +1134,36 @@ function dropRareItem(){
 
         alert("🌟 Bạn nhận được Hạt giống hiếm!");
 
-    }
-    else{
+        received = true;
 
-        return;
     }
+
+
+    // ==========================
+    // TRỪ VẬN MAY KHI NHẬN ĐỒ HIẾM
+    // ==========================
+
+    if(received){
+
+        if(luck > 0){
+
+            luck--;
+
+            alert(
+            "🍀 Vận may giảm 5 điểm!\n" +
+            "Hiện tại: " + luck + " điểm"
+            );
+
+        }
+
+    }
+
 
     saveGame();
     updateUI();
 
 }
+
 // ===============================
 // THUÊ SƯ THẦY
 // ===============================
