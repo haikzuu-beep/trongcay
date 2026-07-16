@@ -1141,7 +1141,7 @@ function dropRareItem(){
 
     if(chance < 1){
 
-        items.diamond++;
+        diamond++;
 
         alert("💎 Bạn nhận được Kim cương!");
 
