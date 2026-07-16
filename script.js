@@ -815,7 +815,47 @@ if(wateringCan.durability <= 0){
 
 function gong(){
 
-    merit++;
+        merit++;
+
+
+    // hiệu ứng mõ
+
+    let gong = document.getElementById("gong");
+
+    gong.classList.add("gongShake");
+    gong.classList.add("gongLight");
+
+
+    setTimeout(()=>{
+
+        gong.classList.remove("gongShake");
+        gong.classList.remove("gongLight");
+
+    },300);
+
+
+
+    // chữ +1 công đức
+
+    let text=document.createElement("div");
+
+    text.innerText="+1 Công đức";
+
+    text.className="meritText";
+
+
+    document.getElementById("gongBox")
+    .appendChild(text);
+
+
+
+    setTimeout(()=>{
+
+        text.remove();
+
+    },1000);
+
+
 
     saveGame();
 
