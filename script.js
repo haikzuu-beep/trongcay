@@ -1242,9 +1242,11 @@ function spinLuckyWheel(){
 
 
     let diamond = Number(
-        document.getElementById("diamond").innerText
+        document.getElementById("diamondCountShop").innerText
+  
     );
-
+  
+    document.getElementById("diamondCountBag").innerText = diamond;
 
     if(diamond < 5){
 
@@ -1258,7 +1260,7 @@ function spinLuckyWheel(){
     diamond -= 5;
 
 
-    document.getElementById("diamond").innerText = diamond;
+   document.getElementById("diamondCountShop").innerText = diamond;
 
 
     spinning = true;
