@@ -250,7 +250,22 @@ if(document.getElementById("merit")){
    wateringData[todayCan].price;
  
 }
+// ===============================
+// VẬT PHẨM
+// ===============================
 
+if(document.getElementById("diamondCount")){
+
+    document.getElementById("diamondCount").innerText =
+    items.diamond;
+
+    document.getElementById("boxCount").innerText =
+    items.mysteryBox;
+
+    document.getElementById("rareSeedCount").innerText =
+    items.rareSeed;
+
+}
 }
 
 
