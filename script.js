@@ -21,35 +21,35 @@ const wateringData = {
 
 basic:{
         name:"⭐ Bình tưới Sơ cấp",
-        reduceTime:5000,
+        reduceTime:0.9,
         durability:10,
         price:1000
     },
 
     normal:{
         name:"⭐⭐ Bình tưới Thường",
-        reduceTime:10000,
+        reduceTime:0.7,
         durability:10,
         price:5000
     },
 
     advanced:{
         name:"⭐⭐⭐ Bình tưới Cao cấp",
-        reduceTime:20000,
+        reduceTime:0.55,
         durability:20,
         price:10000
     },
 
     vip:{
         name:"⭐⭐⭐⭐ Bình tưới VIP",
-        reduceTime:35000,
+        reduceTime:0.35,
         durability:20,
         price:30000
     },
 
     legendary:{
         name:"⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
-        reduceTime:60000,
+        reduceTime:0.2,
         durability:20,
         price:50000
     }
@@ -770,35 +770,11 @@ function waterPlant(index){
     }
 
     // Giảm thời gian trồng (5 giây)
-   let reduceTime = 5000;
+  let reduceTime = wateringData[wateringCan.type].reduceTime;
 
-switch(wateringCan.type){
-
-    case "basic":
-        reduceTime = 5000;
-        break;
-
-    case "normal":
-        reduceTime = 10000;
-        break;
-
-    case "advanced":
-        reduceTime = 20000;
-        break;
-
-    case "vip":
-        reduceTime = 35000;
-        break;
-
-    case "legendary":
-        reduceTime = 60000;
-        break;
-
-}
-
-cell.time -= reduceTime;
-
-    wateringCan.durability--;
+  cell.time -= reduceTime;
+  
+  wateringCan.durability--;
 
     saveGame();
 
