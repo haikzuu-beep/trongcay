@@ -255,25 +255,36 @@ if(document.getElementById("merit")){
 
    document.getElementById("canPrice").innerText =
    wateringData[todayCan].price;
- // Hiển thị kim cương
+
+// Kim cương
+if(document.getElementById("diamondCount")){
+    document.getElementById("diamondCount").innerText = diamonds;
+}
+
 if(document.getElementById("diamondCountShop")){
     document.getElementById("diamondCountShop").innerText = diamonds;
 }
 
-// Kim cương ở Túi đồ
 if(document.getElementById("diamondCountBag")){
     document.getElementById("diamondCountBag").innerText = diamonds;
 }
 
-
-// Hiển thị hộp quà
+// Hộp quà
 if(document.getElementById("gift")){
     document.getElementById("gift").innerText = gifts;
 }
 
-// Hiển thị hạt giống hiếm
+if(document.getElementById("boxCount")){
+    document.getElementById("boxCount").innerText = gifts;
+}
+
+// Hạt giống hiếm
 if(document.getElementById("rareSeed")){
     document.getElementById("rareSeed").innerText = rareSeeds;
+}
+
+if(document.getElementById("rareSeedCount")){
+    document.getElementById("rareSeedCount").innerText = rareSeeds;
 }
 
     }
