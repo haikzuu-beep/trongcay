@@ -260,9 +260,15 @@ if(document.getElementById("merit")){
    document.getElementById("canPrice").innerText =
    wateringData[todayCan].price;
  // Hiển thị kim cương
-if(document.getElementById("diamond")){
-    document.getElementById("diamond").innerText = diamonds;
+if(document.getElementById("diamondCountShop")){
+    document.getElementById("diamondCountShop").innerText = diamonds;
 }
+
+// Kim cương ở Túi đồ
+if(document.getElementById("diamondCountBag")){
+    document.getElementById("diamondCountBag").innerText = diamonds;
+}
+
 
 // Hiển thị hộp quà
 if(document.getElementById("gift")){
@@ -1410,7 +1416,6 @@ function spinLuckyWheel(){
         }
 
 
-        document.getElementById("diamond").innerText=diamonds;
 
 
         document.getElementById("wheelResult")
