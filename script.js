@@ -266,42 +266,37 @@ function addExp(amount){
 }
 function randomWateringCan(){
 
-    let bonus = luck * 2;
-
+  
     let r = Math.random()*100;
 
+    let basic = 50;
+    let normal = 25;
+    let advanced = 15;
+    let vip = 8;
+    let legendary = 2;
 
-    if(r < 50 - bonus){
+    // mỗi điểm vận may chuyển 0.2% từ đồ thường sang đồ hiếm
+    basic -= luck * 0.2;
+    normal -= luck * 0.1;
+    advanced += luck * 0.15;
+    vip += luck * 0.1;
+    legendary += luck * 0.05;
 
+    if(r < basic)
         return "basic";
 
-    }
-
-
-    if(r < 75 - bonus){
-
+    if(r < basic + normal)
         return "normal";
 
-    }
-
-
-    if(r < 90){
-
+    if(r < basic + normal + advanced)
         return "advanced";
 
-    }
-
-
-    if(r < 98){
-
+    if(r < basic + normal + advanced + vip)
         return "vip";
 
-    }
-
-
     return "legendary";
-
 }
+
 let todayCan = randomWateringCan();
 updateUI();
 function buyWateringCan(){
@@ -407,6 +402,7 @@ function selectSeed(type){
         case "huongduong":
             name = "🌻 Hạt hướng dương";
             break;
+       
         case "dautay":
             name = "🍓 Hạt dâu tây";
             break;
@@ -418,6 +414,7 @@ function selectSeed(type){
         case "dua":
             name = "🍍 Hạt dứa";
             break;
+       
         case "nho":
             name="🍇 Hạt nho";
             break;
