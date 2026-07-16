@@ -633,11 +633,9 @@ rarePlant:{
     icon:["🌱","🌳","🌈"],
     time:3600,      // 3600 giây = 1 giờ
     reward:2500
-        
-    
-
+  
 }
-
+};
 
 // sửa dữ liệu khu vườn cũ
 for(let i=0;i<16;i++){
