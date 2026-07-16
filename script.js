@@ -721,7 +721,7 @@ document.addEventListener("click",function(e){
 
     money += plantInfo.reward;
 addExp(20);
-
+dropRareItem();
 const seedName = {
     lua:"🌾 Lúa",
     carot:"🥕 Cà rốt",
@@ -1033,6 +1033,38 @@ if(luck >= 50){
 
 
 }
+
+// ===============================
+// RƠI VẬT PHẨM HIẾM
+// ===============================
+
+function dropRareItem(){
+
+    let chance = Math.random() * 100;
+
+    // Mỗi điểm vận may tăng 0.5%
+    chance -= luck * 0.5;
+
+    if(chance < 1){
+
+        alert("💎 Bạn nhận được Kim cương!");
+
+    }
+
+    else if(chance < 3){
+
+        alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
+
+    }
+
+    else if(chance < 6){
+
+        alert("🌟 Bạn nhận được Hạt giống hiếm!");
+
+    }
+
+}
+
 // ===============================
 // NÚT XÓA GAME
 // ===============================
