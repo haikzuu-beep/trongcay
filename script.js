@@ -253,7 +253,7 @@ function buyWateringCan(){
         durability: can.durability
 
     };
-
+    todayCan = randomWateringCan();
     saveGame();
 
     updateUI();
