@@ -242,6 +242,10 @@ if(document.getElementById("merit")){
     document.getElementById("merit").innerText = merit;
 
 }
+    if(document.getElementById("luck")){
+    document.getElementById("luck").innerText = luck;
+}
+
 
     if(document.getElementById("luckPercent")){
 
