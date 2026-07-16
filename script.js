@@ -66,11 +66,7 @@ basic:{
     }
 
 };
-let items = JSON.parse(localStorage.getItem("items")) || {
-    diamond: 0,
-    mysteryBox: 0,
-    rareSeed: 0
-};
+
 let bag = JSON.parse(localStorage.getItem("bag")) || {
 
  lua:0,
@@ -1157,7 +1153,7 @@ function dropRareItem(){
 
     else if(chance < 3){
 
-        items.mysteryBox++;
+        gifts++;
 
         alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
 
@@ -1167,7 +1163,7 @@ function dropRareItem(){
 
     else if(chance < 6){
 
-        items.rareSeed++;
+        rareSeeds++;
 
         alert("🌟 Bạn nhận được Hạt giống hiếm!");
 
