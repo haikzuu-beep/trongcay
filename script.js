@@ -132,7 +132,25 @@ function updateUI(){
 
 document.getElementById("selected").innerText =
 selectedSeed=="" ? "Chưa chọn" : seedName[selectedSeed];
+if(document.getElementById("myCan")){
 
+    if(wateringCan){
+
+        document.getElementById("myCan").innerText =
+        wateringData[wateringCan.type].name +
+        " | Độ bền: " +
+        wateringCan.durability +
+        "/" +
+        wateringData[wateringCan.type].durability;
+
+    }else{
+
+        document.getElementById("myCan").innerText =
+        "Chưa có bình tưới";
+
+    }
+
+}
 if(document.getElementById("canName")){
 
    document.getElementById("canName").innerText =
