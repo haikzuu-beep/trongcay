@@ -71,7 +71,15 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     huongduong:0,
     dautay:0,
     xoai:0,
-    dua:0
+    dua:0,
+    nho:0,
+    duahau:0,
+    chuoi:0,
+    tao:0,
+    anhdao:0,
+    hoahong:0,
+    thong:0,
+    caytien:0
 };
 
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
@@ -134,8 +142,16 @@ function updateUI(){
     huongduong:"🌻 Hạt hướng dương",
     dautay:"🍓 Hạt dâu tây",
     xoai:"🥭 Hạt xoài",
-    dua:"🍍 Hạt dứa"
-};
+    dua:"🍍 Hạt dứa",
+    nho:"🍇 Hạt nho",
+    duahau:"🍉 Hạt dưa hấu",
+    chuoi:"🍌 Hạt chuối",
+    tao:"🍎 Hạt táo",
+    anhdao:"🍒 Hạt anh đào",
+    hoahong:"🌹 Hạt hoa hồng",
+    thong:"🌲 Hạt cây thông",
+    caytien:"💰 Hạt cây tiền",
+    };
 
 document.getElementById("selected").innerText =
 selectedSeed=="" ? "Chưa chọn" : seedName[selectedSeed];
@@ -371,7 +387,37 @@ function selectSeed(type){
         case "dua":
             name = "🍍 Hạt dứa";
             break;
-            
+        case "nho":
+            name="🍇 Hạt nho";
+            break;
+
+        case "duahau":
+            name="🍉 Hạt dưa hấu";
+            break;
+
+case "chuoi":
+    name="🍌 Hạt chuối";
+    break;
+
+case "tao":
+    name="🍎 Hạt táo";
+    break;
+
+case "anhdao":
+    name="🍒 Hạt anh đào";
+    break;
+
+case "hoahong":
+    name="🌹 Hạt hoa hồng";
+    break;
+
+case "thong":
+    name="🌲 Hạt cây thông";
+    break;
+
+case "caytien":
+    name="💰 Hạt cây tiền";
+    break;
     }
 
     document.getElementById("selected").innerText = name;
