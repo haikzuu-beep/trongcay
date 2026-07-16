@@ -13,6 +13,7 @@ let exp = Number(localStorage.getItem("exp")) || 0;
 let merit = Number(localStorage.getItem("merit")) || 0;
 let luck = Number(localStorage.getItem("luck")) || 0;
 let monkWorking = false;
+let monkTimer = null;
 function expNeed(){
 
     return Math.floor(100 * Math.pow(1.5, level - 1));
@@ -1069,51 +1070,77 @@ function dropRareItem(){
 // THUÊ SƯ THẦY
 // ===============================
 
-function hireMonk(){
+function hireMonk(type){
 
     if(monkWorking){
 
-        alert("🧘 Sư thầy đang làm việc rồi!");
+        alert("🧘 Đã có sư thầy đang làm việc!");
 
         return;
 
     }
 
-    if(money < 1000){
+    let price = 0;
+    let meritPerSecond = 0;
+    let name = "";
 
-        alert("💰 Cần 1000 xu để thuê sư thầy!");
+    switch(type){
+
+        case 1:
+            name = "🧘 Sư thầy";
+            price = 1000;
+            meritPerSecond = 1;
+            break;
+
+        case 2:
+            name = "🧘‍♂️ Đại sư";
+            price = 5000;
+            meritPerSecond = 5;
+            break;
+
+        case 3:
+            name = "👼 Trụ trì";
+            price = 10000;
+            meritPerSecond = 10;
+            break;
+
+    }
+
+    if(money < price){
+
+        alert("❌ Không đủ xu!");
 
         return;
 
     }
 
-    money -= 1000;
+    money -= price;
 
     monkWorking = true;
 
     updateUI();
 
-    alert("🧘 Sư thầy bắt đầu gõ mõ trong 1 phút!");
+    alert(name + " bắt đầu gõ mõ!");
 
-    let count = 0;
+    let second = 60;
 
-    let timer = setInterval(function(){
+    monkTimer = setInterval(function(){
 
-        merit++;
+        merit += meritPerSecond;
 
-        count++;
+        second--;
 
         updateUI();
 
         saveGame();
 
-        if(count >= 60){
+        if(second <= 0){
 
-            clearInterval(timer);
+            clearInterval(monkTimer);
 
             monkWorking = false;
 
-            alert("🧘 Sư thầy đã nghỉ ngơi.");
+            alert(name + " đã nghỉ ngơi.");
 
         }
 
