@@ -64,7 +64,11 @@ basic:{
     }
 
 };
-
+let items = JSON.parse(localStorage.getItem("items")) || {
+    diamond: 0,
+    mysteryBox: 0,
+    rareSeed: 0
+};
 let bag = JSON.parse(localStorage.getItem("bag")) || {
 
  lua:0,
