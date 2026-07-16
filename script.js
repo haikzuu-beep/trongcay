@@ -219,32 +219,38 @@ function addExp(amount){
 }
 function randomWateringCan(){
 
-   
-    let r=Math.random()*100;
+    let bonus = luck * 2;
 
-    if(r<50){
+    let r = Math.random()*100;
+
+
+    if(r < 50 - bonus){
 
         return "basic";
 
     }
 
-    if(r<75){
+
+    if(r < 75 - bonus){
 
         return "normal";
 
     }
 
-    if(r<90){
+
+    if(r < 90){
 
         return "advanced";
 
     }
 
-    if(r<98){
+
+    if(r < 98){
 
         return "vip";
 
     }
+
 
     return "legendary";
 
