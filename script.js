@@ -19,37 +19,37 @@ let wateringCan = JSON.parse(localStorage.getItem("wateringCan")) || null;
 
 const wateringData = {
 
-    basic:{
+basic:{
         name:"⭐ Bình tưới Sơ cấp",
-        speed:0.9,
+        reduceTime:5000,
         durability:10,
         price:1000
     },
 
     normal:{
         name:"⭐⭐ Bình tưới Thường",
-        speed:0.8,
+        reduceTime:10000,
         durability:10,
         price:5000
     },
 
     advanced:{
         name:"⭐⭐⭐ Bình tưới Cao cấp",
-        speed:0.65,
+        reduceTime:20000,
         durability:20,
         price:10000
     },
 
     vip:{
         name:"⭐⭐⭐⭐ Bình tưới VIP",
-        speed:0.5,
+        reduceTime:35000,
         durability:20,
         price:30000
     },
 
     legendary:{
         name:"⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
-        speed:0.3,
+        reduceTime:60000,
         durability:20,
         price:50000
     }
