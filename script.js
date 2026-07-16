@@ -88,7 +88,8 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     anhdao:0,
     hoahong:0,
     thong:0,
-    xuongrong:0
+    xuongrong:0,
+    rarePlant:0
 };
 
 // Nếu save cũ thiếu dữ liệu thì bổ sung
@@ -108,7 +109,7 @@ bag.anhdao ??= 0;
 bag.hoahong ??= 0;
 bag.thong ??= 0;
 bag.xuongrong ??= 0;
-
+bag.rarePlant ??= 0;
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
 
@@ -192,6 +193,9 @@ document.getElementById("thongCount").innerText = bag.thong;
 if(document.getElementById("xuongrongCount"))
 document.getElementById("xuongrongCount").innerText = bag.xuongrong;
 
+ if(document.getElementById("rarePlantCount"))
+document.getElementById("rarePlantCount").innerText = bag.rarePlant;
+    
     const seedName = {
     lua:"🌾 Hạt lúa",
     carot:"🥕 Hạt cà rốt",
@@ -209,6 +213,7 @@ document.getElementById("xuongrongCount").innerText = bag.xuongrong;
     hoahong:"🌹 Hạt hoa hồng",
     thong:"🌲 Hạt cây thông",
     xuongrong:"🌵 Hạt Xương rồng",
+    rarePlant:"🌈 Cây hiếm"
     };
 
 document.getElementById("selected").innerText =
@@ -505,6 +510,10 @@ case "thong":
 case "xuongrong":
     name="🌵 Hạt xương rồng";
     break;
+
+case "rarePlant":
+    name = "🌈 Hạt giống hiếm";
+    break;
     }
 
     document.getElementById("selected").innerText = name;
@@ -619,7 +628,11 @@ xuongrong:{
     icon:["🌱","🌵","🌵"],
     time:110,
     reward:1500
-}
+},
+rarePlant:{
+    icon:["🌱","🌳","🌈"],
+    time:3600,      // 3600 giây = 1 giờ
+    reward:2500
         
     
 
@@ -797,7 +810,8 @@ const seedName = {
     anhdao:"🍒 Anh đào",
     hoahong:"🌹 Hoa hồng",
     thong:"🌲 Cây thông",
-    xuongrong:"🌵 Xương rồng"
+    xuongrong:"🌵 Xương rồng",
+    rarePlant:"🌈 Cây hiếm"
 };
 
 alert(
