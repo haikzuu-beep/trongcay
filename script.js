@@ -636,7 +636,7 @@ rarePlant:{
         
     
 
-};
+}
 
 
 // sửa dữ liệu khu vườn cũ
