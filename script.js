@@ -820,6 +820,12 @@ function gong(){
 
     updateUI();
 
+     let sound = document.getElementById("gongSound");
+
+    sound.currentTime = 0;
+
+    sound.cloneNode().play();
+
 }
 
 
