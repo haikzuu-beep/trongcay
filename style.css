@@ -478,3 +478,37 @@ nav button:hover{
 }
 
 }
+.wheelBox{
+    display:flex;
+    justify-content:center;
+    margin:20px;
+}
+
+
+#wheel{
+
+    width:300px;
+    height:300px;
+
+    border-radius:50%;
+
+    background:
+    conic-gradient(
+    #ff7675 0deg 60deg,
+    #74b9ff 60deg 120deg,
+    #55efc4 120deg 180deg,
+    #ffeaa7 180deg 240deg,
+    #a29bfe 240deg 300deg,
+    #fd79a8 300deg 360deg
+    );
+
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:20px;
+
+    transition:transform 4s cubic-bezier(.17,.67,.83,.67);
+
+}
