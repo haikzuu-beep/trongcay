@@ -994,10 +994,8 @@ function gong(){
 
     },1000);
  // cập nhật ngay số công đức
-document.getElementById("merit").innerText = merit;
-
 saveGame();
-
+updateUI();
 
 }
 
