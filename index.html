@@ -239,11 +239,11 @@ Mua
 
 <div class="shopItem">
 
-<h3>🍊 Hạt Cam</h3>
+<h3>🍒 Hạt Anh Đào</h3>
 
 <p>Giá: 600 xu</p>
 
-<button onclick="buySeed('cam',600)">
+<button onclick="buySeed('anhdao',600)">
 Mua
 </button>
 
@@ -524,7 +524,7 @@ Chưa chọn
 <div id="gong" class="gong" onclick="gong()">
 🥁
 </div>
-
+</div>
 <p>Bấm vào cái mõ để gõ.</p>
 
 <br><br>
@@ -545,14 +545,50 @@ Dùng vận may để tăng cơ hội nhận vật phẩm hiếm.
 <button onclick="prayLuck()">
 Đổi 100 Công đức lấy 1 Vận may
 </button>
-<p>
+<hr>
+
+<h3>🧘 Thuê sư thầy</h3>
+
+<button onclick="hireMonk(1)">
+🧘 Sư thầy
+<br>
+1000 Xu
+<br>
++1 Công đức / giây
+</button>
+
+<br><br>
+
+<button onclick="hireMonk(2)">
+🧘‍♂️ Đại sư
+<br>
+5000 Xu
+<br>
++5 Công đức / giây
+</button>
+
+<br><br>
+
+<button onclick="hireMonk(3)">
+👼 Trụ trì
+<br>
+10000 Xu
+<br>
++10 Công đức / giây
+</button>
+
+<p id="monkStatus">
+Chưa thuê sư thầy
+</p>
+
+<hr>
+    <p>
 🙏 Tỷ lệ may mắn hiện tại:
 <span id="luckPercent">0%</span>
 </p>
+</div>
 </section>
-<audio id="gongSound" preload="auto">
-     <source src="gong.mp3" type="audio/mpeg">
-</audio>
+
     <script src="script.js"></script>
 
 </body>
