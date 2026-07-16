@@ -134,6 +134,22 @@ function updateUI(){
 
     document.getElementById("duaCount").innerText = bag.dua;
 
+    document.getElementById("nhoCount").innerText = bag.nho;
+    
+    document.getElementById("duahauCount").innerText = bag.duahau;
+
+    document.getElementById("chuoiCount").innerText = bag.chuoi;
+
+    document.getElementById("taoCount").innerText = bag.tao;
+
+    document.getElementById("anhdaoCount").innerText = bag.anhdao;
+
+    document.getElementById("hoahongCount").innerText = bag.hoahong;
+
+    document.getElementById("thongCount").innerText = bag.thong;
+
+    document.getElementById("xuongrongCount").innerText = bag.xuongrong;
+    
     const seedName = {
     lua:"🌾 Hạt lúa",
     carot:"🥕 Hạt cà rốt",
@@ -150,7 +166,7 @@ function updateUI(){
     anhdao:"🍒 Hạt anh đào",
     hoahong:"🌹 Hạt hoa hồng",
     thong:"🌲 Hạt cây thông",
-    caytien:"💰 Hạt cây tiền",
+    xuongrong:"🌵 Hạt Xương rồng",
     };
 
 document.getElementById("selected").innerText =
@@ -415,8 +431,8 @@ case "thong":
     name="🌲 Hạt cây thông";
     break;
 
-case "caytien":
-    name="💰 Hạt cây tiền";
+case "xuongrong":
+    name="🌵 Hạt xương rồng";
     break;
     }
 
@@ -484,7 +500,55 @@ const plantData = {
         icon:["🌱","🪴","🍍"],
         time:50,
         reward:210
-    }
+    },
+
+   nho:{
+    icon:["🌱","🌿","🍇"],
+    time:60,
+    reward:300
+},
+
+duahau:{
+    icon:["🌱","🌿","🍉"],
+    time:70,
+    reward:350
+},
+
+chuoi:{
+    icon:["🌱","🌴","🍌"],
+    time:80,
+    reward:400
+},
+
+tao:{
+    icon:["🌱","🌳","🍎"],
+    time:90,
+    reward:500
+},
+
+anhdao:{
+    icon:["🌱","🌸","🍒"],
+    time:100,
+    reward:600
+},
+
+hoahong:{
+    icon:["🌱","🌹","🌹"],
+    time:40,
+    reward:250
+},
+
+thong:{
+    icon:["🌱","🌲","🌲"],
+    time:120,
+    reward:800
+},
+
+xuongrong:{
+    icon:["🌱","🌵","🌵"],
+    time:110,
+    reward:700
+}
         
     
 
