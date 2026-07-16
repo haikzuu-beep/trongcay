@@ -66,7 +66,8 @@ basic:{
 };
 
 let bag = JSON.parse(localStorage.getItem("bag")) || {
-    lua:0,
+
+ lua:0,
     carot:0,
     cachua:0,
     bap:0,
@@ -83,6 +84,24 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     thong:0,
     xuongrong:0
 };
+
+// Nếu save cũ thiếu dữ liệu thì bổ sung
+bag.lua ??= 0;
+bag.carot ??= 0;
+bag.cachua ??= 0;
+bag.bap ??= 0;
+bag.huongduong ??= 0;
+bag.dautay ??= 0;
+bag.xoai ??= 0;
+bag.dua ??= 0;
+bag.nho ??= 0;
+bag.duahau ??= 0;
+bag.chuoi ??= 0;
+bag.tao ??= 0;
+bag.anhdao ??= 0;
+bag.hoahong ??= 0;
+bag.thong ??= 0;
+bag.xuongrong ??= 0;
 
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
