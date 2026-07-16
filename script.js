@@ -277,19 +277,7 @@ if(document.getElementById("rareSeed")){
 }
 
     }
-// ===============================
-// VẬT PHẨM
-// ===============================
 
-if(document.getElementById("diamondCount")){
-
-    document.getElementById("diamondCount").innerText =
-    items.diamond;
-
-    document.getElementById("boxCount").innerText = gifts;
-
-    document.getElementById("rareSeedCount").innerText = rareSeeds;
-}
 }
 
 
@@ -304,7 +292,6 @@ function saveGame(){
     localStorage.setItem("exp",exp);
     localStorage.setItem("merit",merit);
     localStorage.setItem("luck",luck);
-    localStorage.setItem("items", JSON.stringify(items));
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
     localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
