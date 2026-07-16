@@ -300,3 +300,18 @@ nav button:hover{
     transform:scale(0.9);
 
 }
+#templeContent{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-height:500px;
+
+    text-align:center;
+
+}
