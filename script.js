@@ -745,7 +745,42 @@ setInterval(()=>{
 
 },1000);
 
+function waterPlant(index){
 
+    if(!wateringCan){
+
+        alert("❌ Bạn chưa có bình tưới!");
+        return;
+    }
+
+    let cell = garden[index];
+
+    if(cell.seed==""){
+
+        alert("❌ Ô này chưa có cây!");
+        return;
+
+    }
+
+    if(wateringCan.durability<=0){
+
+        alert("💥 Bình tưới đã hỏng!");
+        return;
+
+    }
+
+    // Giảm thời gian trồng (5 giây)
+    cell.time -= 5000;
+
+    wateringCan.durability--;
+
+    saveGame();
+
+    updateUI();
+
+    drawGarden();
+
+}
 
 // ===============================
 // NÚT XÓA GAME
