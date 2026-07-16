@@ -770,9 +770,9 @@ function waterPlant(index){
     }
 
     // Giảm thời gian trồng (5 giây)
-  let reduceTime = wateringData[wateringCan.type].reduceTime;
+  let can = wateringData[wateringCan.type];
 
-  cell.time -= reduceTime;
+  cell.time -= can.reduceTime;
   
   wateringCan.durability--;
 
