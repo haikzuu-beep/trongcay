@@ -5,7 +5,7 @@
 let money = Number(localStorage.getItem("money")) || 136;
 let level = Number(localStorage.getItem("level")) || 1;
 let exp = Number(localStorage.getItem("exp")) || 0;
-let diamonds = Number(localStorage.getItem("diamonds")) || 0;
+let diamonds = Number(localStorage.getItem("diamonds")) || 30;
 let gifts = Number(localStorage.getItem("gifts")) || 0;
 let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 0;
 // ===============================
