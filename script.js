@@ -202,6 +202,36 @@ function randomWateringCan(){
     return "legendary";
 
 }
+let todayCan = randomWateringCan();
+function buyWateringCan(){
+
+    let can = wateringData[todayCan];
+
+    if(money < can.price){
+
+        alert("❌ Có tiền không mà đòi mua hả cưng");
+
+        return;
+
+    }
+
+    money -= can.price;
+
+    wateringCan = {
+
+        type: todayCan,
+
+        durability: can.durability
+
+    };
+
+    saveGame();
+
+    updateUI();
+
+    alert("🎉 Đủ tiền mua luôn hả? Để mai tăng lên 100k" + can.name);
+
+}
 // ===============================
 // CHUYỂN MENU
 // ===============================
