@@ -1154,7 +1154,7 @@ function hireMonk(type){
 
 function resetGame(){
 
-    ...
+
 }
 // ===============================
 // NÚT XÓA GAME
