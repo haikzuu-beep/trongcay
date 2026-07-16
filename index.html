@@ -47,6 +47,7 @@
 
     <button onclick="openTab('bag')">🎒 Túi đồ</button>
 
+    <button onclick="openTab('temple')">🔔 Chùa</button>
 </nav>
 
 <!-- ==================== FARM ==================== -->
@@ -324,7 +325,33 @@ Chưa chọn
 </h3>
 
 </section>
+<!-- ==================== TEMPLE ==================== -->
 
+<section id="temple" class="tab" style="display:none;">
+
+<h2>🔔 Chùa Công Đức</h2>
+
+<p>
+🙏 Công đức:
+<span id="merit">0</span>
+</p>
+
+<button onclick="gong()">
+🥁 Gõ mõ (+1 Công đức)
+</button>
+
+<br><br>
+
+<p>
+🍀 Vận may:
+<span id="luck">0</span>
+</p>
+
+<button onclick="prayLuck()">
+Đổi 100 Công đức lấy 1 Vận may
+</button>
+
+</section>
 <script src="script.js"></script>
 
 </body>
