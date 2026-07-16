@@ -794,7 +794,7 @@ if(cell.seed == "rarePlant"){
 
     let randomDiamond = Math.floor(Math.random() * 20) + 1;
 
-    items.diamond += randomDiamond;
+    diamonds += randomDiamond;
 
     alert(
         "🌈 Thu hoạch cây hiếm!\n\n" +
@@ -1298,14 +1298,14 @@ function spinLuckyWheel(){
     if(spinning) return;
 
 
-    let diamond = Number(
+   let diamond = diamonds;
         document.getElementById("diamondCountShop").innerText
   
     );
   
     document.getElementById("diamondCountBag").innerText = diamond;
 
-    if(diamond < 5){
+    if(diamonds < 5){
 
         alert("Không đủ kim cương!");
 
@@ -1314,10 +1314,10 @@ function spinLuckyWheel(){
     }
 
 
-    diamond -= 5;
+    diamonds -= 5;
 
 
-   document.getElementById("diamondCountShop").innerText = diamond;
+   document.getElementById("diamondCountShop").innerText = diamonds;
 
 
     spinning = true;
@@ -1350,7 +1350,7 @@ function spinLuckyWheel(){
 
             result="💎 Nhận 10 kim cương";
 
-            diamond +=10;
+            diamonds +=10;
 
             break;
 
@@ -1400,7 +1400,7 @@ function spinLuckyWheel(){
 
             result="💎 Nhận 5 kim cương";
 
-            diamond+=5;
+            diamonds+=5;
 
             break;
 
@@ -1408,13 +1408,14 @@ function spinLuckyWheel(){
         }
 
 
-        document.getElementById("diamond").innerText=diamond;
+        document.getElementById("diamond").innerText=diamonds;
 
 
         document.getElementById("wheelResult")
         .innerText=result;
 
-
+saveGame();
+updateUI();
         spinning=false;
 
 
