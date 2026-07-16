@@ -1089,11 +1089,15 @@ function dropRareItem(){
 
     if(chance < 1){
 
+        items.diamond++;
+
         alert("💎 Bạn nhận được Kim cương!");
 
     }
 
     else if(chance < 3){
+
+        items.mysteryBox++;
 
         alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
 
@@ -1101,9 +1105,18 @@ function dropRareItem(){
 
     else if(chance < 6){
 
+        items.rareSeed++;
+
         alert("🌟 Bạn nhận được Hạt giống hiếm!");
 
     }
+    else{
+
+        return;
+    }
+
+    saveGame();
+    updateUI();
 
 }
 // ===============================
