@@ -421,3 +421,60 @@ nav button:hover{
     }
 
 }
+#gongBox{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:30px 0;
+}
+
+#gong{
+    font-size:100px;
+    cursor:pointer;
+    transition:0.2s;
+    user-select:none;
+}
+
+#gong:hover{
+    transform:scale(1.08);
+}
+
+.gongShake{
+    animation:shake 0.3s;
+}
+
+@keyframes shake{
+
+0%{transform:rotate(0deg);}
+25%{transform:rotate(-8deg);}
+50%{transform:rotate(8deg);}
+75%{transform:rotate(-8deg);}
+100%{transform:rotate(0deg);}
+
+}
+
+.gongLight{
+    filter:drop-shadow(0 0 20px gold);
+}
+
+.meritText{
+    position:absolute;
+    color:gold;
+    font-size:28px;
+    font-weight:bold;
+    animation:fly 1s forwards;
+}
+
+@keyframes fly{
+
+0%{
+    opacity:1;
+    transform:translateY(0);
+}
+
+100%{
+    opacity:0;
+    transform:translateY(-80px);
+}
+
+}
