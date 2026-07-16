@@ -508,61 +508,61 @@ const plantData = {
     xoai:{
         icon:["🌱","🌳","🥭"],
         time:54,
-        reward:250
+        reward:360
     },
 
     dua:{
         icon:["🌱","🪴","🍍"],
         time:50,
-        reward:210
+        reward:310
     },
 
    nho:{
     icon:["🌱","🌿","🍇"],
     time:60,
-    reward:300
+    reward:670
 },
 
 duahau:{
     icon:["🌱","🌿","🍉"],
     time:70,
-    reward:350
+    reward:400
 },
 
 chuoi:{
     icon:["🌱","🌴","🍌"],
     time:80,
-    reward:400
+    reward:500
 },
 
 tao:{
     icon:["🌱","🌳","🍎"],
     time:90,
-    reward:500
+    reward:600
 },
 
 anhdao:{
     icon:["🌱","🌸","🍒"],
     time:100,
-    reward:600
+    reward:1000
 },
 
 hoahong:{
     icon:["🌱","🌹","🌹"],
     time:40,
-    reward:250
+    reward:1367
 },
 
 thong:{
     icon:["🌱","🌲","🌲"],
     time:120,
-    reward:800
+    reward:1000
 },
 
 xuongrong:{
     icon:["🌱","🌵","🌵"],
     time:110,
-    reward:700
+    reward:1500
 }
         
     
