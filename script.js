@@ -163,8 +163,6 @@ if(document.getElementById("canName")){
 
 }
 
-updateUI();
-
 
 // ===============================
 // LƯU GAME
@@ -233,6 +231,7 @@ function randomWateringCan(){
 
 }
 let todayCan = randomWateringCan();
+updateUI();
 function buyWateringCan(){
 
     let can = wateringData[todayCan];
