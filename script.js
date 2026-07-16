@@ -265,9 +265,11 @@ function saveGame(){
     localStorage.setItem("exp",exp);
     localStorage.setItem("merit",merit);
     localStorage.setItem("luck",luck);
+    localStorage.setItem("items", JSON.stringify(items));
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
     localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
+    
 }
 
 function addExp(amount){
