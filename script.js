@@ -770,7 +770,33 @@ function waterPlant(index){
     }
 
     // Giảm thời gian trồng (5 giây)
-    cell.time -= 5000;
+   let reduceTime = 5000;
+
+switch(wateringCan.type){
+
+    case "basic":
+        reduceTime = 5000;
+        break;
+
+    case "normal":
+        reduceTime = 10000;
+        break;
+
+    case "advanced":
+        reduceTime = 20000;
+        break;
+
+    case "vip":
+        reduceTime = 35000;
+        break;
+
+    case "legendary":
+        reduceTime = 60000;
+        break;
+
+}
+
+cell.time -= reduceTime;
 
     wateringCan.durability--;
 
