@@ -21,35 +21,35 @@ const wateringData = {
 
 basic:{
         name:"⭐ Bình tưới Sơ cấp",
-        reduceTime:0.9,
+        reduceTime:5000,
         durability:10,
         price:1000
     },
 
     normal:{
         name:"⭐⭐ Bình tưới Thường",
-        reduceTime:0.7,
+        reduceTime:10000,
         durability:10,
         price:5000
     },
 
     advanced:{
         name:"⭐⭐⭐ Bình tưới Cao cấp",
-        reduceTime:0.55,
+        reduceTime:20000,
         durability:20,
         price:10000
     },
 
     vip:{
         name:"⭐⭐⭐⭐ Bình tưới VIP",
-        reduceTime:0.35,
+        reduceTime:35000,
         durability:20,
         price:30000
     },
 
     legendary:{
         name:"⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
-        reduceTime:0.2,
+        reduceTime:60000,
         durability:20,
         price:50000
     }
