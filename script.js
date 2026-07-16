@@ -153,6 +153,10 @@ if(document.getElementById("myCan")){
 
         document.getElementById("myCan").innerText =
         "Chưa có bình tưới";
+
+    }
+
+}
 if(document.getElementById("merit")){
 
     document.getElementById("merit").innerText = merit;
@@ -164,10 +168,7 @@ if(document.getElementById("luck")){
     document.getElementById("luck").innerText = luck + "%";
 
 }
-    }
-
-}
-if(document.getElementById("canName")){
+    if(document.getElementById("canName")){
 
    document.getElementById("canName").innerText =
    wateringData[todayCan].name;
