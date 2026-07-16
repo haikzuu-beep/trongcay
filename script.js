@@ -132,6 +132,17 @@ function updateUI(){
 
 document.getElementById("selected").innerText =
 selectedSeed=="" ? "Chưa chọn" : seedName[selectedSeed];
+
+if(document.getElementById("canName")){
+
+   document.getElementById("canName").innerText =
+   wateringData[todayCan].name;
+
+   document.getElementById("canPrice").innerText =
+   wateringData[todayCan].price;
+ 
+}
+
 }
 
 updateUI();
