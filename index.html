@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhỏ thúi, dg iu</title>
+    <title>Your farm</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,7 +13,7 @@
 <body>
 
 <header>
-    <h1>Nhỏ thúi, dg iu</h1>
+    <h1>Your farm</h1>
 
     <div class="money">
         💰 Xu:
@@ -293,7 +293,76 @@ Mua bình
 </button>
 
 </div>
+<hr>
 
+<h2>💎 Cửa hàng Kim cương</h2>
+
+<div class="shopItem">
+
+<h3>💰 Đổi Kim cương thành Xu</h3>
+
+<p>
+Bạn có:
+<span id="diamondCount">0</span> 💎
+</p>
+
+<button onclick="exchangeDiamond()">
+Đổi 1 💎 = 1000 Xu
+</button>
+
+</div>
+
+<div class="shopItem">
+
+<h3>🎡 Vòng quay may mắn</h3>
+
+<p>
+Tốn 5 💎 / lượt
+</p>
+
+<button onclick="spinLuckyWheel()">
+Quay ngay
+</button>
+
+</div>
+
+<div class="shopItem">
+
+<h3>🎨 Skin Khu Vườn</h3>
+
+<p>
+🌸 Skin Hoa Anh Đào - 20 💎
+</p>
+
+<button onclick="buySkin('sakura')">
+Mua
+</button>
+
+</div>
+
+<div class="shopItem">
+
+<p>
+🏜️ Skin Sa Mạc - 30 💎
+</p>
+
+<button onclick="buySkin('desert')">
+Mua
+</button>
+
+</div>
+
+<div class="shopItem">
+
+<p>
+❄️ Skin Mùa Đông - 40 💎
+</p>
+
+<button onclick="buySkin('snow')">
+Mua
+</button>
+
+</div>
 </section>
 
 <!-- ==================== BAG ==================== -->
