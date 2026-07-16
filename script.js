@@ -214,7 +214,7 @@ if(document.getElementById("merit")){
     if(document.getElementById("luckPercent")){
 
     document.getElementById("luckPercent").innerText =
-    luck * 2 + "%";
+    "Hiện tại: " + (luck*2) + "% may mắn"
 }
     if(document.getElementById("canName")){
 
