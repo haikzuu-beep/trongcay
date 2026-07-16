@@ -164,11 +164,6 @@ if(document.getElementById("merit")){
 
 }
 
-if(document.getElementById("luck")){
-
-      document.getElementById("luck").innerText = luck;
-
-}
     if(document.getElementById("luckPercent")){
 
     document.getElementById("luckPercent").innerText =
