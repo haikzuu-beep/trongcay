@@ -134,22 +134,37 @@ function updateUI(){
 
     document.getElementById("duaCount").innerText = bag.dua;
 
-    document.getElementById("nhoCount").innerText = bag.nho;
-    
-    document.getElementById("duahauCount").innerText = bag.duahau;
+if(document.getElementById("nhoCount"))
+document.getElementById("nhoCount").innerText = bag.nho;
 
-    document.getElementById("chuoiCount").innerText = bag.chuoi;
 
-    document.getElementById("taoCount").innerText = bag.tao;
+if(document.getElementById("duahauCount"))
+document.getElementById("duahauCount").innerText = bag.duahau;
 
-    document.getElementById("anhdaoCount").innerText = bag.anhdao;
 
-    document.getElementById("hoahongCount").innerText = bag.hoahong;
+if(document.getElementById("chuoiCount"))
+document.getElementById("chuoiCount").innerText = bag.chuoi;
 
-    document.getElementById("thongCount").innerText = bag.thong;
 
-    document.getElementById("xuongrongCount").innerText = bag.xuongrong;
-    
+if(document.getElementById("taoCount"))
+document.getElementById("taoCount").innerText = bag.tao;
+
+
+if(document.getElementById("anhdaoCount"))
+document.getElementById("anhdaoCount").innerText = bag.anhdao;
+
+
+if(document.getElementById("hoahongCount"))
+document.getElementById("hoahongCount").innerText = bag.hoahong;
+
+
+if(document.getElementById("thongCount"))
+document.getElementById("thongCount").innerText = bag.thong;
+
+
+if(document.getElementById("xuongrongCount"))
+document.getElementById("xuongrongCount").innerText = bag.xuongrong;
+
     const seedName = {
     lua:"🌾 Hạt lúa",
     carot:"🥕 Hạt cà rốt",
