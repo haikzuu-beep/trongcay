@@ -255,8 +255,11 @@ if(document.getElementById("merit")){
 
    document.getElementById("canPrice").innerText =
    wateringData[todayCan].price;
+ }
+// ===============================
+// HIỂN THỊ KIM CƯƠNG
+// ===============================
 
-// Kim cương
 if(document.getElementById("diamondCount")){
     document.getElementById("diamondCount").innerText = diamonds;
 }
@@ -269,7 +272,10 @@ if(document.getElementById("diamondCountBag")){
     document.getElementById("diamondCountBag").innerText = diamonds;
 }
 
-// Hộp quà
+// ===============================
+// HỘP QUÀ
+// ===============================
+
 if(document.getElementById("gift")){
     document.getElementById("gift").innerText = gifts;
 }
@@ -278,7 +284,10 @@ if(document.getElementById("boxCount")){
     document.getElementById("boxCount").innerText = gifts;
 }
 
-// Hạt giống hiếm
+// ===============================
+// HẠT GIỐNG HIẾM
+// ===============================
+
 if(document.getElementById("rareSeed")){
     document.getElementById("rareSeed").innerText = rareSeeds;
 }
@@ -286,8 +295,6 @@ if(document.getElementById("rareSeed")){
 if(document.getElementById("rareSeedCount")){
     document.getElementById("rareSeedCount").innerText = rareSeeds;
 }
-
-    }
 
 }
 
