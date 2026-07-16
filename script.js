@@ -874,7 +874,13 @@ saveGame();
 // ===============================
 
 function prayLuck(){
+if(luck >= 100){
 
+    alert("🍀 Vận may đã đạt tối đa!");
+
+    return;
+
+}
     if(merit < 100){
 
         alert("🙏 Bạn cần 100 Công đức!");
