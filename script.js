@@ -789,11 +789,28 @@ document.addEventListener("click",function(e){
 
     }
 
-
-
-    money += plantInfo.reward;
+money += plantInfo.reward;
 addExp(20);
-dropRareItem();
+
+if(cell.seed == "rarePlant"){
+
+    let randomDiamond = Math.floor(Math.random() * 20) + 1;
+
+    items.diamond += randomDiamond;
+
+    alert(
+        "🌈 Thu hoạch cây hiếm!\n\n" +
+        "+" + plantInfo.reward + " xu\n" +
+        "+" + randomDiamond + " Kim cương 💎"
+    );
+
+}else{
+
+    dropRareItem();
+
+}
+
+ 
 const seedName = {
     lua:"🌾 Lúa",
     carot:"🥕 Cà rốt",
