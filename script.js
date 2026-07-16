@@ -5,13 +5,14 @@
 let money = Number(localStorage.getItem("money")) || 136;
 let level = Number(localStorage.getItem("level")) || 1;
 let exp = Number(localStorage.getItem("exp")) || 0;
+
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
 // ===============================
 
 let merit = Number(localStorage.getItem("merit")) || 0;
 let luck = Number(localStorage.getItem("luck")) || 0;
-
+let monkWorking = false;
 function expNeed(){
 
     return Math.floor(100 * Math.pow(1.5, level - 1));
@@ -1064,7 +1065,70 @@ function dropRareItem(){
     }
 
 }
+// ===============================
+// THUÊ SƯ THẦY
+// ===============================
 
+function hireMonk(){
+
+    if(monkWorking){
+
+        alert("🧘 Sư thầy đang làm việc rồi!");
+
+        return;
+
+    }
+
+    if(money < 1000){
+
+        alert("💰 Cần 1000 xu để thuê sư thầy!");
+
+        return;
+
+    }
+
+    money -= 1000;
+
+    monkWorking = true;
+
+    updateUI();
+
+    alert("🧘 Sư thầy bắt đầu gõ mõ trong 1 phút!");
+
+    let count = 0;
+
+    let timer = setInterval(function(){
+
+        merit++;
+
+        count++;
+
+        updateUI();
+
+        saveGame();
+
+        if(count >= 60){
+
+            clearInterval(timer);
+
+            monkWorking = false;
+
+            alert("🧘 Sư thầy đã nghỉ ngơi.");
+
+        }
+
+    },1000);
+
+}
+
+// ===============================
+// NÚT XÓA GAME
+// ===============================
+
+function resetGame(){
+
+    ...
+}
 // ===============================
 // NÚT XÓA GAME
 // ===============================
