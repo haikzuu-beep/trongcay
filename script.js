@@ -169,6 +169,11 @@ if(document.getElementById("luck")){
       document.getElementById("luck").innerText = luck;
 
 }
+    if(document.getElementById("luckPercent")){
+
+    document.getElementById("luckPercent").innerText =
+    luck * 2 + "%";
+}
     if(document.getElementById("canName")){
 
    document.getElementById("canName").innerText =
