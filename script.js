@@ -269,7 +269,8 @@ if(document.getElementById("gift")){
 if(document.getElementById("rareSeed")){
     document.getElementById("rareSeed").innerText = rareSeeds;
 }
-}
+
+    }
 // ===============================
 // VẬT PHẨM
 // ===============================
@@ -1299,10 +1300,7 @@ function spinLuckyWheel(){
 
 
    let diamond = diamonds;
-        document.getElementById("diamondCountShop").innerText
-  
-    );
-  
+      
     document.getElementById("diamondCountBag").innerText = diamond;
 
     if(diamonds < 5){
@@ -1370,7 +1368,7 @@ function spinLuckyWheel(){
 
             result="🎁 Nhận 1 hộp quà";
 
-            gift++;
+            gifts++;
 
             break;
 
@@ -1380,7 +1378,7 @@ function spinLuckyWheel(){
 
             result="🌱 Nhận hạt giống hiếm";
 
-            rareSeed++;
+            rareSeeds++;
 
             break;
 
