@@ -290,12 +290,9 @@ if(document.getElementById("diamondCount")){
     document.getElementById("diamondCount").innerText =
     items.diamond;
 
-    document.getElementById("boxCount").innerText =
-    items.mysteryBox;
+    document.getElementById("boxCount").innerText = gifts;
 
-    document.getElementById("rareSeedCount").innerText =
-    items.rareSeed;
-
+    document.getElementById("rareSeedCount").innerText = rareSeeds;
 }
 }
 
