@@ -5,7 +5,9 @@
 let money = Number(localStorage.getItem("money")) || 136;
 let level = Number(localStorage.getItem("level")) || 1;
 let exp = Number(localStorage.getItem("exp")) || 0;
-
+let diamonds = Number(localStorage.getItem("diamonds")) || 0;
+let gifts = Number(localStorage.getItem("gifts")) || 0;
+let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 0;
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
 // ===============================
@@ -248,7 +250,20 @@ if(document.getElementById("merit")){
 
    document.getElementById("canPrice").innerText =
    wateringData[todayCan].price;
- 
+ // Hiển thị kim cương
+if(document.getElementById("diamond")){
+    document.getElementById("diamond").innerText = diamonds;
+}
+
+// Hiển thị hộp quà
+if(document.getElementById("gift")){
+    document.getElementById("gift").innerText = gifts;
+}
+
+// Hiển thị hạt giống hiếm
+if(document.getElementById("rareSeed")){
+    document.getElementById("rareSeed").innerText = rareSeeds;
+}
 }
 // ===============================
 // VẬT PHẨM
@@ -284,7 +299,9 @@ function saveGame(){
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
     localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
-    
+    localStorage.setItem("diamonds", diamonds);
+    localStorage.setItem("gifts", gifts);
+    localStorage.setItem("rareSeeds", rareSeeds);
 }
 
 function addExp(amount){
