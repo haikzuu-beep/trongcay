@@ -773,9 +773,15 @@ function waterPlant(index){
   let can = wateringData[wateringCan.type];
 
   cell.time -= can.reduceTime;
-  
+  alert("💧 Tưới thành công!\nGiảm " + can.reduceTime/1000 + " giây.");
   wateringCan.durability--;
+if(wateringCan.durability <= 0){
 
+    alert("💥 Bình tưới đã hỏng!");
+
+    wateringCan = null;
+
+}
     saveGame();
 
     updateUI();
