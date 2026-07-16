@@ -1005,9 +1005,9 @@ updateUI();
 // ===============================
 
 function prayLuck(){
-if(luck >= 100){
+if(luck >= 50){
 
-    alert("🍀 Vận may đã đạt tối đa!");
+    alert("🍀 Vận may đã đạt tối đa!(100%)");
 
     return;
 
