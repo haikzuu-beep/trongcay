@@ -5,6 +5,12 @@
 let money = Number(localStorage.getItem("money")) || 136;
 let level = Number(localStorage.getItem("level")) || 1;
 let exp = Number(localStorage.getItem("exp")) || 0;
+// ===============================
+// CÔNG ĐỨC + MAY MẮN
+// ===============================
+
+let merit = Number(localStorage.getItem("merit")) || 0;
+let luck = Number(localStorage.getItem("luck")) || 0;
 function expNeed(){
 
     return Math.floor(100 * Math.pow(1.5, level - 1));
@@ -147,7 +153,17 @@ if(document.getElementById("myCan")){
 
         document.getElementById("myCan").innerText =
         "Chưa có bình tưới";
+if(document.getElementById("merit")){
 
+    document.getElementById("merit").innerText = merit;
+
+}
+
+if(document.getElementById("luck")){
+
+    document.getElementById("luck").innerText = luck + "%";
+
+}
     }
 
 }
@@ -173,7 +189,8 @@ function saveGame(){
     localStorage.setItem("money",money);
     localStorage.setItem("level",level);
     localStorage.setItem("exp",exp);
-
+    localStorage.setItem("merit",merit);
+    localStorage.setItem("luck",luck);
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
     localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
