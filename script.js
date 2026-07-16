@@ -202,6 +202,7 @@ function addExp(amount){
 }
 function randomWateringCan(){
 
+   
     let r=Math.random()*100;
 
     if(r<50){
