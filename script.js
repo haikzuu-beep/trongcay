@@ -79,7 +79,7 @@ let bag = JSON.parse(localStorage.getItem("bag")) || {
     anhdao:0,
     hoahong:0,
     thong:0,
-    caytien:0
+    xuongrong:0
 };
 
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
@@ -733,7 +733,15 @@ const seedName = {
     huongduong:"🌻 Hướng dương",
     dautay:"🍓 Dâu tây",
     xoai:"🥭 Xoài",
-    dua:"🍍 Dứa"
+    dua:"🍍 Dứa",
+    nho:"🍇 Nho",
+    duahau:"🍉 Dưa hấu",
+    chuoi:"🍌 Chuối",
+    tao:"🍎 Táo",
+    anhdao:"🍒 Anh đào",
+    hoahong:"🌹 Hoa hồng",
+    thong:"🌲 Cây thông",
+    xuongrong:"🌵 Xương rồng"
 };
 
 alert(
