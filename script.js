@@ -11,6 +11,7 @@ let exp = Number(localStorage.getItem("exp")) || 0;
 
 let merit = Number(localStorage.getItem("merit")) || 0;
 let luck = Number(localStorage.getItem("luck")) || 0;
+const gongSound = new Audio("gong.mp3");
 function expNeed(){
 
     return Math.floor(100 * Math.pow(1.5, level - 1));
@@ -814,17 +815,15 @@ if(wateringCan.durability <= 0){
 
 function gong(){
 
+  gongSound.pause();
+    gongSound.currentTime = 0;
+    gongSound.play();
+
     merit++;
 
     saveGame();
 
     updateUI();
-
-     let sound = document.getElementById("gongSound");
-
-    sound.currentTime = 0;
-
-    sound.cloneNode().play();
 
 }
 
