@@ -1233,3 +1233,133 @@ function resetGame(){
     }
 
 }
+let spinning = false;
+
+
+function spinLuckyWheel(){
+
+    if(spinning) return;
+
+
+    let diamond = Number(
+        document.getElementById("diamond").innerText
+    );
+
+
+    if(diamond < 5){
+
+        alert("Không đủ kim cương!");
+
+        return;
+
+    }
+
+
+    diamond -= 5;
+
+
+    document.getElementById("diamond").innerText = diamond;
+
+
+    spinning = true;
+
+
+    let wheel = document.getElementById("wheel");
+
+
+    let random = Math.floor(Math.random()*360);
+
+
+    wheel.style.transform =
+    `rotate(${random + 1800}deg)`;
+
+
+    setTimeout(()=>{
+
+
+        let reward =
+        Math.floor(Math.random()*6);
+
+
+        let result="";
+
+
+        switch(reward){
+
+
+            case 0:
+
+            result="💎 Nhận 10 kim cương";
+
+            diamond +=10;
+
+            break;
+
+
+
+            case 1:
+
+            result="💰 Nhận 500 xu";
+
+            money +=500;
+
+            break;
+
+
+
+            case 2:
+
+            result="🎁 Nhận 1 hộp quà";
+
+            gift++;
+
+            break;
+
+
+
+            case 3:
+
+            result="🌱 Nhận hạt giống hiếm";
+
+            rareSeed++;
+
+            break;
+
+
+
+            case 4:
+
+            result="💰 Nhận 1000 xu";
+
+            money+=1000;
+
+            break;
+
+
+
+            case 5:
+
+            result="💎 Nhận 5 kim cương";
+
+            diamond+=5;
+
+            break;
+
+
+        }
+
+
+        document.getElementById("diamond").innerText=diamond;
+
+
+        document.getElementById("wheelResult")
+        .innerText=result;
+
+
+        spinning=false;
+
+
+    },4000);
+
+
+}
