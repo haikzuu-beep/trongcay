@@ -808,6 +808,46 @@ if(wateringCan.durability <= 0){
 }
 
 // ===============================
+// GÕ MÕ
+// ===============================
+
+function gong(){
+
+    merit++;
+
+    saveGame();
+
+    updateUI();
+
+}
+
+
+// ===============================
+// ĐỔI VẬN MAY
+// ===============================
+
+function prayLuck(){
+
+    if(merit < 100){
+
+        alert("🙏 Bạn cần 100 Công đức!");
+
+        return;
+
+    }
+
+    merit -= 100;
+
+    luck++;
+
+    saveGame();
+
+    updateUI();
+
+    alert("🍀 Bạn nhận được 1 điểm Vận may!");
+
+}
+// ===============================
 // NÚT XÓA GAME
 // ===============================
 
