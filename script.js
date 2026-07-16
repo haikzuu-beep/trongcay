@@ -885,7 +885,12 @@ function prayLuck(){
 
     updateUI();
 
-    alert("🍀 Bạn nhận được 1 điểm Vận may!");
+    alert(
+    "🍀 Phật độ rồi!\n" +
+    "+1 Vận may\n\n" +
+    "Hiện tại: " + luck + " điểm vận may"
+    );
+
 
 }
 // ===============================
