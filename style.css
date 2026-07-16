@@ -275,3 +275,28 @@ nav button:hover{
     transition:0.3s;
 
 }
+.gong{
+
+    font-size:90px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:0.15s;
+
+}
+
+.gong:hover{
+
+    transform:scale(1.1);
+
+}
+
+.gong:active{
+
+    transform:scale(0.9);
+
+}
