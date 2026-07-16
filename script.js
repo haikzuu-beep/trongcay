@@ -703,7 +703,10 @@ function drawGarden(){
             <div class="plantIcon">
                 ${plant.icon[cell.stage]}
             </div>
-
+        
+            <button onclick="waterPlant(${i})">
+                💧 Tưới
+            </button>
 
             <div class="progress">
 
