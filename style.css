@@ -315,3 +315,109 @@ nav button:hover{
     text-align:center;
 
 }
+/* ===============================
+   HIỆU ỨNG GÕ MÕ
+=============================== */
+
+#gongBox{
+    text-align:center;
+    cursor:pointer;
+    user-select:none;
+}
+
+
+#gong{
+
+    font-size:100px;
+
+    transition:0.2s;
+
+}
+
+
+/* rung mõ */
+
+.gongShake{
+
+    animation: shake 0.3s;
+
+}
+
+
+/* sáng vàng */
+
+.gongLight{
+
+    filter:
+    drop-shadow(0 0 20px gold);
+
+}
+
+
+/* rung */
+
+@keyframes shake{
+
+    0%{
+        transform:rotate(0deg);
+    }
+
+    25%{
+        transform:rotate(-15deg);
+    }
+
+    50%{
+        transform:rotate(15deg);
+    }
+
+    75%{
+        transform:rotate(-10deg);
+    }
+
+    100%{
+        transform:rotate(0deg);
+    }
+
+}
+
+
+
+/* chữ công đức bay lên */
+
+.meritText{
+
+    position:absolute;
+
+    color:#ffcc00;
+
+    font-size:25px;
+
+    font-weight:bold;
+
+    animation: fly 1s forwards;
+
+}
+
+
+@keyframes fly{
+
+    from{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+
+    }
+
+
+    to{
+
+        opacity:0;
+
+        transform:
+        translateY(-100px);
+
+    }
+
+}
