@@ -292,10 +292,10 @@ if(document.getElementById("rareSeed")){
     document.getElementById("rareSeed").innerText = rareSeeds;
 }
 
+// Hiển thị số hạt giống hiếm trong túi
 if(document.getElementById("rareSeedCount")){
     document.getElementById("rareSeedCount").innerText = rareSeeds;
 }
-
 }
 
 
