@@ -1763,73 +1763,136 @@ function breakGem(){
     let r = Math.random()*100;
 
 
-    // 70% nhận xu
+ // ===============================
+// 60% NHẬN XU
+// ===============================
 
-    if(r < 70){
+if(r < 60){
 
-        let gold = Math.floor(Math.random()*900)+100;
+    let rd = Math.random() * 100;
+    let gold;
 
-        money += gold;
+    if(rd < 40){
 
-        alert(
-        "💰 Đập đá quý nhận được "
-        + gold +
-        " xu!"
-        );
-
-    }
-
-
-    // 20% nhận kim cương
-
-    else if(r < 90){
-
-        let diamond =
-        Math.floor(Math.random()*10)+1;
-
-
-        diamonds += diamond;
-
-
-        alert(
-        "💎 Bạn nhận được "
-        + diamond +
-        " kim cương!"
-        );
+        // 40%
+        // 50.000 - 100.000
+        gold = Math.floor(Math.random() * 50001) + 50000;
 
     }
+    else if(rd < 70){
 
+        // 30%
+        // 100.000 - 200.000
+        gold = Math.floor(Math.random() * 100001) + 100000;
 
-    // 10% đồ hiếm
+    }
+    else if(rd < 88){
 
+        // 18%
+        // 200.000 - 400.000
+        gold = Math.floor(Math.random() * 200001) + 200000;
+
+    }
+    else if(rd < 96){
+
+        // 8%
+        // 400.000 - 700.000
+        gold = Math.floor(Math.random() * 300001) + 400000;
+
+    }
+    else if(rd < 99){
+
+        // 3%
+        // 700.000 - 900.000
+        gold = Math.floor(Math.random() * 200001) + 700000;
+
+    }
     else{
 
+        // 1%
+        // 900.000 - 1.000.000
+        gold = Math.floor(Math.random() * 100001) + 900000;
 
-        let rare =
-        Math.random()*100;
+    }
 
+    money += gold;
 
-        if(rare < 50){
+    alert(
+        "💰 Chúc mừng!\n\nBạn nhận được " +
+        gold.toLocaleString("vi-VN") +
+        " Xu!"
+    );
 
-            rareSeeds++;
+}
 
-            alert(
-            "🌟 Đá quý chứa Hạt giống hiếm!"
-            );
+// 20% nhận Kim cương
 
-        }
+else if(r < 80){
 
-        else{
+    let rd = Math.random() * 100;
+    let diamond;
 
-            gifts++;
+    if(rd < 60){
 
-            alert(
-            "🎁 Đá quý chứa Hộp bí ẩn!"
-            );
+        // 60% trong nhóm này: 5-10 KC
+        diamond = Math.floor(Math.random() * 6) + 5;
 
-        }
+    }
+    else if(rd < 95){
 
+        // 35%: 11-20 KC
+        diamond = Math.floor(Math.random() * 10) + 11;
 
+    }
+    else{
+
+        // 5%: 50 KC
+        diamond = 50;
+
+    }
+
+    diamonds += diamond;
+
+    alert("💎 Bạn nhận được " + diamond + " Kim cương!");
+}
+    
+// 20% đồ hiếm
+
+else{
+
+    let rare = Math.random() * 100;
+
+    if(rare < 45){
+
+        rareSeeds += 2;
+
+        alert("🌟 Bạn nhận được 2 Hạt giống hiếm!");
+
+    }
+    else if(rare < 90){
+
+        gifts += 2;
+
+        alert("🎁 Bạn nhận được 2 Hộp bí ẩn!");
+
+    }
+    else if(rare < 97){
+
+        rareSeeds += 5;
+
+        alert("🌟 JACKPOT!\nBạn nhận được 5 Hạt giống hiếm!");
+
+    }
+    else{
+
+        gifts += 5;
+
+        alert("🎁 JACKPOT!\nBạn nhận được 5 Hộp bí ẩn!");
+
+    }
+
+    // Giữ nguyên phần trừ may mắn bên dưới
+}
 
         // =====================
         // TRỪ MAY MẮN
