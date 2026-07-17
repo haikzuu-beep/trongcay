@@ -720,18 +720,40 @@ function plant(index){
 
 
     // hết hạt
+   if(selectedSeed == "rarePlant"){
+
+    if(rareSeeds <= 0){
+
+        alert("❌ Bạn đã hết Hạt giống hiếm!");
+
+        return;
+    }
+
+}else{
+
     if(bag[selectedSeed] <= 0){
 
         alert("❌ Bạn đã hết hạt giống mất rồi, hãy mua thêm ở cửa hàng!");
 
         return;
+    }
 
+}
     }
 
 
 
     // trừ hạt
    
+if(selectedSeed == "rarePlant"){
+
+    rareSeeds--;
+
+}else{
+
+    bag[selectedSeed]--;
+
+}
 
 
 
