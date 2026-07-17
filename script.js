@@ -1862,3 +1862,29 @@ function breakGem(){
     updateUI();
 
 }
+// ===============================
+// MUA ĐÁ QUÝ THÔ
+// ===============================
+
+function buyGem(){
+
+    let price = 50000;
+
+    if(money < price){
+
+        alert("❌ Không đủ 50.000 Xu!");
+
+        return;
+
+    }
+
+    money -= price;
+
+    gems++;
+
+    saveGame();
+
+    updateUI();
+
+    alert("🪨 Mua thành công 1 Đá quý thô!");
+}
