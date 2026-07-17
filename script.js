@@ -262,6 +262,11 @@ if(document.getElementById("merit")){
    document.getElementById("canPrice").innerText =
    wateringData[todayCan].price;
  }
+if(document.getElementById("gemCount")){
+
+    document.getElementById("gemCount").innerText = gems;
+
+}
 // ===============================
 // HIỂN THỊ KIM CƯƠNG
 // ===============================
