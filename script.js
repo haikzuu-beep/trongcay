@@ -777,7 +777,7 @@ if(selectedSeed == "rarePlant"){
     drawGarden();
 
 
-}
+
 
 // ===============================
 // CLICK TRỒNG + THU HOẠCH
