@@ -8,7 +8,7 @@ let exp = Number(localStorage.getItem("exp")) || 0;
 let diamonds = Number(localStorage.getItem("diamonds")) || 30;
 let gifts = Number(localStorage.getItem("gifts")) || 10;
 let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 5;
-
+let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 5;
 // ===============================
 // NÂNG CẤP NÔNG TRẠI
 // ===============================
@@ -326,6 +326,7 @@ function saveGame(){
     localStorage.setItem("gifts", gifts);
     localStorage.setItem("rareSeeds", rareSeeds);
     localStorage.setItem("farmLevel", farmLevel);
+    localStorage.setItem("gems", gems);
 }
 
 function addExp(amount){
@@ -1667,5 +1668,125 @@ function upgradeFarm(){
         price +
         " xu."
     );
+
+}
+// ===============================
+// ĐẬP ĐÁ QUÝ
+// ===============================
+
+function breakGem(){
+
+    if(gems <= 0){
+
+        alert("❌ Bạn không có đá quý!");
+
+        return;
+
+    }
+
+
+    gems--;
+
+
+    let r = Math.random()*100;
+
+
+    // 70% nhận xu
+
+    if(r < 70){
+
+        let gold = Math.floor(Math.random()*900)+100;
+
+        money += gold;
+
+        alert(
+        "💰 Đập đá quý nhận được "
+        + gold +
+        " xu!"
+        );
+
+    }
+
+
+    // 20% nhận kim cương
+
+    else if(r < 90){
+
+        let diamond =
+        Math.floor(Math.random()*10)+1;
+
+
+        diamonds += diamond;
+
+
+        alert(
+        "💎 Bạn nhận được "
+        + diamond +
+        " kim cương!"
+        );
+
+    }
+
+
+    // 10% đồ hiếm
+
+    else{
+
+
+        let rare =
+        Math.random()*100;
+
+
+        if(rare < 50){
+
+            rareSeeds++;
+
+            alert(
+            "🌟 Đá quý chứa Hạt giống hiếm!"
+            );
+
+        }
+
+        else{
+
+            gifts++;
+
+            alert(
+            "🎁 Đá quý chứa Hộp bí ẩn!"
+            );
+
+        }
+
+
+
+        // =====================
+        // TRỪ MAY MẮN
+        // =====================
+
+        if(luckRate > 0){
+
+            luckRate -=5;
+
+
+            if(luckRate <0){
+
+                luckRate=0;
+
+            }
+
+
+            alert(
+            "🍀 Vì nhận đồ hiếm nên vận may giảm 5%!\n"+
+            "Hiện tại: "+luckRate+"%"
+            );
+
+        }
+
+
+    }
+
+
+    saveGame();
+    updateUI();
 
 }
