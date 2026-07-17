@@ -2,32 +2,72 @@
 // DỮ LIỆU GAME
 // ===============================
 
-let money = Number(localStorage.getItem("money")) || 136;
-let level = Number(localStorage.getItem("level")) || 1;
-let exp = Number(localStorage.getItem("exp")) || 0;
-let diamonds = Number(localStorage.getItem("diamonds")) || 30;
-let gifts = Number(localStorage.getItem("gifts")) || 10;
-let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 5;
-let gems = Number(localStorage.getItem("gems")) || 0;
+// Tiền
+let money = localStorage.getItem("money") !== null
+    ? Number(localStorage.getItem("money"))
+    : 136;
+
+// Cấp
+let level = localStorage.getItem("level") !== null
+    ? Number(localStorage.getItem("level"))
+    : 1;
+
+// Kinh nghiệm
+let exp = localStorage.getItem("exp") !== null
+    ? Number(localStorage.getItem("exp"))
+    : 0;
+
+// Kim cương
+let diamonds = localStorage.getItem("diamonds") !== null
+    ? Number(localStorage.getItem("diamonds"))
+    : 30;
+
+// Hộp bí ẩn
+let gifts = localStorage.getItem("gifts") !== null
+    ? Number(localStorage.getItem("gifts"))
+    : 10;
+
+// Hạt giống hiếm
+let rareSeeds = localStorage.getItem("rareSeeds") !== null
+    ? Number(localStorage.getItem("rareSeeds"))
+    : 5;
+
+// Đá quý
+let gems = localStorage.getItem("gems") !== null
+    ? Number(localStorage.getItem("gems"))
+    : 0;
+
+
 // ===============================
 // NÂNG CẤP NÔNG TRẠI
 // ===============================
 
-let farmLevel = Number(localStorage.getItem("farmLevel")) || 1;
+let farmLevel = localStorage.getItem("farmLevel") !== null
+    ? Number(localStorage.getItem("farmLevel"))
+    : 1;
+
+
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
 // ===============================
 
-let merit = Number(localStorage.getItem("merit")) || 0;
-let luckRate = Number(localStorage.getItem("luckRate")) || 0;
+let merit = localStorage.getItem("merit") !== null
+    ? Number(localStorage.getItem("merit"))
+    : 0;
+
+let luckRate = localStorage.getItem("luckRate") !== null
+    ? Number(localStorage.getItem("luckRate"))
+    : 0;
+
 let monkWorking = false;
 let monkTimer = null;
-function expNeed(){
 
+function expNeed() {
     return Math.floor(100 * Math.pow(1.5, level - 1));
 }
 
 let selectedSeed = "";
+
 // ===============================
 // BÌNH TƯỚI
 // ===============================
