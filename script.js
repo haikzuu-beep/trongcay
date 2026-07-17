@@ -1748,9 +1748,17 @@ function breakGem(){
 
     }
 
+    if(money < 50000){
+
+        alert("❌ Cần 50.000 Xu để đập đá quý!");
+
+        return;
+
+    }
 
     gems--;
 
+    money -= 50000;
 
     let r = Math.random()*100;
 
