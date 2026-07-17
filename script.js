@@ -1299,18 +1299,30 @@ function resetGame(){
     }
 
 }
+function exchangeDiamond(){
+
+    if(diamonds < 1){
+
+        alert("❌ Bạn không đủ Kim cương!");
+
+        return;
+    }
+
+    diamonds--;
+    money += 1000;
+
+    saveGame();
+    updateUI();
+
+    alert("💎 Đổi thành công!\n-1 Kim cương\n+1000 Xu");
+}
 let spinning = false;
 
 
 function spinLuckyWheel(){
 
-    if(spinning) return;
-
-
-   let diamond = diamonds;
-      
-    document.getElementById("diamondCountBag").innerText = diamond;
-
+    if(spinning) return; 
+    
     if(diamonds < 5){
 
         alert("Không đủ kim cương!");
@@ -1322,11 +1334,7 @@ function spinLuckyWheel(){
 
     diamonds -= 5;
 
-
-   document.getElementById("diamondCountShop").innerText = diamonds;
-
-
-    spinning = true;
+    spinning =true;
 
 
     let wheel = document.getElementById("wheel");
