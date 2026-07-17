@@ -1217,8 +1217,16 @@ function dropRareItem(){
 
         received = true;
 
-    }
+   }
+   else if(chance < 8){
 
+    gems++;
+
+    alert(" 🗻 Bạn nhặt được 1 viên đá quý thô!");
+
+    received=true;
+
+   }
     else if(chance < 6){
 
         rareSeeds++;
@@ -1238,14 +1246,14 @@ if(received){
 
     if(luckRate > 0){
 
-        luckRate -= 2;
+        luckRate -= 5;
 
         if(luckRate < 0){
             luckRate = 0;
         }
 
         alert(
-            "🍀 Tỷ lệ may mắn giảm 2%!\n" +
+            "🍀 Tỷ lệ may mắn giảm 5%!\n" +
             "Hiện tại: " + luckRate + "%"
         );
     }
