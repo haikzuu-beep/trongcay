@@ -1610,3 +1610,31 @@ function openGift(){
     updateUI();
 
 }
+function upgradeFarm(){
+
+    let price = farmLevel * 20000;
+
+    if(money < price){
+
+        alert("❌ Không đủ xu!");
+
+        return;
+    }
+
+    money -= price;
+
+    farmLevel++;
+
+    saveGame();
+
+    updateUI();
+
+    alert(
+        "🎉 Nông trại lên cấp " +
+        farmLevel +
+        "\nĐã tiêu " +
+        price +
+        " xu."
+    );
+
+}
