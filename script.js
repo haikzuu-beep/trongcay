@@ -405,13 +405,12 @@ function randomWateringCan(){
     let legendary = 2;
 
     // mỗi điểm vận may chuyển 0.2% từ đồ thường sang đồ hiếm
-    basic -= luck * 0.2;
-    normal -= luck * 0.1;
-    advanced += luck * 0.15;
-    vip += luck * 0.1;
-    legendary += luck * 0.05;
-
-    if(r < basic)
+  basic -= luckRate * 0.2;
+  normal -= luckRate * 0.1;
+  advanced += luckRate * 0.15;
+  vip += luckRate * 0.1;
+  legendary += luckRate * 0.05;
+      if(r < basic)
         return "basic";
 
     if(r < basic + normal)
