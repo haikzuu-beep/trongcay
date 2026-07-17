@@ -444,11 +444,26 @@ function buySeed(type, price){
 // ===============================
 
 function selectSeed(type){
+if(type == "rarePlant"){
 
-    if(bag[type] <= 0){
-        alert("❌ hạt giống đâu hả mày? có cái lò tôn mà cho free nhé!");
+    if(rareSeeds <= 0){
+
+        alert("❌ Bạn không còn Hạt giống hiếm!");
+
         return;
     }
+
+}else{
+
+    if(bag[type] <= 0){
+
+        alert("❌ Hết hạt giống!");
+
+        return;
+    }
+
+}
+   
 
     selectedSeed = type;
 
