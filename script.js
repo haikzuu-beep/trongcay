@@ -13,7 +13,7 @@ let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 5;
 // ===============================
 
 let merit = Number(localStorage.getItem("merit")) || 0;
-let luck = Number(localStorage.getItem("luck")) || 0;
+let luckRate = Number(localStorage.getItem("luckRate")) || 0;
 let monkWorking = false;
 let monkTimer = null;
 function expNeed(){
