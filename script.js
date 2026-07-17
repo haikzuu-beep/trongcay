@@ -239,14 +239,14 @@ if(document.getElementById("merit")){
 
 }
     if(document.getElementById("luck")){
-    document.getElementById("luck").innerText = luck;
+    document.getElementById("luck").innerText = luckRate + "%";
 }
 
 
     if(document.getElementById("luckPercent")){
 
     document.getElementById("luckPercent").innerText =
-    "Hiện tại: " + (luck*2) + "% may mắn"
+"Hiện tại: " + luckRate + "% may mắn";
 }
     if(document.getElementById("canName")){
 
@@ -309,7 +309,7 @@ function saveGame(){
     localStorage.setItem("level",level);
     localStorage.setItem("exp",exp);
     localStorage.setItem("merit",merit);
-    localStorage.setItem("luck",luck);
+    localStorage.setItem("luckRate", luckRate);
     localStorage.setItem("bag",JSON.stringify(bag));
     localStorage.setItem("garden",JSON.stringify(garden));
     localStorage.setItem("wateringCan",JSON.stringify(wateringCan));
@@ -1136,7 +1136,7 @@ updateUI();
 // ===============================
 
 function prayLuck(){
-if(luck >= 50){
+if(luckRate >= 100){
 
     alert("🍀 Vận may đã đạt tối đa!(100%)");
 
@@ -1153,7 +1153,7 @@ if(luck >= 50){
 
     merit -= 100;
 
-    luck++;
+    luckRate += 2;
 
     saveGame();
 
@@ -1162,7 +1162,7 @@ if(luck >= 50){
     alert(
     "🍀 Phật độ rồi!\n" +
     "+1 Vận may\n\n" +
-    "Hiện tại: " + luck + " điểm vận may"
+    "Hiện tại: " + luckRate + "% may mắn"
     );
 
 
@@ -1177,7 +1177,7 @@ function dropRareItem(){
     let chance = Math.random() * 100;
 
     // tăng tỉ lệ rơi
-    chance -= luck * 0.2;
+    chance -= luckRate * 0.1;
 
 
     let received = false;
@@ -1218,20 +1218,24 @@ function dropRareItem(){
     // TRỪ VẬN MAY KHI NHẬN ĐỒ HIẾM
     // ==========================
 
-    if(received){
+if(received){
 
-        if(luck > 0){
+    if(luckRate > 0){
 
-            luck--;
+        luckRate -= 2;
 
-            alert(
-            "🍀 Vận may giảm 5 điểm!\n" +
-            "Hiện tại: " + luck + " điểm"
-            );
-
+        if(luckRate < 0){
+            luckRate = 0;
         }
 
+        alert(
+            "🍀 Tỷ lệ may mắn giảm 2%!\n" +
+            "Hiện tại: " + luckRate + "%"
+        );
     }
+
+}
+   
 
 
     saveGame();
