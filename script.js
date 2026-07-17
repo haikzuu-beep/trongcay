@@ -731,7 +731,7 @@ function plant(index){
 
 
     // trừ hạt
-    bag[selectedSeed]--;
+   
 
 
 
