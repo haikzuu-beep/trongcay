@@ -1336,13 +1336,13 @@ function hireMonk(type){
         case 2:
             name = "🧘‍♂️ Đại sư";
             price = 5000;
-            meritPerSecond = 5;
+            meritPerSecond = 15;
             break;
 
         case 3:
             name = "👼 Trụ trì";
             price = 10000;
-            meritPerSecond = 10;
+            meritPerSecond = 30;
             break;
 
     }
