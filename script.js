@@ -1229,52 +1229,64 @@ if(luckRate >= 100){
 
 function dropRareItem(){
 
-    let chance = Math.random() * 100;
+    // ==========================
+// TỈ LỆ CƠ BẢN
+// ==========================
 
-    // tăng tỉ lệ rơi
-    chance -= luckRate * 0.1;
+let diamondChance = 1;     // 1%
+let giftChance = 2;        // 2%
+let rareSeedChance = 3;    // 3%
+let gemChance = 2;         // 2%
 
+// ==========================
+// MAY MẮN TĂNG TỈ LỆ
+// ==========================
+
+diamondChance += luckRate * 0.05;
+giftChance += luckRate * 0.05;
+rareSeedChance += luckRate * 0.08;
+gemChance += luckRate * 0.05;
+
+let chance = Math.random() * 100;
 
     let received = false;
 
+if(chance < diamondChance){
 
-    if(chance < 1){
+    diamonds++;
 
-        diamonds++;
+    alert("💎 Bạn nhận được Kim cương!");
 
-        alert("💎 Bạn nhận được Kim cương!");
+    received = true;
 
-        received = true;
+}
+else if(chance < diamondChance + giftChance){
 
-    }
+    gifts++;
 
-    else if(chance < 3){
+    alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
 
-        gifts++;
+    received = true;
 
-        alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
+}
+else if(chance < diamondChance + giftChance + rareSeedChance){
 
-        received = true;
+    rareSeeds++;
 
-   }
-   else if(chance < 8){
+    alert("🌟 Bạn nhận được Hạt giống hiếm!");
+
+    received = true;
+
+}
+else if(chance < diamondChance + giftChance + rareSeedChance + gemChance){
 
     gems++;
 
-    alert(" 🗻 Bạn nhặt được 1 viên đá quý thô!");
+    alert("💎 Bạn nhặt được 1 viên đá quý thô!");
 
-    received=true;
+    received = true;
 
-   }
-    else if(chance < 6){
-
-        rareSeeds++;
-
-        alert("🌟 Bạn nhận được Hạt giống hiếm!");
-
-        received = true;
-
-    }
+}
 
 
     // ==========================
