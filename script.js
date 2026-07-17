@@ -1471,3 +1471,128 @@ updateUI();
 
     },4000);
 }
+function openGift(){
+
+    if(gifts <= 0){
+
+        alert("❌ Bạn không còn Hộp bí ẩn!");
+
+        return;
+
+    }
+
+    gifts--;
+
+    let r = Math.random()*100;
+
+    // ==========================
+    // 45% Xu
+    // ==========================
+
+    if(r < 45){
+
+        let gold =
+        Math.floor(Math.random()*4901)+100;
+
+        money += gold;
+
+        alert("💰 Bạn nhận được " + gold + " Xu!");
+
+    }
+
+    // ==========================
+    // 15% Kim cương
+    // ==========================
+
+    else if(r < 60){
+
+        let diamond =
+        Math.floor(Math.random()*50)+1;
+
+        diamonds += diamond;
+
+        alert("💎 Bạn nhận được " + diamond + " Kim cương!");
+
+    }
+
+    // ==========================
+    // 10% Hạt giống hiếm
+    // ==========================
+
+    else if(r < 70){
+
+        rareSeeds++;
+
+        alert("🌟 Bạn nhận được 1 Hạt giống hiếm!");
+
+    }
+
+    // ==========================
+    // 30% Hạt giống ngẫu nhiên
+    // ==========================
+
+    else{
+
+        let list = [
+
+            "lua",
+            "carot",
+            "cachua",
+            "bap",
+            "huongduong",
+            "dautay",
+            "xoai",
+            "dua",
+            "nho",
+            "duahau",
+            "chuoi",
+            "tao",
+            "anhdao",
+            "hoahong",
+            "thong",
+            "xuongrong"
+
+        ];
+
+        let seed =
+        list[Math.floor(Math.random()*list.length)];
+
+        let amount =
+        Math.floor(Math.random()*5)+1;
+
+        bag[seed]+=amount;
+
+        const name={
+
+            lua:"🌾 Lúa",
+            carot:"🥕 Cà rốt",
+            cachua:"🍅 Cà chua",
+            bap:"🌽 Bắp",
+            huongduong:"🌻 Hướng dương",
+            dautay:"🍓 Dâu tây",
+            xoai:"🥭 Xoài",
+            dua:"🍍 Dứa",
+            nho:"🍇 Nho",
+            duahau:"🍉 Dưa hấu",
+            chuoi:"🍌 Chuối",
+            tao:"🍎 Táo",
+            anhdao:"🍒 Anh đào",
+            hoahong:"🌹 Hoa hồng",
+            thong:"🌲 Cây thông",
+            xuongrong:"🌵 Xương rồng"
+
+        };
+
+        alert(
+            "🌱 Bạn nhận được "
+            + amount +
+            " "
+            + name[seed]
+        );
+
+    }
+
+    saveGame();
+    updateUI();
+
+}
