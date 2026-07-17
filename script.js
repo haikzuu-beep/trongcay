@@ -776,7 +776,7 @@ if(selectedSeed == "rarePlant"){
 
     drawGarden();
 
-
+}
 
 
 // ===============================
