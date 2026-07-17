@@ -1931,11 +1931,11 @@ else{
 
 function buyGem(){
 
-    let price = 50000;
+    let price = 10000;
 
     if(money < price){
 
-        alert("❌ Không đủ 50.000 Xu!");
+        alert("❌ Không đủ 10.000 Xu!");
 
         return;
 
