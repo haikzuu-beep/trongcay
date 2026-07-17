@@ -8,6 +8,12 @@ let exp = Number(localStorage.getItem("exp")) || 0;
 let diamonds = Number(localStorage.getItem("diamonds")) || 30;
 let gifts = Number(localStorage.getItem("gifts")) || 10;
 let rareSeeds = Number(localStorage.getItem("rareSeeds")) || 5;
+
+// ===============================
+// NÂNG CẤP NÔNG TRẠI
+// ===============================
+
+let farmLevel = Number(localStorage.getItem("farmLevel")) || 1;
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
 // ===============================
