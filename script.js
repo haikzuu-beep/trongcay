@@ -302,6 +302,9 @@ if(document.getElementById("rareSeed")){
 if(document.getElementById("rareSeedCount")){
     document.getElementById("rareSeedCount").innerText = rareSeeds;
 }
+if(document.getElementById("farmLevel")){
+    document.getElementById("farmLevel").innerText = farmLevel;
+}
 }
 
 
