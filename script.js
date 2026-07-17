@@ -322,6 +322,7 @@ function saveGame(){
     localStorage.setItem("diamonds", diamonds);
     localStorage.setItem("gifts", gifts);
     localStorage.setItem("rareSeeds", rareSeeds);
+    localStorage.setItem("farmLevel", farmLevel);
 }
 
 function addExp(amount){
