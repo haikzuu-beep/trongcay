@@ -1514,20 +1514,51 @@ function openGift(){
 
     }
 
-    // ==========================
-    // 15% Kim cương
-    // ==========================
+   // ==========================
+// 15% Kim cương
+// ==========================
 
-    else if(r < 60){
+else if(r < 60){
 
-        let diamond =
-        Math.floor(Math.random()*50)+1;
+    let rd = Math.random() * 100;
+    let diamond;
 
-        diamonds += diamond;
+    if(rd < 60){
 
-        alert("💎 Bạn nhận được " + diamond + " Kim cương!");
+        // 60%: 1-5 KC
+        diamond = Math.floor(Math.random() * 5) + 1;
 
     }
+    else if(rd < 85){
+
+        // 25%: 6-10 KC
+        diamond = Math.floor(Math.random() * 5) + 6;
+
+    }
+    else if(rd < 95){
+
+        // 10%: 11-20 KC
+        diamond = Math.floor(Math.random() * 10) + 11;
+
+    }
+    else if(rd < 99){
+
+        // 4%: 21-35 KC
+        diamond = Math.floor(Math.random() * 15) + 21;
+
+    }
+    else{
+
+        // 1%: 36-50 KC
+        diamond = Math.floor(Math.random() * 15) + 36;
+
+    }
+
+    diamonds += diamond;
+
+    alert("💎 Bạn nhận được " + diamond + " Kim cương!");
+
+}
 
     // ==========================
     // 10% Hạt giống hiếm
