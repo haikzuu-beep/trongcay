@@ -40,35 +40,35 @@ basic:{
         name:"⭐ Bình tưới Sơ cấp",
         reduceTime:5000,
         durability:10,
-        price:1000
+        price:1500
     },
 
     normal:{
         name:"⭐⭐ Bình tưới Thường",
         reduceTime:10000,
         durability:10,
-        price:5000
+        price:10000
     },
 
     advanced:{
         name:"⭐⭐⭐ Bình tưới Cao cấp",
         reduceTime:20000,
         durability:20,
-        price:10000
+        price:20000
     },
 
     vip:{
         name:"⭐⭐⭐⭐ Bình tưới VIP",
         reduceTime:35000,
-        durability:20,
-        price:30000
+        durability:30,
+        price:35000
     },
 
     legendary:{
         name:"⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
         reduceTime:60000,
-        durability:20,
-        price:50000
+        durability:50,
+        price:60000
     }
 
 };
