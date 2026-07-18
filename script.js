@@ -864,8 +864,6 @@ document.addEventListener("click",function(e){
 
 
 
-    // ô có cây -> kiểm tra thu hoạch
-
     let plantInfo = plantData[cell.seed];
 
 
@@ -930,9 +928,9 @@ const seedName = {
     rarePlant:"🌈 Cây hiếm"
 };
 
-alert(
-`🎉 Thu hoạch ${seedName[cell.seed]} +${plantInfo.reward} xu`
-);
+thuHoachCayDotBien(cell);
+
+            
 
 
     garden[index]={
@@ -1951,3 +1949,30 @@ function buyGem(){
 
     alert("🪨 Mua thành công 1 Đá quý thô!");
 }
+function thuHoachCayDotBien(cell) {
+    const heSoDotBien = { gold: 3, frozen: 4, glowy: 10, aurora: 10, amber: 6, wind: 1.2, sand: 1.2, wet: 1.2 };
+    let conSoMayMan = Math.random() * 100;
+    let dongDotBien = "Không có gì";
+    let tienThuHoachGoc = 100; 
+
+    if (conSoMayMan <= 0.7) dongDotBien = "glowy";    
+    else if (conSoMayMan <= 0.8) dongDotBien = "frozen";   
+    else if (conSoMayMan <= 8.0) dongDotBien = "gold";     
+    else if (conSoMayMan <= 10.0) dongDotBien = "aurora";   
+    else if (conSoMayMan <= 12.0) dongDotBien = "amber";    
+    else if (conSoMayMan <= 32.0) dongDotBien = "wind";     
+    else if (conSoMayMan <= 52.0) dongDotBien = "sand";     
+    else if (conSoMayMan <= 72.0) dongDotBien = "wet";      
+
+    if (dongDotBien !== "Không có gì") {
+        let soTienThuVe = tienThuHoachGoc * heSoDotBien[dongDotBien];
+        money += soTienThuVe; 
+        alert("🌟 Waooo! Cây của bợn đã dính đột biến [" + dongDotBien.toUpperCase() + "]! Bợn nhận được " + soTienThuVe + " Xu!");
+    } else {
+        money += tienThuHoachGoc; 
+        alert(" Đã thu hoạch cây thành công! Nhận được " + tienThuHoachGoc + " Xu.");
+    }
+}
+    saveGame();
+    updateUI();
+            }
