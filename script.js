@@ -155,27 +155,19 @@ bag.hoahong ??= 0;
 bag.thong ??= 0;
 bag.xuongrong ??= 0;
 bag.rarePlant ??= 0;
+// Lấy dữ liệu vườn cũ (nếu có)
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
+// Lấy số ô tối đa tương ứng với cấp nông trại hiện tại
+let maxPlots = getMaxPlots();
 
-if(garden.length !== 16){
-
-    garden=[];
-
-    for(let i=0;i<16;i++){
-
-        garden.push({
-
-            seed:"",
-
-            stage:0,
-
-            time:0
-
-        });
-
-    }
-
+// Nếu số ô hiện tại ít hơn số ô tối đa, tự động thêm ô mới cho đủ
+while (garden.length < maxPlots) {
+    garden.push({
+        seed: "",
+        stage: 0,
+        time: 0
+    });
 }
 // ===============================
 // HIỂN THỊ
