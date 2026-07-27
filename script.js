@@ -45,7 +45,10 @@ let gems = localStorage.getItem("gems") !== null
 let farmLevel = localStorage.getItem("farmLevel") !== null
     ? Number(localStorage.getItem("farmLevel"))
     : 1;
-
+// Hàm tính tổng số ô đất theo cấp nông trại
+function getMaxPlots() {
+    return 12 + (farmLevel * 4);
+}
 
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
