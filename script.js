@@ -928,7 +928,7 @@ const seedName = {
     rarePlant:"🌈 Cây hiếm"
 };
 
-thuHoachCayDotBien(cell);
+thuHoachCayDotBien(cell, plantInfo);
 
             
 
@@ -1949,11 +1949,12 @@ function buyGem(){
 
     alert("🪨 Mua thành công 1 Đá quý thô!");
 }
-function thuHoachCayDotBien(cell) {
+function thuHoachCayDotBien(cell, plantInfo) {
+    
     const heSoDotBien = { gold: 3, frozen: 4, glowy: 10, aurora: 10, amber: 6, wind: 1.2, sand: 1.2, wet: 1.2 };
     let conSoMayMan = Math.random() * 100;
     let dongDotBien = "Không có gì";
-    let tienThuHoachGoc = 100; 
+    let tienThuHoachGoc =  plantInfo.reward; 
 
     if (conSoMayMan <= 0.7) dongDotBien = "glowy";    
     else if (conSoMayMan <= 0.8) dongDotBien = "frozen";   
