@@ -89,9 +89,8 @@ nav button:hover {
 /* ===== Khu vườn (Tự động thích ứng khi tăng ô đất) ===== */
 #garden {
     display: grid;
-    /* Tự động sắp xếp số ô đất vừa vặn theo chiều rộng khu vườn */
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(4, 120px); /* <--- ĐÃ SỬA THÀNH CỐ ĐỊNH 4 Ô 1 HÀNG */
+    gap: 20px;
     justify-content: center;
     margin-top: 20px;
 }
