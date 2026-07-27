@@ -1708,22 +1708,31 @@ function upgradeFarm(){
         alert("❌ Không đủ xu!");
 
         return;
+
     }
 
     money -= price;
 
-    farmLevel++;
+    farmLevel++; // Tăng cấp nông trại
+
+    // --- TỰ ĐỘNG BỔ SUNG Ô ĐẤT MỚI KHI NÂNG CẤP ---
+    let maxPlots = getMaxPlots();
+    while (garden.length < maxPlots) {
+        garden.push({
+            seed: "",
+            stage: 0,
+            time: 0
+        });
+    }
 
     saveGame();
-
     updateUI();
+    drawGarden(); // Vẽ lại khu vườn để hiển thị các ô mới
 
     alert(
-        "🎉 Nông trại lên cấp " +
-        farmLevel +
-        "\nĐã tiêu " +
-        price +
-        " xu."
+        "🎉 Nông trại lên cấp " + farmLevel + 
+        "!\nĐã mở rộng thành " + maxPlots + " ô đất." +
+        "\nĐã tiêu " + price.toLocaleString("vi-VN") + " xu."
     );
 
 }
