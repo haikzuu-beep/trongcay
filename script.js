@@ -1916,4 +1916,4 @@ function thuHoachCayDotBien(cell, plantInfo) {
     saveGame();
     updateUI();
             
-}
+
