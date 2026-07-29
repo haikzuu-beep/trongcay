@@ -17,7 +17,7 @@ if (!firebase.apps.length) {
 const database = firebase.database();
 const chatRef = database.ref("global_chat");
 
-// 3. Xử lý Đăng nhập & Chat
+// 3. Gắn hàm đăng nhập vào Window để HTML bấm nút onclick được
 window.loginGame = function() {
     const inputName = document.getElementById("playerNameInput").value.trim();
     if (!inputName) {
@@ -36,44 +36,11 @@ window.loginGame = function() {
     loadChatMessages();
 };
 
-function loadChatMessages() {
-    const messageList = document.getElementById("messageList");
-    
-    // Tạo khung nhập tin nhắn nếu chưa có
-    let chatInputArea = document.querySelector(".chat-input-area");
-    if (!chatInputArea) {
-        const chatCard = document.querySelector(".chat-card");
-        chatInputArea = document.createElement("div");
-        chatInputArea.className = "chat-input-area";
-        chatInputArea.innerHTML = `
-            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
-            <button id="sendChatBtn">Gửi</button>
-        `;
-        chatCard.appendChild(chatInputArea);
-        
-        // Bắt sự kiện bấm nút Gửi hoặc Enter
-        document.getElementById("sendChatBtn").onclick = sendChatMessage;
-        document.getElementById("chatInput").addEventListener("keypress", (e) => {
-            if (e.key === "Enter") sendChatMessage();
-        });
-    }
-
-    // Lắng nghe tin nhắn mới từ Firebase
-    chatRef.limitToLast(50).on("child_added", (snapshot) => {
-        const data = snapshot.val();
-        const msgDiv = document.createElement("div");
-        msgDiv.className = "chat-item";
-        msgDiv.innerHTML = `<span class="chat-user">[${data.user}]:</span> <span class="chat-text">${data.text}</span>`;
-        messageList.appendChild(msgDiv);
-        
-        // Cuộn xuống tin nhắn mới nhất
-        const chatBox = document.getElementById("chatBox");
-        chatBox.scrollTop = chatBox.scrollHeight;
-    });
-}
-
-function sendChatMessage() {
+// 4. Gắn hàm gửi tin nhắn vào Window (phòng trường hợp bấm từ HTML)
+window.sendChatMessage = function() {
     const input = document.getElementById("chatInput");
+    if (!input) return;
+
     const text = input.value.trim();
     const user = localStorage.getItem("playerName") || "Nông dân";
     
@@ -87,4 +54,47 @@ function sendChatMessage() {
     });
     
     input.value = "";
+};
+
+// 5. Hàm tải và hiển thị danh sách tin nhắn
+function loadChatMessages() {
+    const messageList = document.getElementById("messageList");
+    
+    // Tạo khung nhập tin nhắn nếu chưa có
+    let chatInputArea = document.querySelector(".chat-input-area");
+    if (!chatInputArea) {
+        const chatCard = document.querySelector(".chat-card");
+        chatInputArea = document.createElement("div");
+        chatInputArea.className = "chat-input-area";
+        chatInputArea.innerHTML = `
+            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
+            <button id="sendChatBtn" onclick="window.sendChatMessage()">Gửi</button>
+        `;
+        chatCard.appendChild(chatInputArea);
+        
+        // Bắt thêm sự kiện phím Enter trên ô nhập
+        document.getElementById("chatInput").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") window.sendChatMessage();
+        });
+    }
+
+    // Xóa sự kiện lắng nghe cũ trước khi đăng ký mới (tránh trùng lặp)
+    chatRef.off();
+
+    // Lắng nghe 50 tin nhắn mới nhất từ Firebase
+    chatRef.limitToLast(50).on("child_added", (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "chat-item";
+        msgDiv.innerHTML = `<span class="chat-user">[${data.user}]:</span> <span class="chat-text">${data.text}</span>`;
+        messageList.appendChild(msgDiv);
+        
+        // Cuộn xuống tin nhắn mới nhất
+        const chatBox = document.getElementById("chatBox");
+        if (chatBox) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    });
 }
