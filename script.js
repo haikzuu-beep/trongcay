@@ -167,7 +167,7 @@ bag.thong ??= 0;
 bag.xuongrong ??= 0;
 bag.rarePlant ??= 0;
 
-let garden = JSON.parse(localStorage.getItem("garden")) || [];
+ garden = JSON.parse(localStorage.getItem("garden")) || [];
 let maxPlots = getMaxPlots();
 
 while (garden.length < maxPlots) {
