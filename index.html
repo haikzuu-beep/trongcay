@@ -39,7 +39,7 @@
     <!-- ==================== DASHBOARD CHÍNH ==================== -->
     <main class="game-dashboard">
 
-        <!-- CỘT BÊN TRÁI: THỐNG KÊ NHÂN VẬT & MÕ CÔNG ĐỨC QUICK-ACCESS -->
+        <!-- CỘT BÊN TRÁI: THỐNG KÊ NHÂN VẬT & MÕ CÔNG ĐỨC -->
         <aside class="side-panel panel-left">
             <!-- Thống kê Nhân vật -->
             <div class="card">
@@ -87,7 +87,7 @@
                     <p class="subtitle">Đang chọn: <strong id="selected">Chưa chọn</strong></p>
                 </div>
 
-                <!-- Lưới đất 32 ô (Sẽ tự động điều chỉnh theo CSS/JS) -->
+                <!-- Lưới đất 32 ô -->
                 <div id="garden" class="garden-grid">
                     <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
                     <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
@@ -271,7 +271,7 @@
 
         </section>
 
-        <!-- CỘT BÊN PHẢI: KHO TRANG BỊ & TÀI NGUYÊN BẮT MẮT -->
+        <!-- CỘT BÊN PHẢI: TRANG BỊ, TÀI NGUYÊN & KHUNG CHAT -->
         <aside class="side-panel panel-right">
             <div class="card">
                 <h3>💧 TRANG BỊ</h3>
@@ -299,33 +299,36 @@
                     <strong id="rareSeed">0</strong>
                 </div>
             </div>
+
+            <!-- CHAT THẾ GIỚI (Đã được đưa vào đúng vị trí) -->
+            <div class="card chat-card">
+                <h3>💬 CHAT THẾ GIỚI</h3>
+                <div id="authStatus" class="auth-box">
+                    <input type="text" id="playerNameInput" placeholder="Nhập tên nhân vật..." />
+                    <button onclick="loginGame()">Vào Game (Online)</button>
+                </div>
+                
+                <div id="chatBox" class="chat-messages" style="display:none;">
+                    <div id="messageList"></div>
+                </div>
+                
+                <div id="chatInputBox" class="chat-input-area" style="display:none;">
+                    <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)">
+                    <button onclick="sendChatMessage()">Gửi</button>
+                </div>
+            </div>
         </aside>
 
     </main>
 </div>
-<script type="module" src="online.js"></script>
-<script src="script.js"></script>
-<!-- Thêm vào bên trong <aside class="side-panel panel-right"> hoặc cuối Dashboard -->
-<div class="card chat-card">
-    <h3>💬 CHAT THẾ GIỚI</h3>
-    <div id="authStatus" class="auth-box">
-        <input type="text" id="playerNameInput" placeholder="Nhập tên nhân vật..." />
-        <button onclick="loginGame()">Vào Game (Online)</button>
-    </div>
-    
-    <div id="chatBox" class="chat-messages" style="display:none;">
-        <div id="messageList"></div>
-    </div>
-    
-    <div id="chatInputBox" class="chat-input-area" style="display:none;">
-        <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)">
-        <button onclick="sendChatMessage()">Gửi</button>
-    </div>
-</div>
-</div>
-</main>
-    <!-- Thư viện Firebase Script -->
+
+<!-- Thư viện Firebase SDK (Bắt buộc phải đặt TRƯỚC file online.js) -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<!-- Scripts Game -->
+<script src="online.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>
