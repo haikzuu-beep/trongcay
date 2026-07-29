@@ -996,7 +996,7 @@ function drawGarden() {
             `;
         }
     
-    
+    }
     
 
 
