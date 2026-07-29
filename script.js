@@ -37,22 +37,32 @@ let gems = localStorage.getItem("gems") !== null
     ? Number(localStorage.getItem("gems"))
     : 0;
 
-
-// ===============================
-// NÂNG CẤP NÔNG TRẠI
-// ===============================
-
-// Khai báo cấp độ nông trại trước
+// Cấp độ nông trại
 let farmLevel = localStorage.getItem("farmLevel") !== null
     ? Number(localStorage.getItem("farmLevel"))
     : 1;
 
-// Hàm tính tổng số ô đất theo cấp nông trại
+// Công đức & May mắn
+let merit = localStorage.getItem("merit") !== null
+    ? Number(localStorage.getItem("merit"))
+    : 0;
+
+let luckRate = localStorage.getItem("luckRate") !== null
+    ? Number(localStorage.getItem("luckRate"))
+    : 0;
+
+let monkWorking = false;
+let monkTimer = null;
+let selectedSeed = "";
+
+// ===============================
+// QUẢN LÝ Ô ĐẤT NÔNG TRẠI
+// ===============================
+
 function getMaxPlots() {
     return 12 + (farmLevel * 4);
 }
 
-// Khởi tạo vườn và đồng bộ số lượng ô đất chuẩn với farmLevel
 let garden = JSON.parse(localStorage.getItem("garden")) || [];
 
 function syncGardenPlots() {
@@ -64,186 +74,122 @@ function syncGardenPlots() {
             time: 0
         });
     }
+
+    // Convert dữ liệu cũ nếu lưu dạng chuỗi
+    for (let i = 0; i < garden.length; i++) {
+        if (typeof garden[i] === "string") {
+            if (garden[i] !== "") {
+                garden[i] = {
+                    seed: garden[i],
+                    stage: 1,
+                    time: Date.now()
+                };
+            } else {
+                garden[i] = {
+                    seed: "",
+                    stage: 0,
+                    time: 0
+                };
+            }
+        }
+    }
 }
 
-// Gọi đồng bộ ô đất ngay khi khởi tạo
 syncGardenPlots();
+
 // ===============================
-// CÔNG ĐỨC + MAY MẮN
+// QUẢN LÝ TÚI ĐỒ & BÌNH TƯỚI
 // ===============================
 
-let merit = localStorage.getItem("merit") !== null
-    ? Number(localStorage.getItem("merit"))
-    : 0;
+let bag = JSON.parse(localStorage.getItem("bag")) || {};
 
-let luckRate = localStorage.getItem("luckRate") !== null
-    ? Number(localStorage.getItem("luckRate"))
-    : 0;
+const defaultBagKeys = [
+    "lua", "carot", "cachua", "bap", "huongduong", "dautay", 
+    "xoai", "dua", "nho", "duahau", "chuoi", "tao", 
+    "anhdao", "hoahong", "thong", "xuongrong", "rarePlant"
+];
 
-let monkWorking = false;
-let monkTimer = null;
+defaultBagKeys.forEach(key => {
+    bag[key] ??= 0;
+});
+
+let wateringCan = JSON.parse(localStorage.getItem("wateringCan")) || null;
+
+const wateringData = {
+    basic: { name: "⭐ Bình tưới Sơ cấp", reduceTime: 5000, durability: 10, price: 1500 },
+    normal: { name: "⭐⭐ Bình tưới Thường", reduceTime: 10000, durability: 10, price: 10000 },
+    advanced: { name: "⭐⭐⭐ Bình tưới Cao cấp", reduceTime: 20000, durability: 20, price: 20000 },
+    vip: { name: "⭐⭐⭐⭐ Bình tưới VIP", reduceTime: 35000, durability: 30, price: 35000 },
+    legendary: { name: "⭐⭐⭐⭐⭐ Bình tưới Huyền thoại", reduceTime: 60000, durability: 50, price: 60000 }
+};
+
+function randomWateringCan() {
+    let r = Math.random() * 100;
+    let basic = 50 - luckRate * 0.2;
+    let normal = 25 - luckRate * 0.1;
+    let advanced = 15 + luckRate * 0.15;
+    let vip = 8 + luckRate * 0.1;
+
+    if (r < basic) return "basic";
+    if (r < basic + normal) return "normal";
+    if (r < basic + normal + advanced) return "advanced";
+    if (r < basic + normal + advanced + vip) return "vip";
+    return "legendary";
+}
+
+let todayCan = randomWateringCan();
+
+// ===============================
+// HỆ THỐNG CÂY TRỒNG
+// ===============================
+
+const plantData = {
+    lua: { icon: ["🌱", "🌿", "🌾"], time: 7, reward: 30 },
+    carot: { icon: ["🌱", "🌿", "🥕"], time: 14, reward: 60 },
+    cachua: { icon: ["🌱", "🪴", "🍅"], time: 24, reward: 90 },
+    bap: { icon: ["🌱", "🪴", "🌽"], time: 34, reward: 150 },
+    huongduong: { icon: ["🌱", "🪴", "🌻"], time: 44, reward: 250 },
+    dautay: { icon: ["🌱", "🪴", "🍓"], time: 44, reward: 200 },
+    xoai: { icon: ["🌱", "🌳", "🥭"], time: 54, reward: 360 },
+    dua: { icon: ["🌱", "🪴", "🍍"], time: 50, reward: 310 },
+    nho: { icon: ["🌱", "🌿", "🍇"], time: 60, reward: 670 },
+    duahau: { icon: ["🌱", "🌿", "🍉"], time: 70, reward: 400 },
+    chuoi: { icon: ["🌱", "🌴", "🍌"], time: 80, reward: 500 },
+    tao: { icon: ["🌱", "🌳", "🍎"], time: 90, reward: 600 },
+    anhdao: { icon: ["🌱", "🌸", "🍒"], time: 100, reward: 1000 },
+    hoahong: { icon: ["🌱", "🌹", "🌹"], time: 40, reward: 1367 },
+    thong: { icon: ["🌱", "🌲", "🌲"], time: 120, reward: 1000 },
+    xuongrong: { icon: ["🌱", "🌵", "🌵"], time: 110, reward: 1500 },
+    rarePlant: { icon: ["🌱", "🌳", "🌈"], time: 3600, reward: 2500 }
+};
 
 function expNeed() {
     return Math.floor(100 * Math.pow(1.5, level - 1));
 }
 
-let selectedSeed = "";
-
 // ===============================
-// BÌNH TƯỚI
-// ===============================
-
-let wateringCan = JSON.parse(localStorage.getItem("wateringCan")) || null;
-
-const wateringData = {
-    basic: {
-        name: "⭐ Bình tưới Sơ cấp",
-        reduceTime: 5000,
-        durability: 10,
-        price: 1500
-    },
-    normal: {
-        name: "⭐⭐ Bình tưới Thường",
-        reduceTime: 10000,
-        durability: 10,
-        price: 10000
-    },
-    advanced: {
-        name: "⭐⭐⭐ Bình tưới Cao cấp",
-        reduceTime: 20000,
-        durability: 20,
-        price: 20000
-    },
-    vip: {
-        name: "⭐⭐⭐⭐ Bình tưới VIP",
-        reduceTime: 35000,
-        durability: 30,
-        price: 35000
-    },
-    legendary: {
-        name: "⭐⭐⭐⭐⭐ Bình tưới Huyền thoại",
-        reduceTime: 60000,
-        durability: 50,
-        price: 60000
-    }
-};
-
-let bag = JSON.parse(localStorage.getItem("bag")) || {
-    lua: 0,
-    carot: 0,
-    cachua: 0,
-    bap: 0,
-    huongduong: 0,
-    dautay: 0,
-    xoai: 0,
-    dua: 0,
-    nho: 0,
-    duahau: 0,
-    chuoi: 0,
-    tao: 0,
-    anhdao: 0,
-    hoahong: 0,
-    thong: 0,
-    xuongrong: 0,
-    rarePlant: 0
-};
-
-// Bổ sung kho nếu save cũ thiếu
-bag.lua ??= 0;
-bag.carot ??= 0;
-bag.cachua ??= 0;
-bag.bap ??= 0;
-bag.huongduong ??= 0;
-bag.dautay ??= 0;
-bag.xoai ??= 0;
-bag.dua ??= 0;
-bag.nho ??= 0;
-bag.duahau ??= 0;
-bag.chuoi ??= 0;
-bag.tao ??= 0;
-bag.anhdao ??= 0;
-bag.hoahong ??= 0;
-bag.thong ??= 0;
-bag.xuongrong ??= 0;
-bag.rarePlant ??= 0;
-
- garden = JSON.parse(localStorage.getItem("garden")) || [];
-let maxPlots = getMaxPlots();
-
-while (garden.length < maxPlots) {
-    garden.push({
-        seed: "",
-        stage: 0,
-        time: 0
-    });
-}
-
-// Convert dữ liệu cũ nếu lưu dạng chuỗi
-for (let i = 0; i < garden.length; i++) {
-    if (typeof garden[i] === "string") {
-        if (garden[i] !== "") {
-            garden[i] = {
-                seed: garden[i],
-                stage: 1,
-                time: Date.now()
-            };
-        } else {
-            garden[i] = {
-                seed: "",
-                stage: 0,
-                time: 0
-            };
-        }
-    }
-}
-
-// ===============================
-// HIỂN THỊ UI
+// CẬP NHẬT GIAO DIỆN (UI)
 // ===============================
 
 function updateUI() {
-    if (document.getElementById("money")) document.getElementById("money").innerText = money;
+    if (document.getElementById("money")) document.getElementById("money").innerText = money.toLocaleString("vi-VN");
     if (document.getElementById("level")) document.getElementById("level").innerText = level;
 
     if (document.getElementById("expText")) document.getElementById("expText").innerText = exp + " / " + expNeed();
-    if (document.getElementById("expFill")) document.getElementById("expFill").style.width = (exp / expNeed() * 100) + "%";
+    if (document.getElementById("expFill")) document.getElementById("expFill").style.width = Math.min(100, (exp / expNeed() * 100)) + "%";
 
-    if (document.getElementById("luaCount")) document.getElementById("luaCount").innerText = bag.lua;
-    if (document.getElementById("carotCount")) document.getElementById("carotCount").innerText = bag.carot;
-    if (document.getElementById("cachuaCount")) document.getElementById("cachuaCount").innerText = bag.cachua;
-    if (document.getElementById("bapCount")) document.getElementById("bapCount").innerText = bag.bap;
-    if (document.getElementById("huongduongCount")) document.getElementById("huongduongCount").innerText = bag.huongduong;
-    if (document.getElementById("dautayCount")) document.getElementById("dautayCount").innerText = bag.dautay;
-    if (document.getElementById("xoaiCount")) document.getElementById("xoaiCount").innerText = bag.xoai;
-    if (document.getElementById("duaCount")) document.getElementById("duaCount").innerText = bag.dua;
-    if (document.getElementById("nhoCount")) document.getElementById("nhoCount").innerText = bag.nho;
-    if (document.getElementById("duahauCount")) document.getElementById("duahauCount").innerText = bag.duahau;
-    if (document.getElementById("chuoiCount")) document.getElementById("chuoiCount").innerText = bag.chuoi;
-    if (document.getElementById("taoCount")) document.getElementById("taoCount").innerText = bag.tao;
-    if (document.getElementById("anhdaoCount")) document.getElementById("anhdaoCount").innerText = bag.anhdao;
-    if (document.getElementById("hoahongCount")) document.getElementById("hoahongCount").innerText = bag.hoahong;
-    if (document.getElementById("thongCount")) document.getElementById("thongCount").innerText = bag.thong;
-    if (document.getElementById("xuongrongCount")) document.getElementById("xuongrongCount").innerText = bag.xuongrong;
-    if (document.getElementById("rarePlantCount")) document.getElementById("rarePlantCount").innerText = bag.rarePlant;
+    // Cập nhật số lượng vật phẩm túi đồ
+    defaultBagKeys.forEach(key => {
+        let elem = document.getElementById(key + "Count");
+        if (elem) elem.innerText = bag[key];
+    });
 
     const seedName = {
-        lua: "🌾 Hạt lúa",
-        carot: "🥕 Hạt cà rốt",
-        cachua: "🍅 Hạt cà chua",
-        bap: "🌽 Hạt bắp",
-        huongduong: "🌻 Hạt hướng dương",
-        dautay: "🍓 Hạt dâu tây",
-        xoai: "🥭 Hạt xoài",
-        dua: "🍍 Hạt dứa",
-        nho: "🍇 Hạt nho",
-        duahau: "🍉 Hạt dưa hấu",
-        chuoi: "🍌 Hạt chuối",
-        tao: "🍎 Hạt táo",
-        anhdao: "🍒 Hạt anh đào",
-        hoahong: "🌹 Hạt hoa hồng",
-        thong: "🌲 Hạt cây thông",
-        xuongrong: "🌵 Hạt Xương rồng",
-        rarePlant: "🌈 Cây hiếm"
+        lua: "🌾 Hạt lúa", carot: "🥕 Hạt cà rốt", cachua: "🍅 Hạt cà chua", bap: "🌽 Hạt bắp",
+        huongduong: "🌻 Hạt hướng dương", dautay: "🍓 Hạt dâu tây", xoai: "🥭 Hạt xoài",
+        dua: "🍍 Hạt dứa", nho: "🍇 Hạt nho", duahau: "🍉 Hạt dưa hấu", chuoi: "🍌 Hạt chuối",
+        tao: "🍎 Hạt táo", anhdao: "🍒 Hạt anh đào", hoahong: "🌹 Hạt hoa hồng",
+        thong: "🌲 Hạt cây thông", xuongrong: "🌵 Hạt Xương rồng", rarePlant: "🌈 Cây hiếm"
     };
 
     if (document.getElementById("selected")) {
@@ -253,11 +199,7 @@ function updateUI() {
     if (document.getElementById("myCan")) {
         if (wateringCan) {
             document.getElementById("myCan").innerText =
-                wateringData[wateringCan.type].name +
-                " | Độ bền: " +
-                wateringCan.durability +
-                "/" +
-                wateringData[wateringCan.type].durability;
+                wateringData[wateringCan.type].name + " | Độ bền: " + wateringCan.durability + "/" + wateringData[wateringCan.type].durability;
         } else {
             document.getElementById("myCan").innerText = "Chưa có bình tưới";
         }
@@ -265,11 +207,11 @@ function updateUI() {
 
     if (document.getElementById("merit")) document.getElementById("merit").innerText = merit;
     if (document.getElementById("luck")) document.getElementById("luck").innerText = luckRate + "%";
-    if (document.getElementById("luckPercent")) document.getElementById("luckPercent").innerText = "Hiện tại: " + luckRate + "% may mắn";
+    if (document.getElementById("luckPercent")) document.getElementById("luckPercent").innerText = luckRate + "%";
 
     if (document.getElementById("canName") && todayCan) {
         document.getElementById("canName").innerText = wateringData[todayCan].name;
-        document.getElementById("canPrice").innerText = wateringData[todayCan].price;
+        document.getElementById("canPrice").innerText = wateringData[todayCan].price.toLocaleString("vi-VN");
     }
 
     if (document.getElementById("gemCount")) document.getElementById("gemCount").innerText = gems;
@@ -284,7 +226,7 @@ function updateUI() {
 }
 
 // ===============================
-// LƯU GAME
+// LƯU GAME & TIẾN TRÌNH
 // ===============================
 
 function saveGame() {
@@ -314,52 +256,20 @@ function addExp(amount) {
     updateUI();
 }
 
-function randomWateringCan() {
-    let r = Math.random() * 100;
-    let basic = 50;
-    let normal = 25;
-    let advanced = 15;
-    let vip = 8;
-    let legendary = 2;
-
-    basic -= luckRate * 0.2;
-    normal -= luckRate * 0.1;
-    advanced += luckRate * 0.15;
-    vip += luckRate * 0.1;
-    legendary += luckRate * 0.05;
-
-    if (r < basic) return "basic";
-    if (r < basic + normal) return "normal";
-    if (r < basic + normal + advanced) return "advanced";
-    if (r < basic + normal + advanced + vip) return "vip";
-    return "legendary";
-}
-
-let todayCan = randomWateringCan();
-
-function buyWateringCan() {
-    let can = wateringData[todayCan];
-    if (money < can.price) {
-        alert("❌ Có tiền không mà đòi mua hả cưng");
-        return;
-    }
-    money -= can.price;
-    wateringCan = {
-        type: todayCan,
-        durability: can.durability
-    };
-    todayCan = randomWateringCan();
-    saveGame();
-    updateUI();
-    alert("🎉 Đủ tiền mua luôn hả? Để mai tăng lên 100k " + can.name);
-}
-
 function openTab(name) {
     let tabs = document.getElementsByClassName("tab");
     for (let t of tabs) {
         t.style.display = "none";
     }
-    document.getElementById(name).style.display = "block";
+    let target = document.getElementById(name);
+    if (target) target.style.display = "block";
+
+    // Cập nhật lại màu các nút tab
+    let navBtns = document.querySelectorAll(".nav-btn");
+    navBtns.forEach(btn => btn.classList.remove("active"));
+    if (event && event.target && event.target.classList.contains("nav-btn")) {
+        event.target.classList.add("active");
+    }
 }
 
 function buySeed(type, price) {
@@ -371,7 +281,7 @@ function buySeed(type, price) {
     bag[type]++;
     saveGame();
     updateUI();
-    alert("✅ Mua thành công rồi đó, chia miếng đi. Nói chứ ai thèm.");
+    alert("✅ Mua thành công rồi đó!");
 }
 
 function selectSeed(type) {
@@ -390,42 +300,13 @@ function selectSeed(type) {
     updateUI();
 }
 
-// ===============================
-// HỆ THỐNG SINH TRƯỞNG CÂY
-// ===============================
-
-const plantData = {
-    lua: { icon: ["🌱", "🌿", "🌾"], time: 7, reward: 30 },
-    carot: { icon: ["🌱", "🌿", "🥕"], time: 14, reward: 60 },
-    cachua: { icon: ["🌱", "🪴", "🍅"], time: 24, reward: 90 },
-    bap: { icon: ["🌱", "🪴", "🌽"], time: 34, reward: 150 },
-    huongduong: { icon: ["🌱", "🪴", "🌻"], time: 44, reward: 250 },
-    dautay: { icon: ["🌱", "🪴", "🍓"], time: 44, reward: 200 },
-    xoai: { icon: ["🌱", "🌳", "🥭"], time: 54, reward: 360 },
-    dua: { icon: ["🌱", "🪴", "🍍"], time: 50, reward: 310 },
-    nho: { icon: ["🌱", "🌿", "🍇"], time: 60, reward: 670 },
-    duahau: { icon: ["🌱", "🌿", "🍉"], time: 70, reward: 400 },
-    chuoi: { icon: ["🌱", "🌴", "🍌"], time: 80, reward: 500 },
-    tao: { icon: ["🌱", "🌳", "🍎"], time: 90, reward: 600 },
-    anhdao: { icon: ["🌱", "🌸", "🍒"], time: 100, reward: 1000 },
-    hoahong: { icon: ["🌱", "🌹", "🌹"], time: 40, reward: 1367 },
-    thong: { icon: ["🌱", "🌲", "🌲"], time: 120, reward: 1000 },
-    xuongrong: { icon: ["🌱", "🌵", "🌵"], time: 110, reward: 1500 },
-    rarePlant: { icon: ["🌱", "🌳", "🌈"], time: 3600, reward: 2500 }
-};
-
-// Hàm stub dự phòng tính năng đột biến
-function thuHoachCayDotBien(cell, plantInfo) {
-    // Có thể bổ sung tính năng đột biến cây tại đây sau
-}
-
 function plant(index) {
     if (garden[index].seed !== "") {
-        alert("🌳 Ô này bạn đã trồng cây rồi mà skibidi!");
+        alert("🌳 Ô này bạn đã trồng cây rồi!");
         return;
     }
     if (selectedSeed === "") {
-        alert("🌱 Hãy chọn hạt giống trước đê!");
+        alert("🌱 Hãy chọn hạt giống trước!");
         return;
     }
     if (selectedSeed === "rarePlant") {
@@ -436,7 +317,7 @@ function plant(index) {
         rareSeeds--;
     } else {
         if (bag[selectedSeed] <= 0) {
-            alert("❌ Bạn đã hết hạt giống mất rồi, hãy mua thêm ở cửa hàng!");
+            alert("❌ Bạn đã hết hạt giống này!");
             return;
         }
         bag[selectedSeed]--;
@@ -487,8 +368,6 @@ document.addEventListener("click", function (e) {
         dropRareItem();
     }
 
-    thuHoachCayDotBien(cell, plantInfo);
-
     garden[index] = {
         seed: "",
         stage: 0,
@@ -532,14 +411,13 @@ function drawGarden() {
             plots[i].innerHTML = `
                 <div class="plant">
                     <div class="plantIcon">${plant.icon[cell.stage]}</div>
-                    <button onclick="waterPlant(${i})">💧 Tưới</button>
+                    <button onclick="event.stopPropagation(); waterPlant(${i})">💧 Tưới</button>
                     <div class="progress">${bar}</div>
                     <small>${percent}%</small>
                 </div>
             `;
         }
     }
-    saveGame();
 }
 
 setInterval(() => {
@@ -567,7 +445,7 @@ function waterPlant(index) {
     wateringCan.durability--;
 
     if (wateringCan.durability <= 0) {
-        alert("💥 Bình tưới đã hỏng!");
+        alert("💥 Bình tưới đã hỏng hoàn toàn!");
         wateringCan = null;
     }
 
@@ -575,6 +453,27 @@ function waterPlant(index) {
     updateUI();
     drawGarden();
 }
+
+function buyWateringCan() {
+    let can = wateringData[todayCan];
+    if (money < can.price) {
+        alert("❌ Bạn không đủ tiền mua bình tưới!");
+        return;
+    }
+    money -= can.price;
+    wateringCan = {
+        type: todayCan,
+        durability: can.durability
+    };
+    todayCan = randomWateringCan();
+    saveGame();
+    updateUI();
+    alert("🎉 Đã mua thành công " + can.name);
+}
+
+// ===============================
+// CHÙA CÔNG ĐỨC & MÕ
+// ===============================
 
 function gong() {
     merit++;
@@ -603,7 +502,7 @@ function gong() {
 
 function prayLuck() {
     if (luckRate >= 100) {
-        alert("🍀 Vận may đã đạt tối đa!(100%)");
+        alert("🍀 Vận may đã đạt tối đa! (100%)");
         return;
     }
     if (merit < 100) {
@@ -617,48 +516,6 @@ function prayLuck() {
     saveGame();
     updateUI();
     alert("🍀 Phật độ rồi!\n+2 Vận may\n\nHiện tại: " + luckRate + "% may mắn");
-}
-
-function dropRareItem() {
-    let diamondChance = 1;
-    let giftChance = 2;
-    let rareSeedChance = 3;
-    let gemChance = 2;
-
-    diamondChance += luckRate * 0.05;
-    giftChance += luckRate * 0.05;
-    rareSeedChance += luckRate * 0.08;
-    gemChance += luckRate * 0.05;
-
-    let chance = Math.random() * 100;
-    let received = false;
-
-    if (chance < diamondChance) {
-        diamonds++;
-        alert("💎 Bạn nhận được Kim cương!");
-        received = true;
-    } else if (chance < diamondChance + giftChance) {
-        gifts++;
-        alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
-        received = true;
-    } else if (chance < diamondChance + giftChance + rareSeedChance) {
-        rareSeeds++;
-        alert("🌟 Bạn nhận được Hạt giống hiếm!");
-        received = true;
-    } else if (chance < diamondChance + giftChance + rareSeedChance + gemChance) {
-        gems++;
-        alert("💎 Bạn nhặt được 1 viên đá quý thô!");
-        received = true;
-    }
-
-    if (received && luckRate > 0) {
-        luckRate -= 5;
-        if (luckRate < 0) luckRate = 0;
-        alert("🍀 Tỷ lệ may mắn giảm 5%!\nHiện tại: " + luckRate + "%");
-    }
-
-    saveGame();
-    updateUI();
 }
 
 function hireMonk(type) {
@@ -680,12 +537,12 @@ function hireMonk(type) {
         case 2:
             name = "🧘‍♂️ Đại sư";
             price = 5000;
-            meritPerSecond = 15;
+            meritPerSecond = 5;
             break;
         case 3:
             name = "👼 Trụ trì";
             price = 10000;
-            meritPerSecond = 30;
+            meritPerSecond = 10;
             break;
     }
 
@@ -709,17 +566,50 @@ function hireMonk(type) {
         if (second <= 0) {
             clearInterval(monkTimer);
             monkWorking = false;
-            alert(name + " đã nghỉ ngơi.");
+            alert(name + " đã hết giờ tụng kinh.");
         }
     }, 1000);
 }
 
-function resetGame() {
-    if (confirm("Xóa toàn bộ dữ liệu?")) {
-        localStorage.clear();
-        location.reload();
+function dropRareItem() {
+    let diamondChance = 1 + luckRate * 0.05;
+    let giftChance = 2 + luckRate * 0.05;
+    let rareSeedChance = 3 + luckRate * 0.08;
+    let gemChance = 2 + luckRate * 0.05;
+
+    let chance = Math.random() * 100;
+    let received = false;
+
+    if (chance < diamondChance) {
+        diamonds++;
+        alert("💎 Bạn nhận được Kim cương!");
+        received = true;
+    } else if (chance < diamondChance + giftChance) {
+        gifts++;
+        alert("🎁 Bạn nhận được Hộp quà bí ẩn!");
+        received = true;
+    } else if (chance < diamondChance + giftChance + rareSeedChance) {
+        rareSeeds++;
+        alert("🌟 Bạn nhận được Hạt giống hiếm!");
+        received = true;
+    } else if (chance < diamondChance + giftChance + rareSeedChance + gemChance) {
+        gems++;
+        alert("💎 Bạn nhặt được 1 viên đá quý thô!");
+        received = true;
     }
+
+    if (received && luckRate > 0) {
+        luckRate = Math.max(0, luckRate - 5);
+        alert("🍀 Tỷ lệ may mắn giảm 5%!\nHiện tại: " + luckRate + "%");
+    }
+
+    saveGame();
+    updateUI();
 }
+
+// ===============================
+// VÒNG QUAY & HOẠT ĐỘNG KHÁC
+// ===============================
 
 function exchangeDiamond() {
     if (diamonds < 1) {
@@ -734,11 +624,10 @@ function exchangeDiamond() {
 }
 
 let spinning = false;
-
 function spinLuckyWheel() {
     if (spinning) return;
     if (diamonds < 5) {
-        alert("Không đủ kim cương!");
+        alert("❌ Không đủ kim cương!");
         return;
     }
 
@@ -755,30 +644,12 @@ function spinLuckyWheel() {
         let result = "";
 
         switch (reward) {
-            case 0:
-                result = "💎 Nhận 10 kim cương";
-                diamonds += 10;
-                break;
-            case 1:
-                result = "💰 Nhận 500 xu";
-                money += 500;
-                break;
-            case 2:
-                result = "🎁 Nhận 1 hộp quà";
-                gifts++;
-                break;
-            case 3:
-                result = "🌱 Nhận hạt giống hiếm";
-                rareSeeds++;
-                break;
-            case 4:
-                result = "💰 Nhận 1000 xu";
-                money += 1000;
-                break;
-            case 5:
-                result = "💎 Nhận 5 kim cương";
-                diamonds += 5;
-                break;
+            case 0: result = "💎 Nhận 10 kim cương"; diamonds += 10; break;
+            case 1: result = "💰 Nhận 500 xu"; money += 500; break;
+            case 2: result = "🎁 Nhận 1 hộp quà"; gifts++; break;
+            case 3: result = "🌱 Nhận hạt giống hiếm"; rareSeeds++; break;
+            case 4: result = "💰 Nhận 1000 xu"; money += 1000; break;
+            case 5: result = "💎 Nhận 5 kim cương"; diamonds += 5; break;
         }
 
         if (document.getElementById("wheelResult")) {
@@ -806,37 +677,18 @@ function openGift() {
         alert("💰 Bạn nhận được " + gold + " Xu!");
     } else if (r < 60) {
         let rd = Math.random() * 100;
-        let diamond;
-        if (rd < 60) diamond = Math.floor(Math.random() * 5) + 1;
-        else if (rd < 85) diamond = Math.floor(Math.random() * 5) + 6;
-        else if (rd < 95) diamond = Math.floor(Math.random() * 10) + 11;
-        else if (rd < 99) diamond = Math.floor(Math.random() * 15) + 21;
-        else diamond = Math.floor(Math.random() * 15) + 36;
-
+        let diamond = rd < 60 ? Math.floor(Math.random() * 5) + 1 : Math.floor(Math.random() * 10) + 6;
         diamonds += diamond;
         alert("💎 Bạn nhận được " + diamond + " Kim cương!");
     } else if (r < 70) {
         rareSeeds++;
         alert("🌟 Bạn nhận được 1 Hạt giống hiếm!");
     } else {
-        let list = [
-            "lua", "carot", "cachua", "bap", "huongduong", "dautay",
-            "xoai", "dua", "nho", "duahau", "chuoi", "tao",
-            "anhdao", "hoahong", "thong", "xuongrong"
-        ];
+        let list = ["lua", "carot", "cachua", "bap", "huongduong", "dautay", "xoai", "dua", "nho", "duahau", "chuoi", "tao", "anhdao", "hoahong", "thong", "xuongrong"];
         let seed = list[Math.floor(Math.random() * list.length)];
         let amount = Math.floor(Math.random() * 5) + 1;
         bag[seed] += amount;
-
-        const name = {
-            lua: "🌾 Lúa", carot: "🥕 Cà rốt", cachua: "🍅 Cà chua", bap: "🌽 Bắp",
-            huongduong: "🌻 Hướng dương", dautay: "🍓 Dâu tây", xoai: "🥭 Xoài",
-            dua: "🍍 Dứa", nho: "🍇 Nho", duahau: "🍉 Dưa hấu", chuoi: "🍌 Chuối",
-            tao: "🍎 Táo", anhdao: "🍒 Anh đào", hoahong: "🌹 Hoa hồng",
-            thong: "🌲 Cây thông", xuongrong: "🌵 Xương rồng"
-        };
-
-        alert("🌱 Bạn nhận được " + amount + " " + name[seed]);
+        alert("🌱 Bạn nhận được " + amount + " hạt giống mới!");
     }
 
     saveGame();
@@ -852,25 +704,26 @@ function upgradeFarm() {
 
     money -= price;
     farmLevel++;
-
-    let currentMax = getMaxPlots();
-    while (garden.length < currentMax) {
-        garden.push({
-            seed: "",
-            stage: 0,
-            time: 0
-        });
-    }
+    syncGardenPlots();
 
     saveGame();
     updateUI();
     drawGarden();
 
-    alert(
-        "🎉 Nông trại lên cấp " + farmLevel +
-        "!\nĐã mở rộng thành " + currentMax + " ô đất." +
-        "\nĐã tiêu " + price.toLocaleString("vi-VN") + " xu."
-    );
+    alert("🎉 Nông trại lên cấp " + farmLevel + "!\nĐã mở rộng thêm ô đất.");
+}
+
+function buyGem() {
+    let price = 50000;
+    if (money < price) {
+        alert("❌ Không đủ xu để mua đá quý thô!");
+        return;
+    }
+    money -= price;
+    gems++;
+    saveGame();
+    updateUI();
+    alert("💎 Mua thành công 1 viên Đá quý thô với giá 50.000 Xu!");
 }
 
 function breakGem() {
@@ -888,66 +741,28 @@ function breakGem() {
     let r = Math.random() * 100;
 
     if (r < 60) {
-        let rd = Math.random() * 100;
-        let gold;
-        if (rd < 40) gold = Math.floor(Math.random() * 50001) + 50000;
-        else if (rd < 70) gold = Math.floor(Math.random() * 100001) + 100000;
-        else if (rd < 88) gold = Math.floor(Math.random() * 200001) + 200000;
-        else if (rd < 96) gold = Math.floor(Math.random() * 300001) + 400000;
-        else if (rd < 99) gold = Math.floor(Math.random() * 200001) + 700000;
-        else gold = Math.floor(Math.random() * 100001) + 900000;
-
+        let gold = Math.floor(Math.random() * 150000) + 50000;
         money += gold;
-        alert("💰 Chúc mừng!\n\nBạn nhận được " + gold.toLocaleString("vi-VN") + " Xu!");
+        alert("💰 Bạn nhận được " + gold.toLocaleString("vi-VN") + " Xu!");
     } else if (r < 80) {
-        let rd = Math.random() * 100;
-        let diamond;
-        if (rd < 60) diamond = Math.floor(Math.random() * 6) + 5;
-        else if (rd < 95) diamond = Math.floor(Math.random() * 10) + 11;
-        else diamond = 50;
-
+        let diamond = Math.floor(Math.random() * 10) + 5;
         diamonds += diamond;
         alert("💎 Bạn nhận được " + diamond + " Kim cương!");
     } else {
-        let rare = Math.random() * 100;
-        if (rare < 45) {
-            rareSeeds += 2;
-            alert("🌟 Bạn nhận được 2 Hạt giống hiếm!");
-        } else if (rare < 90) {
-            gifts += 2;
-            alert("🎁 Bạn nhận được 2 Hộp bí ẩn!");
-        } else if (rare < 97) {
-            rareSeeds += 5;
-            alert("🌟 JACKPOT!\nBạn nhận được 5 Hạt giống hiếm!");
-        } else {
-            gifts += 5;
-            alert("🎁 JACKPOT!\nBạn nhận được 5 Hộp bí ẩn!");
-        }
-
-        if (luckRate > 0) {
-            luckRate -= 5;
-            if (luckRate < 0) luckRate = 0;
-            alert("🍀 Vì nhận đồ hiếm nên vận may giảm 5%!\nHHiện tại: " + luckRate + "%");
-        }
+        rareSeeds += 2;
+        alert("🌟 Bạn nhận được 2 Hạt giống hiếm!");
     }
 
     saveGame();
     updateUI();
 }
 
-function buyGem() {
-    let price = 10000;
-    if (money < price) {
-        alert("❌ Không đủ xu để mua đá quý thô!");
-        return;
-    }
-    money -= price;
-    gems++;
-    saveGame();
-    updateUI();
-    alert("💎 Mua thành công 1 viên Đá quý thô với giá 10.000 Xu!");
+function buySkin(skinType) {
+    alert("🎨 Tính năng trang trí (" + skinType + ") sẽ sớm ra mắt!");
 }
 
-// Khởi chạy UI ban đầu
-updateUI();
-drawGarden();
+// KHỞI CHẠY LẦN ĐẦU KHI TẢI TRANG
+window.addEventListener("DOMContentLoaded", () => {
+    updateUI();
+    drawGarden();
+});
