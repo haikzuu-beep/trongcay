@@ -1,5 +1,5 @@
 /* =========================================================
-   1. CẤU HÌNH CHUNG & BIẾN MÀU SẮC (THEME DARK GLASS)
+   1. CẤU HÌNH CHUNG & THỦ KHO MÀU SẮC (EMERALD GOLD THEME)
    ========================================================= */
 * {
     margin: 0;
@@ -8,38 +8,40 @@
 }
 
 :root {
-    --bg-dark: #0a110c;
-    --panel-bg: rgba(18, 30, 22, 0.85);
-    --card-bg: rgba(28, 45, 34, 0.65);
-    --card-hover: rgba(38, 60, 45, 0.85);
-    --accent-gold: #f1c40f;
-    --accent-green: #2ecc71;
-    --accent-blue: #3498db;
-    --border-color: rgba(46, 204, 113, 0.25);
-    --text-main: #e0e6ed;
-    --text-muted: #8b9bb0;
+    --bg-dark: #050b08;
+    --panel-bg: rgba(10, 24, 18, 0.88);
+    --card-bg: rgba(16, 38, 29, 0.75);
+    --card-hover: rgba(25, 56, 43, 0.9);
+    --accent-gold: #ffd700;
+    --accent-emerald: #00e676;
+    --accent-cyan: #00f2fe;
+    --accent-purple: #a855f7;
+    --border-color: rgba(0, 230, 118, 0.3);
+    --border-glow: 0 0 12px rgba(0, 230, 118, 0.25);
+    --text-main: #f0fdf4;
+    --text-muted: #a7f3d0;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--bg-dark) radial-gradient(circle at 50% 20%, #14281b 0%, #0a110c 80%);
+    background: radial-gradient(circle at 50% 15%, #0d2e22 0%, #030705 100%);
     color: var(--text-main);
     min-height: 100vh;
     padding: 20px 10px;
 }
 
 /* =========================================================
-   2. KHUNG CONTAINER CHÍNH
+   2. KHUNG CONTAINER CHÍNH & HEADER
    ========================================================= */
 .game-container {
     max-width: 1350px;
     margin: 0 auto;
     background: var(--panel-bg);
     border: 1px solid var(--border-color);
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 24px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.8), var(--border-glow);
+    backdrop-filter: blur(16px);
 }
 
 /* Header */
@@ -47,25 +49,31 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px dashed var(--border-color);
     padding-bottom: 16px;
     margin-bottom: 20px;
 }
 
 .game-title {
-    font-size: 26px;
-    color: var(--accent-green);
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: inline-block;
+    filter: drop-shadow(0 2px 8px rgba(0, 230, 118, 0.3));
 }
 
 .farm-level-badge {
-    background: rgba(46, 204, 113, 0.15);
-    color: var(--accent-green);
+    background: rgba(0, 230, 118, 0.12);
+    color: var(--accent-emerald);
     border: 1px solid var(--border-color);
-    padding: 4px 12px;
-    border-radius: 20px;
+    padding: 6px 16px;
+    border-radius: 30px;
     font-size: 14px;
+    font-weight: 600;
     margin-left: 10px;
+    box-shadow: inset 0 0 8px rgba(0, 230, 118, 0.2);
 }
 
 .header-right {
@@ -74,25 +82,28 @@ body {
 }
 
 .currency-badge {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 8px 16px;
-    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 8px 18px;
+    border-radius: 14px;
     border: 1px solid var(--border-color);
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-.money-badge { color: var(--accent-gold); }
-.diamond-badge { color: var(--accent-blue); }
+.money-badge { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
+.diamond-badge { color: var(--accent-cyan); text-shadow: 0 0 8px rgba(0, 242, 254, 0.4); }
 
-/* Navigation Nav Buttons */
+/* Navigation Nav Buttons (VIÊN THUỐC / PILL SHAPE) */
 .main-nav {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 6px;
-    border-radius: 12px;
+    gap: 12px;
+    margin-bottom: 24px;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 230, 118, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .nav-btn {
@@ -100,23 +111,23 @@ body {
     background: transparent;
     color: var(--text-muted);
     border: none;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 12px 20px;
+    border-radius: 40px;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-btn:hover {
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    background: rgba(0, 230, 118, 0.15);
 }
 
 .nav-btn.active {
-    background: var(--accent-green);
-    color: #000;
-    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+    color: #030a07;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
 }
 
 /* =========================================================
@@ -132,16 +143,26 @@ body {
 .card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 16px;
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s ease;
+}
+
+.card:hover {
+    background: var(--card-hover);
+    border-color: rgba(0, 230, 118, 0.6);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 230, 118, 0.2);
 }
 
 .card h3 {
     font-size: 14px;
-    letter-spacing: 0.5px;
-    color: var(--accent-green);
-    margin-bottom: 12px;
+    letter-spacing: 1px;
+    color: var(--accent-gold);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
 .stat-row {
@@ -149,6 +170,11 @@ body {
     justify-content: space-between;
     margin: 10px 0;
     font-size: 14px;
+    color: var(--text-muted);
+}
+
+.stat-row strong {
+    color: #fff;
 }
 
 /* EXP Bar */
@@ -157,14 +183,15 @@ body {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    color: var(--text-muted);
 }
 
 .expBar {
     width: 100%;
     height: 12px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
     overflow: hidden;
     border: 1px solid var(--border-color);
 }
@@ -172,7 +199,8 @@ body {
 #expFill {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, var(--accent-green), var(--accent-gold));
+    background: linear-gradient(90deg, var(--accent-emerald), var(--accent-gold));
+    box-shadow: 0 0 10px var(--accent-emerald);
     transition: width 0.3s ease;
 }
 
@@ -183,40 +211,41 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .subtitle {
     color: var(--accent-gold);
     font-size: 14px;
+    font-weight: 600;
 }
 
 /* Lưới đất chuẩn 4 cột hiện đại */
 #garden {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    gap: 16px;
 }
 
 .plot {
     aspect-ratio: 1 / 1;
-    background: rgba(15, 25, 18, 0.85);
-    border: 2px solid rgba(46, 204, 113, 0.2);
-    border-radius: 16px;
+    background: radial-gradient(circle, rgba(25, 56, 43, 0.8) 0%, rgba(8, 20, 15, 0.95) 100%);
+    border: 2px solid rgba(0, 230, 118, 0.25);
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
 }
 
 .plot:hover {
-    border-color: var(--accent-green);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(46, 204, 113, 0.15);
-    background: rgba(25, 40, 28, 0.9);
+    border-color: var(--accent-cyan);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
+    background: radial-gradient(circle, rgba(35, 76, 58, 0.9) 0%, rgba(12, 30, 22, 0.95) 100%);
 }
 
 /* Thiết kế Cây trong Ô đất */
@@ -231,35 +260,38 @@ body {
 }
 
 .plantIcon {
-    font-size: 32px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    font-size: 34px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 
 .plant button {
-    background: var(--accent-blue);
-    color: white;
+    background: linear-gradient(135deg, var(--accent-cyan), #00b0ff);
+    color: #000;
     border: none;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 10px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 11px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 242, 254, 0.3);
 }
 
 .plant button:hover {
-    background: #2980b9;
+    transform: scale(1.05);
+    filter: brightness(1.15);
 }
 
 .progress {
-    font-size: 9px;
-    letter-spacing: -1px;
-    opacity: 0.85;
+    font-size: 10px;
+    letter-spacing: -0.5px;
+    color: var(--text-muted);
 }
 
 .plant small {
-    font-size: 10px;
+    font-size: 11px;
     color: var(--accent-gold);
+    font-weight: 600;
 }
 
 /* =========================================================
@@ -268,52 +300,57 @@ body {
 .shop-grid, .bag-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 12px;
-    margin-top: 10px;
+    gap: 14px;
+    margin-top: 12px;
 }
 
 .shopItem, .bagItem {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 12px;
-    border-radius: 12px;
+    padding: 14px;
+    border-radius: 16px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.2s ease;
+    transition: all 0.25s ease;
 }
 
 .shopItem:hover, .bagItem:hover {
     background: var(--card-hover);
-    transform: translateY(-2px);
+    border-color: var(--accent-emerald);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 230, 118, 0.25);
 }
 
 .shopItem h3 {
     font-size: 13px;
     margin-bottom: 6px;
+    color: #fff;
 }
 
 .shopItem p {
     font-size: 12px;
     color: var(--accent-gold);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .shopItem button, .bagItem button {
-    background: var(--accent-green);
+    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
     color: #000;
     border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-weight: bold;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 800;
     font-size: 12px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .shopItem button:hover, .bagItem button:hover {
-    background: #27ae60;
-    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
+    filter: brightness(1.1);
 }
 
 /* =========================================================
@@ -323,20 +360,27 @@ body {
     margin-top: 25px;
     text-align: center;
     background: var(--card-bg);
-    padding: 20px;
-    border-radius: 16px;
+    padding: 22px;
+    border-radius: 20px;
     border: 1px solid var(--border-color);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 .btn-spin {
-    background: linear-gradient(135deg, #e67e22, #f1c40f);
-    color: black;
+    background: linear-gradient(135deg, #f39c12, var(--accent-gold));
+    color: #000;
     border: none;
-    padding: 10px 24px;
-    font-weight: bold;
-    border-radius: 20px;
+    padding: 12px 28px;
+    font-weight: 800;
+    border-radius: 30px;
     cursor: pointer;
-    margin: 12px 0;
+    margin: 14px 0;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.btn-spin:hover {
+    transform: scale(1.05);
 }
 
 .wheelBox {
@@ -348,12 +392,13 @@ body {
 
 .arrow {
     position: absolute;
-    top: -15px;
+    top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 20px;
+    font-size: 22px;
     color: var(--accent-gold);
     z-index: 10;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
 }
 
 #wheel {
@@ -361,6 +406,7 @@ body {
     height: 220px;
     border-radius: 50%;
     border: 4px solid var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
     background: conic-gradient(
         #ff7675 0deg 60deg,
         #74b9ff 60deg 120deg,
@@ -390,18 +436,18 @@ body {
 }
 
 #gong {
-    font-size: 70px;
+    font-size: 75px;
     cursor: pointer;
     user-select: none;
     transition: transform 0.1s ease;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
 }
 
-#gong:hover { transform: scale(1.1); }
-#gong:active { transform: scale(0.9); }
+#gong:hover { transform: scale(1.12); }
+#gong:active { transform: scale(0.92); }
 
 .gongShake { animation: shake 0.3s; }
-.gongLight { filter: drop-shadow(0 0 25px var(--accent-gold)) !important; }
+.gongLight { filter: drop-shadow(0 0 30px var(--accent-gold)) !important; }
 
 @keyframes shake {
     0% { transform: rotate(0deg); }
@@ -414,16 +460,16 @@ body {
 .meritText {
     position: absolute;
     color: var(--accent-gold);
-    font-size: 22px;
-    font-weight: bold;
+    font-size: 24px;
+    font-weight: 800;
     animation: fly 1s forwards;
     pointer-events: none;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.9);
 }
 
 @keyframes fly {
     0% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-60px); }
+    100% { opacity: 0; transform: translateY(-65px); }
 }
 
 .monk-grid {
@@ -436,36 +482,123 @@ body {
 .monk-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 12px;
-    border-radius: 12px;
+    padding: 14px;
+    border-radius: 14px;
     text-align: center;
 }
 
 .btn-pray {
     width: 100%;
-    background: #8e44ad;
+    background: linear-gradient(135deg, var(--accent-purple), #8b5cf6);
     color: white;
     border: none;
     padding: 10px;
-    border-radius: 8px;
-    font-weight: bold;
+    border-radius: 10px;
+    font-weight: 700;
     cursor: pointer;
     margin-top: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
 }
 
-.btn-pray:hover { background: #9b59b6; }
+.btn-pray:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(168, 85, 247, 0.5);
+}
 
 .equipment-box {
-    background: rgba(0,0,0,0.3);
-    padding: 10px;
-    border-radius: 8px;
+    background: rgba(0,0,0,0.4);
+    padding: 12px;
+    border-radius: 10px;
     font-size: 13px;
     text-align: center;
     border: 1px dashed var(--border-color);
+    color: var(--text-muted);
 }
 
 /* =========================================================
-   8. RESPONSIVE HOÀN HẢO CHO MOBILE
+   8. KHUNG CHAT THẾ GIỚI
+   ========================================================= */
+.chat-card {
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+    background: rgba(10, 24, 18, 0.95);
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-box input, .chat-input-area input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    outline: none;
+    font-size: 13px;
+}
+
+.auth-box input:focus, .chat-input-area input:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+}
+
+.auth-box button, .chat-input-area button {
+    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+    color: #000;
+    font-weight: 800;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.auth-box button:hover, .chat-input-area button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-item {
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.chat-user {
+    color: var(--accent-gold);
+    font-weight: bold;
+    margin-right: 4px;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 8px;
+}
+
+.chat-input-area input {
+    flex: 1;
+}
+
+/* =========================================================
+   9. RESPONSIVE HOÀN HẢO CHO MOBILE
    ========================================================= */
 @media (max-width: 992px) {
     .game-dashboard {
@@ -483,67 +616,4 @@ body {
     .monk-grid {
         grid-template-columns: 1fr;
     }
-}
-/* ===== CHAT SYSTEM CSS ===== */
-.chat-card {
-    display: flex;
-    flex-direction: column;
-    height: 320px;
-}
-
-.auth-box {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.auth-box input, .chat-input-area input {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--border-color);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 8px;
-    outline: none;
-}
-
-.auth-box button, .chat-input-area button {
-    background: var(--accent-green);
-    color: #000;
-    font-weight: bold;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 8px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.chat-item {
-    word-break: break-word;
-}
-
-.chat-user {
-    color: var(--accent-gold);
-    font-weight: bold;
-}
-
-.chat-input-area {
-    display: flex;
-    gap: 6px;
-}
-
-.chat-input-area input {
-    flex: 1;
 }
