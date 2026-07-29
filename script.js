@@ -1920,3 +1920,4 @@ function getMaxPlots() {
     return 10 + (farmLevel * 6);
 }
     
+}
