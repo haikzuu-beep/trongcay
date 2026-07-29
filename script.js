@@ -42,6 +42,7 @@ let gems = localStorage.getItem("gems") !== null
 // NÂNG CẤP NÔNG TRẠI
 // ===============================
 
+// Khai báo cấp độ nông trại trước
 let farmLevel = localStorage.getItem("farmLevel") !== null
     ? Number(localStorage.getItem("farmLevel"))
     : 1;
@@ -51,6 +52,22 @@ function getMaxPlots() {
     return 12 + (farmLevel * 4);
 }
 
+// Khởi tạo vườn và đồng bộ số lượng ô đất chuẩn với farmLevel
+let garden = JSON.parse(localStorage.getItem("garden")) || [];
+
+function syncGardenPlots() {
+    let currentMax = getMaxPlots();
+    while (garden.length < currentMax) {
+        garden.push({
+            seed: "",
+            stage: 0,
+            time: 0
+        });
+    }
+}
+
+// Gọi đồng bộ ô đất ngay khi khởi tạo
+syncGardenPlots();
 // ===============================
 // CÔNG ĐỨC + MAY MẮN
 // ===============================
