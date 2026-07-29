@@ -307,3 +307,20 @@
 <script src="script.js"></script>
 </body>
 </html>
+<!-- Thêm vào bên trong <aside class="side-panel panel-right"> hoặc cuối Dashboard -->
+<div class="card chat-card">
+    <h3>💬 CHAT THẾ GIỚI</h3>
+    <div id="authStatus" class="auth-box">
+        <input type="text" id="playerNameInput" placeholder="Nhập tên nhân vật..." />
+        <button onclick="loginGame()">Vào Game (Online)</button>
+    </div>
+    
+    <div id="chatBox" class="chat-messages" style="display:none;">
+        <div id="messageList"></div>
+    </div>
+    
+    <div id="chatInputBox" class="chat-input-area" style="display:none;">
+        <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)">
+        <button onclick="sendChatMessage()">Gửi</button>
+    </div>
+</div>
