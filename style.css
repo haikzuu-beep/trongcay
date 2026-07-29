@@ -34,6 +34,24 @@ body {
     color: var(--text-main);
     min-height: 100vh;
     padding: 20px 10px;
+    user-select: none;
+}
+
+/* Custom Scrollbar cho toàn bộ ứng dụng */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-gold);
 }
 
 /* =========================================================
@@ -100,7 +118,7 @@ body {
 .money-badge { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); }
 .diamond-badge { color: var(--accent-silver-glow); text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
 
-/* Navigation Nav Buttons (TÔNG VÀNG KIM & BẠC) */
+/* Navigation Nav Buttons */
 .main-nav {
     display: flex;
     gap: 12px;
@@ -110,10 +128,12 @@ body {
     border-radius: 50px;
     border: 1px solid var(--border-silver);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    overflow-x: auto;
 }
 
 .nav-btn {
     flex: 1;
+    white-space: nowrap;
     background: transparent;
     color: var(--text-muted);
     border: none;
@@ -135,6 +155,16 @@ body {
     color: #000;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
     font-weight: 800;
+}
+
+/* Quyết định ẩn hiện Tab */
+.tab {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================================
@@ -332,13 +362,13 @@ body {
     box-shadow: 0 6px 18px rgba(255, 215, 0, 0.25);
 }
 
-.shopItem h3 {
+.shopItem h3, .bagItem h3 {
     font-size: 13px;
     margin-bottom: 6px;
     color: #fff;
 }
 
-.shopItem p {
+.shopItem p, .bagItem p {
     font-size: 12px;
     color: var(--accent-gold);
     margin-bottom: 10px;
@@ -397,6 +427,8 @@ body {
     justify-content: center;
     position: relative;
     margin: 15px auto;
+    width: 230px;
+    height: 230px;
 }
 
 .arrow {
@@ -404,10 +436,10 @@ body {
     top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 22px;
+    font-size: 24px;
     color: var(--accent-gold);
     z-index: 10;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.8));
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.9));
 }
 
 #wheel {
@@ -431,6 +463,19 @@ body {
     color: #000;
     font-weight: bold;
     transition: transform 4s cubic-bezier(.17, .67, .83, .67);
+}
+
+#wheel::after {
+    content: "🎰";
+    font-size: 30px;
+    background: rgba(0,0,0,0.8);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent-gold);
 }
 
 /* =========================================================
@@ -532,7 +577,7 @@ body {
 .chat-card {
     display: flex;
     flex-direction: column;
-    height: 320px;
+    height: 340px;
     background: rgba(18, 18, 22, 0.95);
 }
 
@@ -620,6 +665,15 @@ body {
 }
 
 @media (max-width: 576px) {
+    .game-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
     #garden {
         grid-template-columns: repeat(3, 1fr);
     }
