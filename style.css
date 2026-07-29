@@ -484,3 +484,66 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* ===== CHAT SYSTEM CSS ===== */
+.chat-card {
+    display: flex;
+    flex-direction: column;
+    height: 320px;
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-box input, .chat-input-area input {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.auth-box button, .chat-input-area button {
+    background: var(--accent-green);
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.chat-item {
+    word-break: break-word;
+}
+
+.chat-user {
+    color: var(--accent-gold);
+    font-weight: bold;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 6px;
+}
+
+.chat-input-area input {
+    flex: 1;
+}
