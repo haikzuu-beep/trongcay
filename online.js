@@ -1,142 +1,90 @@
-// Nhập các thư viện Firebase SDK qua CDN Module
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// ⚙️ CẤU HÌNH FIREBASE CỦA BẠN (Thay bằng thông tin Firebase Console của bạn sau này)
+// 1. Cấu hình Firebase của bạn
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAAQDD5JVHWF80LjmxCmeUj-eOPh8U20CQ",
+  authDomain: "your-farm-c05ae.firebaseapp.com",
+  databaseURL: "https://your-farm-c05ae-default-rtdb.firebaseio.com",
+  projectId: "your-farm-c05ae",
+  storageBucket: "your-farm-c05ae.firebasestorage.app",
+  messagingSenderId: "234932348162",
+  appId: "1:234932348162:web:7e20fe4c5a6333bb188e1b",
+  measurementId: "G-GNRRP4HS1L"
 };
 
-// Khởi tạo Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// 2. Khởi tạo Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const database = firebase.database();
+const chatRef = database.ref("global_chat");
 
-let currentUsername = "";
-
-// 1. ĐĂNG NHẬP & TẢI DỮ LIỆU
-window.loginGame = async function() {
-    const nameInput = document.getElementById("playerNameInput").value.trim();
-    if (!nameInput) {
+// 3. Xử lý Đăng nhập & Chat
+window.loginGame = function() {
+    const inputName = document.getElementById("playerNameInput").value.trim();
+    if (!inputName) {
         alert("Vui lòng nhập tên nhân vật!");
         return;
     }
     
-    currentUsername = nameInput;
+    // Lưu tên vào LocalStorage
+    localStorage.setItem("playerName", inputName);
     
-    // Kiểm tra xem đã có dữ liệu người chơi trên Cloud chưa
-    const userRef = doc(db, "players", currentUsername);
-    const docSnap = await getDoc(userRef);
-
-    if (docSnap.exists()) {
-        // Tải dữ liệu từ Server về Game
-        const cloudData = docSnap.data();
-        loadGameDataFromCloud(cloudData);
-        alert(`Chào mừng ${currentUsername} trở lại!`);
-    } else {
-        // Tạo mới tài khoản trên Cloud
-        await saveGameToCloud();
-        alert(`Tạo tài khoản ${currentUsername} thành công!`);
-    }
-
-    // Hiển thị khung Chat
+    // Ẩn ô nhập tên, hiện ô chat
     document.getElementById("authStatus").style.display = "none";
     document.getElementById("chatBox").style.display = "block";
-    document.getElementById("chatInputBox").style.display = "flex";
-
-    // Bắt đầu lắng nghe tin nhắn Chat Real-time
-    listenToChatMessages();
     
-    // Tự động lưu game lên Cloud mỗi 10 giây
-    setInterval(saveGameToCloud, 10000);
-}
+    // Tải danh sách chat
+    loadChatMessages();
+};
 
-// 2. TỰ ĐỘNG LƯU TRẠNG THÁI GAME LÊN CLOUD
-window.saveGameToCloud = async function() {
-    if (!currentUsername) return;
-
-    // Gom toàn bộ biến/dữ liệu game hiện tại
-    const gameData = {
-        money: window.money || 0,
-        level: window.level || 1,
-        exp: window.exp || 0,
-        merit: window.merit || 0,
-        diamond: window.diamond || 0,
-        lastUpdated: new Date()
-    };
-
-    try {
-        await setDoc(doc(db, "players", currentUsername), gameData, { merge: true });
-        console.log("Đã đồng bộ dữ liệu lên Cloud!");
-    } catch (e) {
-        console.error("Lỗi đồng bộ Cloud: ", e);
-    }
-}
-
-// 3. TẢI DỮ LIỆU TỪ CLOUD VÀO GAME
-function loadGameDataFromCloud(data) {
-    if (data.money !== undefined) window.money = data.money;
-    if (data.level !== undefined) window.level = data.level;
-    if (data.exp !== undefined) window.exp = data.exp;
-    if (data.merit !== undefined) window.merit = data.merit;
-    if (data.diamond !== undefined) window.diamond = data.diamond;
+function loadChatMessages() {
+    const messageList = document.getElementById("messageList");
     
-    if (typeof updateUI === "function") {
-        updateUI();
-    }
-}
-
-// 4. GỬI TIN NHẮN CHAT
-window.sendChatMessage = async function() {
-    const input = document.getElementById("chatMessageInput");
-    const text = input.value.trim();
-    if (!text || !currentUsername) return;
-
-    input.value = "";
-
-    try {
-        await addDoc(collection(db, "chats"), {
-            user: currentUsername,
-            text: text,
-            createdAt: new Date()
-        });
-    } catch (e) {
-        console.error("Lỗi gửi chat: ", e);
-    }
-}
-
-window.handleChatKeyPress = function(e) {
-    if (e.key === 'Enter') {
-        sendChatMessage();
-    }
-}
-
-// 5. LẮNG NGHE CHAT REAL-TIME
-function listenToChatMessages() {
-    const chatRef = collection(db, "chats");
-    const q = query(chatRef, orderBy("createdAt", "desc"), limit(20));
-
-    onSnapshot(q, (snapshot) => {
-        const messageList = document.getElementById("messageList");
-        messageList.innerHTML = "";
+    // Tạo khung nhập tin nhắn nếu chưa có
+    let chatInputArea = document.querySelector(".chat-input-area");
+    if (!chatInputArea) {
+        const chatCard = document.querySelector(".chat-card");
+        chatInputArea = document.createElement("div");
+        chatInputArea.className = "chat-input-area";
+        chatInputArea.innerHTML = `
+            <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." />
+            <button id="sendChatBtn">Gửi</button>
+        `;
+        chatCard.appendChild(chatInputArea);
         
-        let messages = [];
-        snapshot.forEach((doc) => {
-            messages.push(doc.data());
+        // Bắt sự kiện bấm nút Gửi hoặc Enter
+        document.getElementById("sendChatBtn").onclick = sendChatMessage;
+        document.getElementById("chatInput").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendChatMessage();
         });
+    }
 
-        messages.reverse().forEach((msg) => {
-            const div = document.createElement("div");
-            div.className = "chat-item";
-            div.innerHTML = `<span class="chat-user">${msg.user}:</span> ${msg.text}`;
-            messageList.appendChild(div);
-        });
-
+    // Lắng nghe tin nhắn mới từ Firebase
+    chatRef.limitToLast(50).on("child_added", (snapshot) => {
+        const data = snapshot.val();
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "chat-item";
+        msgDiv.innerHTML = `<span class="chat-user">[${data.user}]:</span> <span class="chat-text">${data.text}</span>`;
+        messageList.appendChild(msgDiv);
+        
+        // Cuộn xuống tin nhắn mới nhất
         const chatBox = document.getElementById("chatBox");
         chatBox.scrollTop = chatBox.scrollHeight;
     });
+}
+
+function sendChatMessage() {
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+    const user = localStorage.getItem("playerName") || "Nông dân";
+    
+    if (text === "") return;
+    
+    // Đẩy tin nhắn lên Firebase
+    chatRef.push({
+        user: user,
+        text: text,
+        timestamp: Date.now()
+    });
+    
+    input.value = "";
 }
