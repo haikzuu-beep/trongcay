@@ -1,5 +1,5 @@
 /* =========================================================
-   1. CẤU HÌNH CHUNG & THỦ KHO MÀU SẮC (EMERALD GOLD THEME)
+   1. BẢNG MÀU SANG TRỌNG: VÀNG KIM - ĐEN HUYỀN - TRẮNG BẠC
    ========================================================= */
 * {
     margin: 0;
@@ -8,23 +8,29 @@
 }
 
 :root {
-    --bg-dark: #050b08;
-    --panel-bg: rgba(10, 24, 18, 0.88);
-    --card-bg: rgba(16, 38, 29, 0.75);
-    --card-hover: rgba(25, 56, 43, 0.9);
+    --bg-dark: #070709;
+    --panel-bg: rgba(18, 18, 22, 0.92);
+    --card-bg: rgba(28, 28, 35, 0.8);
+    --card-hover: rgba(38, 38, 48, 0.95);
+    
+    /* Tông màu chủ đạo */
     --accent-gold: #ffd700;
-    --accent-emerald: #00e676;
-    --accent-cyan: #00f2fe;
-    --accent-purple: #a855f7;
-    --border-color: rgba(0, 230, 118, 0.3);
-    --border-glow: 0 0 12px rgba(0, 230, 118, 0.25);
-    --text-main: #f0fdf4;
-    --text-muted: #a7f3d0;
+    --accent-gold-light: #fff176;
+    --accent-silver: #e2e8f0;
+    --accent-silver-glow: #ffffff;
+    
+    --border-color: rgba(255, 215, 0, 0.25);
+    --border-silver: rgba(226, 232, 240, 0.2);
+    --gold-glow: 0 0 15px rgba(255, 215, 0, 0.25);
+    --silver-glow: 0 0 12px rgba(255, 255, 255, 0.2);
+    
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: radial-gradient(circle at 50% 15%, #0d2e22 0%, #030705 100%);
+    background: radial-gradient(circle at 50% 15%, #181820 0%, #050507 100%);
     color: var(--text-main);
     min-height: 100vh;
     padding: 20px 10px;
@@ -40,7 +46,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 24px;
     padding: 24px;
-    box-shadow: 0 0 35px rgba(0, 0, 0, 0.8), var(--border-glow);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), var(--gold-glow);
     backdrop-filter: blur(16px);
 }
 
@@ -49,7 +55,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px dashed var(--border-color);
+    border-bottom: 1px dashed var(--border-silver);
     padding-bottom: 16px;
     margin-bottom: 20px;
 }
@@ -57,23 +63,23 @@ body {
 .game-title {
     font-size: 28px;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold), var(--accent-silver));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
-    filter: drop-shadow(0 2px 8px rgba(0, 230, 118, 0.3));
+    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
 }
 
 .farm-level-badge {
-    background: rgba(0, 230, 118, 0.12);
-    color: var(--accent-emerald);
+    background: rgba(255, 215, 0, 0.12);
+    color: var(--accent-gold);
     border: 1px solid var(--border-color);
     padding: 6px 16px;
     border-radius: 30px;
     font-size: 14px;
     font-weight: 600;
     margin-left: 10px;
-    box-shadow: inset 0 0 8px rgba(0, 230, 118, 0.2);
+    box-shadow: inset 0 0 8px rgba(255, 215, 0, 0.2);
 }
 
 .header-right {
@@ -82,28 +88,28 @@ body {
 }
 
 .currency-badge {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     padding: 8px 18px;
     border-radius: 14px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-silver);
     font-weight: bold;
     font-size: 15px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-.money-badge { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
-.diamond-badge { color: var(--accent-cyan); text-shadow: 0 0 8px rgba(0, 242, 254, 0.4); }
+.money-badge { color: var(--accent-gold); text-shadow: 0 0 8px rgba(255, 215, 0, 0.5); }
+.diamond-badge { color: var(--accent-silver-glow); text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
 
-/* Navigation Nav Buttons (VIÊN THUỐC / PILL SHAPE) */
+/* Navigation Nav Buttons (TÔNG VÀNG KIM & BẠC) */
 .main-nav {
     display: flex;
     gap: 12px;
     margin-bottom: 24px;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     padding: 8px;
     border-radius: 50px;
-    border: 1px solid rgba(0, 230, 118, 0.2);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-silver);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 .nav-btn {
@@ -121,13 +127,14 @@ body {
 
 .nav-btn:hover {
     color: #fff;
-    background: rgba(0, 230, 118, 0.15);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .nav-btn.active {
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
-    color: #030a07;
-    box-shadow: 0 0 15px rgba(0, 230, 118, 0.5);
+    background: linear-gradient(135deg, #ffe066, var(--accent-gold), #d4af37);
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    font-weight: 800;
 }
 
 /* =========================================================
@@ -142,18 +149,18 @@ body {
 /* Card Khung chứa */
 .card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-silver);
     border-radius: 18px;
     padding: 18px;
     margin-bottom: 18px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     transition: all 0.25s ease;
 }
 
 .card:hover {
     background: var(--card-hover);
-    border-color: rgba(0, 230, 118, 0.6);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 230, 118, 0.2);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), var(--gold-glow);
 }
 
 .card h3 {
@@ -163,6 +170,7 @@ body {
     margin-bottom: 14px;
     text-transform: uppercase;
     font-weight: 700;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
 }
 
 .stat-row {
@@ -174,7 +182,7 @@ body {
 }
 
 .stat-row strong {
-    color: #fff;
+    color: var(--accent-silver);
 }
 
 /* EXP Bar */
@@ -190,17 +198,17 @@ body {
 .expBar {
     width: 100%;
     height: 12px;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-silver);
 }
 
 #expFill {
     width: 0%;
     height: 100%;
-    background: linear-gradient(90deg, var(--accent-emerald), var(--accent-gold));
-    box-shadow: 0 0 10px var(--accent-emerald);
+    background: linear-gradient(90deg, #e2e8f0, var(--accent-gold));
+    box-shadow: 0 0 12px var(--accent-gold);
     transition: width 0.3s ease;
 }
 
@@ -220,7 +228,7 @@ body {
     font-weight: 600;
 }
 
-/* Lưới đất chuẩn 4 cột hiện đại */
+/* Lưới đất chuẩn 4 cột sang trọng */
 #garden {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -229,8 +237,8 @@ body {
 
 .plot {
     aspect-ratio: 1 / 1;
-    background: radial-gradient(circle, rgba(25, 56, 43, 0.8) 0%, rgba(8, 20, 15, 0.95) 100%);
-    border: 2px solid rgba(0, 230, 118, 0.25);
+    background: radial-gradient(circle, rgba(38, 38, 48, 0.9) 0%, rgba(12, 12, 15, 0.98) 100%);
+    border: 2px solid var(--border-silver);
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -242,10 +250,10 @@ body {
 }
 
 .plot:hover {
-    border-color: var(--accent-cyan);
+    border-color: var(--accent-gold);
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
-    background: radial-gradient(circle, rgba(35, 76, 58, 0.9) 0%, rgba(12, 30, 22, 0.95) 100%);
+    box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+    background: radial-gradient(circle, rgba(50, 50, 65, 0.95) 0%, rgba(18, 18, 22, 0.98) 100%);
 }
 
 /* Thiết kế Cây trong Ô đất */
@@ -261,11 +269,11 @@ body {
 
 .plantIcon {
     font-size: 34px;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
 }
 
 .plant button {
-    background: linear-gradient(135deg, var(--accent-cyan), #00b0ff);
+    background: linear-gradient(135deg, #ffffff, #cbd5e1);
     color: #000;
     border: none;
     padding: 5px 12px;
@@ -274,12 +282,13 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 2px 8px rgba(0, 242, 254, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3);
 }
 
 .plant button:hover {
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
     transform: scale(1.05);
-    filter: brightness(1.15);
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.5);
 }
 
 .progress {
@@ -306,7 +315,7 @@ body {
 
 .shopItem, .bagItem {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-silver);
     padding: 14px;
     border-radius: 16px;
     text-align: center;
@@ -318,9 +327,9 @@ body {
 
 .shopItem:hover, .bagItem:hover {
     background: var(--card-hover);
-    border-color: var(--accent-emerald);
+    border-color: var(--accent-gold);
     transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 230, 118, 0.25);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.25);
 }
 
 .shopItem h3 {
@@ -336,7 +345,7 @@ body {
 }
 
 .shopItem button, .bagItem button {
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-gold));
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
     color: #000;
     border: none;
     padding: 8px 14px;
@@ -349,7 +358,7 @@ body {
 
 .shopItem button:hover, .bagItem button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
     filter: brightness(1.1);
 }
 
@@ -362,12 +371,12 @@ body {
     background: var(--card-bg);
     padding: 22px;
     border-radius: 20px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-silver);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
 }
 
 .btn-spin {
-    background: linear-gradient(135deg, #f39c12, var(--accent-gold));
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
     color: #000;
     border: none;
     padding: 12px 28px;
@@ -375,7 +384,7 @@ body {
     border-radius: 30px;
     cursor: pointer;
     margin: 14px 0;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     transition: transform 0.2s;
 }
 
@@ -408,12 +417,12 @@ body {
     border: 4px solid var(--accent-gold);
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
     background: conic-gradient(
-        #ff7675 0deg 60deg,
-        #74b9ff 60deg 120deg,
-        #55efc4 120deg 180deg,
-        #ffeaa7 180deg 240deg,
-        #a29bfe 240deg 300deg,
-        #fd79a8 300deg 360deg
+        #d4af37 0deg 60deg,
+        #e2e8f0 60deg 120deg,
+        #aa7c11 120deg 180deg,
+        #ffffff 180deg 240deg,
+        #f59e0b 240deg 300deg,
+        #cbd5e1 300deg 360deg
     );
     display: flex;
     align-items: center;
@@ -440,14 +449,14 @@ body {
     cursor: pointer;
     user-select: none;
     transition: transform 0.1s ease;
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.6));
+    filter: drop-shadow(0 6px 15px rgba(255, 215, 0, 0.3));
 }
 
 #gong:hover { transform: scale(1.12); }
 #gong:active { transform: scale(0.92); }
 
 .gongShake { animation: shake 0.3s; }
-.gongLight { filter: drop-shadow(0 0 30px var(--accent-gold)) !important; }
+.gongLight { filter: drop-shadow(0 0 35px var(--accent-gold)) !important; }
 
 @keyframes shake {
     0% { transform: rotate(0deg); }
@@ -481,7 +490,7 @@ body {
 
 .monk-card {
     background: var(--card-bg);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-silver);
     padding: 14px;
     border-radius: 14px;
     text-align: center;
@@ -489,30 +498,31 @@ body {
 
 .btn-pray {
     width: 100%;
-    background: linear-gradient(135deg, var(--accent-purple), #8b5cf6);
-    color: white;
+    background: linear-gradient(135deg, #e2e8f0, #94a3b8);
+    color: #000;
     border: none;
     padding: 10px;
     border-radius: 10px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     margin-top: 10px;
     transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .btn-pray:hover {
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(168, 85, 247, 0.5);
+    box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
 }
 
 .equipment-box {
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     padding: 12px;
     border-radius: 10px;
     font-size: 13px;
     text-align: center;
-    border: 1px dashed var(--border-color);
+    border: 1px dashed var(--border-silver);
     color: var(--text-muted);
 }
 
@@ -523,7 +533,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 320px;
-    background: rgba(10, 24, 18, 0.95);
+    background: rgba(18, 18, 22, 0.95);
 }
 
 .auth-box {
@@ -533,8 +543,8 @@ body {
 }
 
 .auth-box input, .chat-input-area input {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border-silver);
     color: white;
     padding: 10px 14px;
     border-radius: 10px;
@@ -543,12 +553,12 @@ body {
 }
 
 .auth-box input:focus, .chat-input-area input:focus {
-    border-color: var(--accent-cyan);
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
 .auth-box button, .chat-input-area button {
-    background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
     color: #000;
     font-weight: 800;
     border: none;
@@ -560,14 +570,14 @@ body {
 
 .auth-box button:hover, .chat-input-area button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 230, 118, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.5);
 }
 
 .chat-messages {
     flex: 1;
     overflow-y: auto;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-silver);
     border-radius: 10px;
     padding: 10px;
     margin-bottom: 10px;
