@@ -1915,9 +1915,5 @@ function thuHoachCayDotBien(cell, plantInfo) {
 }
     saveGame();
     updateUI();
-         // Cấp 1 = 16 ô | Cấp 2 = 22 ô | Cấp 3 = 28 ô (mỗi cấp +6 ô)
-function getMaxPlots() {
-    return 10 + (farmLevel * 6);
-}
-    
+            
 }
