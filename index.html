@@ -31,6 +31,7 @@
     <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
     <nav class="main-nav">
         <button class="nav-btn active" onclick="openTab('farm')">🌾 Nông Trại</button>
+        <button class="nav-btn" onclick="openTab('animals')">🐾 Chuồng Thú</button> <!-- THÊM TAB CHUỒNG THÚ -->
         <button class="nav-btn" onclick="openTab('shop')">🛒 Cửa Hàng</button>
         <button class="nav-btn" onclick="openTab('bag')">🎒 Túi Đồ</button>
         <button class="nav-btn" onclick="openTab('temple')">🔔 Chùa Công Đức</button>
@@ -102,6 +103,43 @@
                     <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
                     <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
                     <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+                </div>
+            </section>
+
+            <!-- TAB MỚI: TRANG TRẠI THÚ NUÔI -->
+            <section id="animals" class="tab" style="display:none;">
+                <h2>🐾 Trang Trại Thú Nuôi</h2>
+                
+                <div class="shop-section">
+                    <h3>🛒 Mua Thú Nuôi</h3>
+                    <div class="shop-grid">
+                        <div class="shopItem">
+                            <h3>🐔 Gà Mái Linh Thạch</h3>
+                            <p>Giá: 500 Xu</p>
+                            <p>Đẻ trứng linh khí</p>
+                            <button onclick="buyAnimal('chicken', 500)">Mua Gà</button>
+                        </div>
+                        <div class="shopItem">
+                            <h3>🐄 Bò Tiên Cảnh</h3>
+                            <p>Giá: 1.500 Xu</p>
+                            <p>Cho sữa tiên</p>
+                            <button onclick="buyAnimal('cow', 1500)">Mua Bò</button>
+                        </div>
+                        <div class="shopItem">
+                            <h3>🐖 Heo Kim Giáp</h3>
+                            <p>Giá: 3.000 Xu</p>
+                            <p>Sản xuất vàng thỏi</p>
+                            <button onclick="buyAnimal('pig', 3000)">Mua Heo</button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="margin: 20px 0;">
+
+                <h3>🏠 Khu Vực Thú Nuôi Của Bạn</h3>
+                <div id="animalList" class="shop-grid">
+                    <!-- Danh sách con vật sẽ xuất hiện ở đây -->
+                    <p>Chưa có con vật nào trong trang trại.</p>
                 </div>
             </section>
 
@@ -322,13 +360,10 @@
                 </div>
                 
                 <div id="chatBox" class="chat-messages">
-                    <!-- Khung chứa các tin nhắn đã gửi -->
                     <div id="messageList" class="chat-messages-list" style="height: 200px; overflow-y: auto;">
-                        <!-- Tin nhắn sẽ tự động xuất hiện ở đây -->
                     </div>
                 </div>
                 
-                <!-- Ô nhập và nút gửi -->
                 <div id="chatInputBox" class="chat-input-area" style="display: flex; margin-top: 8px;">
                     <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)" style="flex: 1;" />
                     <button onclick="sendChatMessage()">Gửi</button>
