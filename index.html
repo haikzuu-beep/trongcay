@@ -55,7 +55,15 @@
         </div>
 
     </header>
-
+    <!-- Cửa hàng Skin Khu Vườn -->
+    <div id="shop-container" style="margin: 15px; text-align: center;">
+        <h3>🎨 Cửa Hàng Skin Khu Vườn</h3>
+        <button onclick="changeSkin('default', 0)">Mặc định</button>
+        <button onclick="changeSkin('cherry', 20)">Skin Hoa Anh Đào (20 💎)</button>
+        <button onclick="changeSkin('desert', 30)">Skin Sa Mạc (30 💎)</button>
+        <button onclick="changeSkin('winter', 40)">Skin Mùa Đông (40 💎)</button>
+    </div>
+    
 
 
     <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
@@ -761,7 +769,38 @@
 <!-- Scripts Game -->
 
 <script src="online.js"></script>
+<script>
+let currentSkin = 'default';
 
+function changeSkin(skinName, cost) {
+    if (typeof diamonds !== 'undefined' && diamonds >= cost) {
+        diamonds -= cost;
+        currentSkin = skinName;
+        alert("Đã đổi skin khu vườn thành công!");
+        updateTheme();
+    } else if (typeof diamonds === 'undefined') {
+        currentSkin = skinName;
+        alert("Đã chọn skin: " + skinName);
+        updateTheme();
+    } else {
+        alert("Bạn không đủ kim cương (💎) để mua skin này!");
+    }
+}
+
+function updateTheme() {
+    const container = document.querySelector(".game-container") || document.body;
+    if (currentSkin === 'cherry') {
+        container.style.backgroundColor = "#ffcdd2"; // Hồng hoa anh đào
+    } else if (currentSkin === 'desert') {
+        container.style.backgroundColor = "#ffe0b2"; // Vàng sa mạc
+    } else if (currentSkin === 'winter') {
+        container.style.backgroundColor = "#b3e5fc"; // Xanh băng mùa đông
+    } else {
+        container.style.backgroundColor = ""; // Mặc định
+    }
+}
+</script>
+    
 <script src="script.js"></script>
 
 
