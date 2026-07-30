@@ -681,6 +681,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
 /* ==================== BẢNG XẾP HẠNG ==================== */
 .leaderboard-list {
     list-style: none;
@@ -708,4 +709,70 @@ body {
 .rank-money {
     color: #ffca28;
     font-weight: bold;
+}
+
+/* =========================================================
+   10. TRANG TRẠI NUÔI THÚ (#ANIMAL-LIST) - BỔ SUNG MỚI
+   ========================================================= */
+#animalList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 15px;
+}
+
+#animalList .shopItem {
+    background: var(--card-bg);
+    border: 1px solid var(--border-silver);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: all 0.25s ease;
+}
+
+#animalList .shopItem:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 6px 18px rgba(255, 215, 0, 0.3);
+    transform: translateY(-3px);
+}
+
+#animalList .shopItem h3 {
+    font-size: 16px;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+#animalList .shopItem p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+#animalList .shopItem button {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+    color: #000;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+#animalList .shopItem button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
 }
