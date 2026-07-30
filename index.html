@@ -262,6 +262,8 @@
                         <div class="bagItem">🌹 Hoa hồng: <span id="hoahongCount">0</span> <button onclick="selectSeed('hoahong')">Chọn</button></div>
                         <div class="bagItem">🌲 Cây thông: <span id="thongCount">0</span> <button onclick="selectSeed('thong')">Chọn</button></div>
                         <div class="bagItem">🌵 Xương rồng: <span id="xuongrongCount">0</span> <button onclick="selectSeed('xuongrong')">Chọn</button></div>
+                        <!-- BỔ SUNG: Thêm hạt giống Sen Tuyết -->
+                        <div class="bagItem">🪷 Sen tuyết: <span id="sentuyetCount">0</span> <button onclick="selectSeed('sentuyet')">Chọn</button></div>
                     </div>
 
                     <hr>
@@ -280,6 +282,8 @@
                         <div class="temple-box">
                             <p>🙏 Tỷ lệ may mắn hiện tại: <strong id="luckPercent">0%</strong></p>
                             <button class="btn-pray" onclick="prayLuck()">Đổi 100 Công đức lấy 1 Vận may</button>
+                            <!-- BỔ SUNG: Nút Đổi công đức cao cấp -->
+                            <button class="btn-pray" onclick="prayLuckAdvanced()" style="margin-left: 10px;">Đổi 1.000 Công đức lấy 12 Vận may</button>
                         </div>
 
                         <hr>
@@ -302,6 +306,13 @@
                                 <p>Giá: 10.000 Xu</p>
                                 <p>+10 Công đức / giây</p>
                                 <button onclick="hireMonk(3)">Thuê ngay</button>
+                            </div>
+                            <!-- BỔ SUNG: Nút Thuê sư thầy Tổ Sư -->
+                            <div class="monk-card">
+                                <h4>✨ Tổ sư</h4>
+                                <p>Giá: 50.000 Xu</p>
+                                <p>+60 Công đức / giây</p>
+                                <button onclick="hireMonk(4)">Thuê ngay</button>
                             </div>
                         </div>
                         <p id="monkStatus" class="monk-status">Chưa thuê sư thầy</p>
@@ -395,14 +406,12 @@
         let currentSkin = 'default';
 
         function changeSkin(skinName, cost) {
-            // Lấy giá trị kim cương hiện tại từ giao diện (đảm bảo đồng bộ với script.js)
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
             if (currentKC >= cost) {
                 currentKC -= cost;
                 
-                // Cập nhật lại số kim cương lên các vị trí hiển thị trên giao diện
                 if (kcElement) kcElement.innerText = currentKC;
                 if (document.getElementById("diamondCountShop")) document.getElementById("diamondCountShop").innerText = currentKC;
                 if (document.getElementById("diamondCountBag")) document.getElementById("diamondCountBag").innerText = currentKC;
@@ -418,13 +427,13 @@
         function updateTheme() {
             const container = document.querySelector(".game-container") || document.body;
             if (currentSkin === 'cherry') {
-                container.style.backgroundColor = "#2d1b24"; // Màu hồng sẫm phong cách Tu Tiên
+                container.style.backgroundColor = "#2d1b24";
             } else if (currentSkin === 'desert') {
-                container.style.backgroundColor = "#2b251a"; // MàuSa mạc sẫm
+                container.style.backgroundColor = "#2b251a";
             } else if (currentSkin === 'winter') {
-                container.style.backgroundColor = "#1a252c"; // Màu Mùa đông sẫm
+                container.style.backgroundColor = "#1a252c";
             } else {
-                container.style.backgroundColor = ""; // Mặc định
+                container.style.backgroundColor = "";
             }
         }
 
