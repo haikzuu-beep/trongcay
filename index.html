@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Farm - Tu Tiên Nông Trại</title>
     
-    <!-- Favicon -->
+    <!-- Sửa lỗi Favicon 404 bằng Icon mầm cây SVG -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
     
     <link rel="stylesheet" href="style.css">
@@ -64,27 +64,6 @@
             }
         }
 
-        /* HIỆU ỨNG SKIN MẶT TRĂNG & HƯỚNG DƯƠNG */
-        @keyframes starSparkle {
-            0%, 100% { opacity: 0.2; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.3); }
-        }
-
-        @keyframes moonGlow {
-            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 255, 200, 0.6)); }
-            50% { filter: drop-shadow(0 0 35px rgba(255, 255, 220, 0.9)); }
-        }
-
-        @keyframes sunGlow {
-            0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.7)); }
-            50% { transform: rotate(180deg) scale(1.08); filter: drop-shadow(0 0 45px rgba(255, 220, 50, 1)); }
-        }
-
-        @keyframes flowerSway {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
         .fx-petal {
             position: absolute;
             background: #ffb7c5;
@@ -116,38 +95,9 @@
             animation: sandDustBlow 8s linear infinite;
         }
 
-        /* Phần tử thời tiết cho Trăng & Mặt trời */
-        .fx-star {
-            position: absolute;
-            color: #fff;
-            font-size: 14px;
-            animation: starSparkle ease-in-out infinite alternate;
-        }
-
-        .fx-moon {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 70px;
-            animation: moonGlow 4s ease-in-out infinite;
-        }
-
-        .fx-sun {
-            position: absolute;
-            top: 15px;
-            right: 25px;
-            font-size: 80px;
-            animation: sunGlow 20s linear infinite;
-        }
-
-        .fx-sunflower-bottom {
-            position: absolute;
-            bottom: -5px;
-            font-size: 32px;
-            animation: flowerSway 3s ease-in-out infinite;
-        }
-
-        /* ==================== THEME STYLES ==================== */
+        /* ==================== THEME STYLES (ĐỔI TẤT CẢ GIAO DIỆN) ==================== */
+        
+        /* 🌸 SKIN HOA ANH ĐÀO (CHERRY) */
         body.skin-cherry {
             background-color: #2d1b24 !important;
             color: #ffd6e8 !important;
@@ -172,6 +122,7 @@
             border-color: #ff9ebb !important;
         }
 
+        /* 🏜️ SKIN SA MẠC (DESERT) */
         body.skin-desert {
             background-color: #2a2118 !important;
             color: #f2d6b3 !important;
@@ -197,6 +148,7 @@
             border-color: #d4a359 !important;
         }
 
+        /* ❄️ SKIN MÙA ĐÔNG (WINTER) */
         body.skin-winter {
             background-color: #141e28 !important;
             color: #d0f0fd !important;
@@ -219,57 +171,6 @@
         body.skin-winter .plot {
             background: #2d4356 !important;
             border-color: #70c1b3 !important;
-        }
-
-        body.skin-moon {
-            background-color: #0b1021 !important;
-            color: #e2e8f0 !important;
-        }
-        body.skin-moon .card, 
-        body.skin-moon .tab, 
-        body.skin-moon .shopItem, 
-        body.skin-moon .bagItem, 
-        body.skin-moon .monk-card {
-            background: #151d38 !important;
-            border-color: #7c3aed !important;
-            box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
-            color: #f1f5f9 !important;
-        }
-        body.skin-moon button, 
-        body.skin-moon .nav-btn {
-            background: #6d28d9 !important;
-            color: #fff !important;
-            border-color: #a78bfa !important;
-        }
-        body.skin-moon .plot {
-            background: #1e1b4b !important;
-            border-color: #8b5cf6 !important;
-        }
-
-        body.skin-sunflower {
-            background-color: #3f2e18 !important;
-            color: #fef08a !important;
-        }
-        body.skin-sunflower .card, 
-        body.skin-sunflower .tab, 
-        body.skin-sunflower .shopItem, 
-        body.skin-sunflower .bagItem, 
-        body.skin-sunflower .monk-card {
-            background: #543d1f !important;
-            border-color: #eab308 !important;
-            box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
-            color: #fef9c3 !important;
-        }
-        body.skin-sunflower button, 
-        body.skin-sunflower .nav-btn {
-            background: #ca8a04 !important;
-            color: #fff !important;
-            border-color: #fde047 !important;
-            font-weight: bold;
-        }
-        body.skin-sunflower .plot {
-            background: #654321 !important;
-            border-color: #eab308 !important;
         }
     </style>
 </head>
@@ -314,7 +215,7 @@
         <!-- ==================== DASHBOARD CHÍNH ==================== -->
         <main class="game-dashboard">
 
-            <!-- CỘT BÊN TRÁI -->
+            <!-- CỘT BÊN TRÁI: THỐNG KÊ NHÂN VẬT & MÕ CÔNG ĐỨC -->
             <aside class="side-panel panel-left">
                 <div class="card">
                     <h3>⭐ NHÂN VẬT</h3>
@@ -336,8 +237,7 @@
                 <div class="card gong-card">
                     <h3>🔔 TÍCH CÔNG ĐỨC</h3>
                     <div id="gongBox" class="quick-gong-box">
-                        <!-- Đã đổi onclick sang playGong() để tránh trùng tên ID -->
-                        <div id="gong" class="gong" onclick="playGong()" style="cursor: pointer; font-size: 40px; text-align: center;">🥁</div>
+                        <div id="gong" class="gong" onclick="gong()">🥁</div>
                     </div>
                     <p class="hint-text">Bấm vào trống/mõ để gõ</p>
                     <div class="stat-row">
@@ -351,7 +251,7 @@
                 </div>
             </aside>
 
-            <!-- CỘT GIỮA -->
+            <!-- CỘT GIỮA: NỘI DUNG CHÍNH (CÁC TAB) -->
             <section class="main-content">
 
                 <!-- TAB 1: NÔNG TRẠI -->
@@ -364,6 +264,7 @@
                         <button onclick="moGhiChu()" style="padding: 6px 14px; cursor: pointer; border-radius: 6px; border: 1px solid #d4af37; background: #1a1a1a; color: #d4af37; font-weight: bold;">📜 Thơ</button>
                     </div>
 
+                    <!-- Lưới đất 32 ô -->
                     <div id="garden" class="garden-grid">
                         <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
                         <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
@@ -443,8 +344,8 @@
                         <h3>💧 Dụng Cụ & Nâng Cấp</h3>
                         <div class="shop-grid">
                             <div class="shopItem">
-                                <h3 id="canName">Bình Tưới Nhựa</h3>
-                                <p>Giá: <span id="canPrice">100</span> xu</p>
+                                <h3 id="canName">Đang tải...</h3>
+                                <p>Giá: <span id="canPrice">0</span> xu</p>
                                 <button onclick="buyWateringCan()">Mua bình</button>
                             </div>
                             <div class="shopItem">
@@ -494,16 +395,6 @@
                                 <h3>🎨 Skin Mùa Đông</h3>
                                 <p>Giá: 40 💎</p>
                                 <button id="btnSkinWinter" onclick="changeSkin('winter', 40)">Mua</button>
-                            </div>
-                            <div class="shopItem">
-                                <h3>🌙 Skin Mặt Trăng</h3>
-                                <p>Giá: 50 💎</p>
-                                <button id="btnSkinMoon" onclick="changeSkin('moon', 50)">Mua</button>
-                            </div>
-                            <div class="shopItem">
-                                <h3>🌻 Skin Hướng Dương</h3>
-                                <p>Giá: 35 💎</p>
-                                <button id="btnSkinSunflower" onclick="changeSkin('sunflower', 35)">Mua</button>
                             </div>
                         </div>
 
@@ -602,7 +493,7 @@
 
             </section>
 
-            <!-- CỘT BÊN PHẢI -->
+            <!-- CỘT BÊN PHẢI: TRANG BỊ, TÀI NGUYÊN & KHUNG CHAT -->
             <aside class="side-panel panel-right">
                 <div class="card">
                     <h3>💧 TRANG BỊ</h3>
@@ -635,7 +526,7 @@
                 <div class="card leaderboard-card">
                     <h3>🏆 BẢNG XẾP HẠNG TOP XU</h3>
                     <ol id="leaderboardList" class="leaderboard-list">
-                        <li>1. Nông Dân Vip - 100,000 Xu</li>
+                        <li>Đang tải...</li>
                     </ol>
                 </div>
 
@@ -663,7 +554,7 @@
         </main>
     </div>
 
-    <!-- Khung thơ -->
+    <!-- Khung màn hình hiển thị bài thơ -->
     <div id="modalTho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
         <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
             <h3 style="color: #d4af37; margin-top: 0; font-size: 24px;">📜 Bí Kíp Nông Dân</h3>
@@ -681,102 +572,39 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- File logic chính từ bên ngoài (nếu có) -->
+    <!-- Scripts Game -->
     <script src="online.js"></script>
-
-    <!-- HÀM XỬ LÝ CHÍNH VÀ KHẮC PHỤC LỖI CONSOLE -->
     <script>
-        // 1. HÀM CHUYỂN TAB (Sửa lỗi openTab is not defined)
-        function openTab(tabId) {
-            let tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => {
-                tab.style.display = 'none';
-            });
-
-            let targetTab = document.getElementById(tabId);
-            if (targetTab) {
-                targetTab.style.display = 'block';
-            }
-
-            let navBtns = document.querySelectorAll('.main-nav .nav-btn');
-            navBtns.forEach(btn => btn.classList.remove('active'));
-            
-            if (event && event.target && event.target.classList.contains('nav-btn')) {
-                event.target.classList.add('active');
-            }
-        }
-
-        // 2. HÀM GÕ MÕ / TRỐNG (Sửa lỗi gong is not a function)
-        function playGong() {
-            let meritElem = document.getElementById("merit");
-            if (meritElem) {
-                let currentMerit = parseInt(meritElem.innerText) || 0;
-                currentMerit += 1;
-                meritElem.innerText = currentMerit;
-            }
-
-            // Hiệu ứng phồng nhẹ khi bấm
-            let gongIcon = document.getElementById("gong");
-            if (gongIcon) {
-                gongIcon.style.transform = "scale(1.2)";
-                setTimeout(() => {
-                    gongIcon.style.transform = "scale(1)";
-                }, 100);
-            }
-        }
-
-        // 3. HÀM HIỂN THỊ / ĐÓNG THƠ (Sửa lỗi moGhiChu is not defined)
-        function moGhiChu() {
-            let modal = document.getElementById("modalTho");
-            if (modal) modal.style.display = "flex";
-        }
-
-        function dongGhiChu() {
-            let modal = document.getElementById("modalTho");
-            if (modal) modal.style.display = "none";
-        }
-
-        // 4. HÀM CẦU NGUYỆN CÔNG ĐỨC
-        function prayLuck() {
-            let meritElem = document.getElementById("merit");
-            let luckElem = document.getElementById("luck");
-            
-            let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
-            let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
-
-            if (merit >= 100) {
-                merit -= 100;
-                luck += 1;
-                if (meritElem) meritElem.innerText = merit;
-                if (luckElem) luckElem.innerText = luck;
-                alert("Cầu nguyện thành công! +1 Vận may");
-            } else {
-                alert("Bạn cần ít nhất 100 Công đức!");
-            }
-        }
-
+        // XỬ LÝ LỖI PRAYLUCKADVANCED KHÔNG TỒN TẠI
         function prayLuckAdvanced() {
-            let meritElem = document.getElementById("merit");
-            let luckElem = document.getElementById("luck");
-            
-            let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
-            let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
+            // Kiểm tra xem hàm prayLuck ban đầu trong script.js có tồn tại không
+            if (typeof window.prayLuck === 'function') {
+                // Gọi prayLuck 10 lần hoặc thực hiện logic đổi 1000 công đức
+                let meritElem = document.getElementById("merit");
+                let luckElem = document.getElementById("luck");
+                
+                let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
+                let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
 
-            if (merit >= 1000) {
-                merit -= 1000;
-                luck += 12;
-                if (meritElem) meritElem.innerText = merit;
-                if (luckElem) luckElem.innerText = luck;
-                alert("Cầu nguyện cao cấp thành công! +12 Vận may");
+                if (merit >= 1000) {
+                    merit -= 1000;
+                    luck += 12;
+                    if (meritElem) meritElem.innerText = merit;
+                    if (luckElem) luckElem.innerText = luck;
+                    alert("Cầu nguyện cao cấp thành công! Bạn nhận được 12 Vận may.");
+                } else {
+                    alert("Bạn không đủ Công đức! (Cần 1.000 Công đức)");
+                }
             } else {
-                alert("Cần 1.000 Công đức!");
+                alert("Tính năng đang cập nhật!");
             }
         }
 
-        // 5. CỬA HÀNG SKIN & THỜI TIẾT
+        // Quản lý lưu trữ Skin bằng LocalStorage
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
         let ownedSkins = JSON.parse(localStorage.getItem('ownedSkins')) || ['default'];
 
+        // Đổi hoặc mua Skin
         function changeSkin(skinName, cost) {
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
@@ -802,15 +630,16 @@
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
 
-                alert("Chúc mừng! Bạn đã mua thành công!");
+                alert("Chúc mừng! Bạn đã mua và mở khóa skin thành công!");
                 updateTheme();
             } else {
-                alert("Bạn không đủ kim cương (💎)! Cần " + cost + " 💎.");
+                alert("Bạn không đủ kim cương (💎) để mua skin này! (Cần " + cost + " 💎)");
             }
         }
 
+        // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter', 'skin-moon', 'skin-sunflower');
+            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
 
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
@@ -824,97 +653,74 @@
             const btnMap = {
                 'cherry': 'btnSkinCherry',
                 'desert': 'btnSkinDesert',
-                'winter': 'btnSkinWinter',
-                'moon': 'btnSkinMoon',
-                'sunflower': 'btnSkinSunflower'
+                'winter': 'btnSkinWinter'
             };
 
             for (let skin in btnMap) {
                 let btn = document.getElementById(btnMap[skin]);
                 if (btn) {
                     if (ownedSkins.includes(skin)) {
-                        btn.innerText = (currentSkin === skin) ? "Đang dùng" : "Sử dụng";
-                        btn.style.opacity = (currentSkin === skin) ? "0.7" : "1";
+                        btn.innerText = (currentSkin === skin) ? "Đang Dùng" : "Sử Dụng";
                     }
                 }
             }
         }
 
+        // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
-            const overlay = document.getElementById('fx-overlay');
-            if (!overlay) return;
-            overlay.innerHTML = '';
+            const fxContainer = document.getElementById("fx-overlay");
+            fxContainer.innerHTML = "";
 
             if (currentSkin === 'cherry') {
                 for (let i = 0; i < 25; i++) {
-                    let petal = document.createElement('div');
-                    petal.className = 'fx-petal';
-                    petal.style.left = Math.random() * 100 + 'vw';
-                    petal.style.width = (Math.random() * 8 + 8) + 'px';
-                    petal.style.height = (Math.random() * 8 + 8) + 'px';
-                    petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                    petal.style.animationDelay = (Math.random() * 5) + 's';
-                    overlay.appendChild(petal);
-                }
-            } else if (currentSkin === 'winter') {
-                for (let i = 0; i < 35; i++) {
-                    let flake = document.createElement('div');
-                    flake.className = 'fx-snowflake';
-                    flake.innerText = '❄';
-                    flake.style.left = Math.random() * 100 + 'vw';
-                    flake.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                    flake.style.animationDelay = (Math.random() * 5) + 's';
-                    overlay.appendChild(flake);
+                    let petal = document.createElement("div");
+                    petal.className = "fx-petal";
+                    let size = Math.random() * 8 + 8;
+                    petal.style.width = size + "px";
+                    petal.style.height = (size + 4) + "px";
+                    petal.style.left = Math.random() * 100 + "vw";
+                    petal.style.animationDuration = (Math.random() * 4 + 4) + "s";
+                    petal.style.animationDelay = (Math.random() * 5) + "s";
+                    fxContainer.appendChild(petal);
                 }
             } else if (currentSkin === 'desert') {
-                let dust = document.createElement('div');
-                dust.className = 'fx-dust';
-                overlay.appendChild(dust);
+                let dust = document.createElement("div");
+                dust.className = "fx-dust";
+                fxContainer.appendChild(dust);
 
-                let tumbleweed = document.createElement('div');
-                tumbleweed.className = 'fx-tumbleweed';
-                tumbleweed.innerText = '🌾';
-                tumbleweed.style.animationDuration = '12s';
-                overlay.appendChild(tumbleweed);
-            } else if (currentSkin === 'moon') {
-                let moon = document.createElement('div');
-                moon.className = 'fx-moon';
-                moon.innerText = '🌙';
-                overlay.appendChild(moon);
-
-                for (let i = 0; i < 40; i++) {
-                    let star = document.createElement('div');
-                    star.className = 'fx-star';
-                    star.innerText = Math.random() > 0.5 ? '✨' : '⭐';
-                    star.style.top = Math.random() * 90 + 'vh';
-                    star.style.left = Math.random() * 100 + 'vw';
-                    star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-                    star.style.animationDelay = (Math.random() * 3) + 's';
-                    overlay.appendChild(star);
-                }
-            } else if (currentSkin === 'sunflower') {
-                let sun = document.createElement('div');
-                sun.className = 'fx-sun';
-                sun.innerText = '☀️';
-                overlay.appendChild(sun);
-
-                for (let i = 0; i < 12; i++) {
-                    let flower = document.createElement('div');
-                    flower.className = 'fx-sunflower-bottom';
-                    flower.innerText = '🌻';
-                    flower.style.left = (i * 8.5 + Math.random() * 2) + 'vw';
-                    flower.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                    flower.style.animationDelay = (Math.random() * 2) + 's';
-                    overlay.appendChild(flower);
+                let tumbleweed = document.createElement("div");
+                tumbleweed.className = "fx-tumbleweed";
+                tumbleweed.innerText = "🌾";
+                tumbleweed.style.animationDuration = "7s";
+                fxContainer.appendChild(tumbleweed);
+            } else if (currentSkin === 'winter') {
+                for (let i = 0; i < 35; i++) {
+                    let flake = document.createElement("div");
+                    flake.className = "fx-snowflake";
+                    flake.innerText = "❄";
+                    flake.style.left = Math.random() * 100 + "vw";
+                    flake.style.fontSize = (Math.random() * 10 + 10) + "px";
+                    flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                    flake.style.animationDelay = (Math.random() * 4) + "s";
+                    fxContainer.appendChild(flake);
                 }
             }
         }
 
-        // Tự động khởi tạo khi trang load xong
-        document.addEventListener('DOMContentLoaded', () => {
+        function moGhiChu() {
+            document.getElementById("modalTho").style.display = "flex";
+        }
+
+        function dongGhiChu() {
+            document.getElementById("modalTho").style.display = "none";
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
         });
     </script>
+    <script src="script.js"></script>
+
 </body>
 
 </html>
