@@ -27,7 +27,7 @@
                     💎 KC: <span id="diamondCount">0</span>
                 </div>
             </div>
-        </header>
+        </header> <!-- ĐÃ THÊM THẺ ĐÓNG HEADER VÀO ĐÂY -->
 
         <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
         <nav class="main-nav">
@@ -41,7 +41,20 @@
                 <button type="button" class="nav-btn">⚙️ Đến trang Admin</button>
             </a>
         </nav>
-
+<!-- Cửa hàng Skin & Nút Thơ -->
+<div style="display: flex; align-items: center; justify-content: space-between; margin: 15px; flex-wrap: wrap; gap: 10px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <h2 style="margin: 0; color: #fff;">Khu Vườn Nông Trại</h2>
+        <button onclick="moGhiChu()" style="padding: 5px 10px; cursor: pointer; border-radius: 5px; border: 1px solid #d4af37; background: #1a1a1a; color: #d4af37; font-weight: bold;">📜 Thơ</button>
+    </div>
+    <div id="shop-container">
+        <button onclick="changeSkin('default', 0)" style="margin-right: 5px;">Mặc định</button>
+        <button onclick="changeSkin('cherry', 20)" style="margin-right: 5px;">Hoa Anh Đào (20 💎)</button>
+        <button onclick="changeSkin('desert', 30)" style="margin-right: 5px;">Sa Mạc (30 💎)</button>
+        <button onclick="changeSkin('winter', 40)">Mùa Đông (40 💎)</button>
+    </div>
+</div>
+        
         <!-- ==================== DASHBOARD CHÍNH ==================== -->
         <main class="game-dashboard">
 
@@ -375,32 +388,21 @@
     <!-- Scripts Game -->
     <script src="online.js"></script>
     <script>
-        // 1. Lấy skin đã lưu từ localStorage (nếu chưa có thì lấy mặc định là 'default')
-        let currentSkin = localStorage.getItem('savedSkin') || 'default';
-
-        // 2. Khi trang vừa tải xong, áp dụng ngay skin đã lưu
-        window.addEventListener('DOMContentLoaded', () => {
-            updateTheme();
-        });
+        let currentSkin = 'default';
 
         function changeSkin(skinName, cost) {
             if (typeof diamonds !== 'undefined' && diamonds >= cost) {
                 diamonds -= cost;
-                applyAndSaveSkin(skinName);
+                currentSkin = skinName;
+                alert("Đã đổi skin khu vườn thành công!");
+                updateTheme();
             } else if (typeof diamonds === 'undefined') {
-                applyAndSaveSkin(skinName);
+                currentSkin = skinName;
+                alert("Đã chọn skin: " + skinName);
+                updateTheme();
             } else {
                 alert("Bạn không đủ kim cương (💎) để mua skin này!");
             }
-        }
-
-        // Hàm hỗ trợ áp dụng và ghi nhớ skin vĩnh viễn vào bộ nhớ
-        function applyAndSaveSkin(skinName) {
-            currentSkin = skinName;
-            localStorage.setItem('savedSkin', skinName); // 👉 Lưu vào bộ nhớ máy
-            alert("Đã đổi skin khu vườn thành công!");
-            updateTheme();
-            if (typeof updateUI === 'function') updateUI();
         }
 
         function updateTheme() {
@@ -415,6 +417,31 @@
                 container.style.backgroundColor = ""; // Mặc định
             }
         }
+        <!-- Khung màn hình hiển thị bài thơ (chuẩn phong cách thư pháp) -->
+<div id="modalTho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
+    <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
+        <h3 style="color: #d4af37; margin-top: 0; font-family: 'ZCOOL KuaiLe', cursive; font-size: 24px;">📜 Bí Kíp Nông Dân</h3>
+        <p style="color: #f3f3f3; line-height: 1.8; font-style: italic; font-family: 'ZCOOL KuaiLe', cursive; font-size: 20px; letter-spacing: 1px;">
+            Sáng ra gieo hạt, tối ngóng mầm,<br>
+            Chờ cây lớn nổi đúng là hâm.<br>
+            Tay ôm luống đất, mơ mộng hão,<br>
+            Làm giàu kiểu này chắc mười năm!
+        </p>
+        <button onclick="dongGhiChu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'ZCOOL KuaiLe', cursive;">Đóng</button>
+    </div>
+</div>
+            
+
+<script>
+function moGhiChu() {
+    document.getElementById("modalTho").style.display = "flex";
+}
+
+function dongGhiChu() {
+    document.getElementById("modalTho").style.display = "none";
+}
+</script>
+    
     </script>
     <script src="script.js"></script>
 
