@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Farm - Tu Tiên Nông Trại</title>
+    
+    <!-- Sửa lỗi Favicon 404 bằng Icon mầm cây SVG -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    
     <link rel="stylesheet" href="style.css">
 
     <!-- CSS Bổ sung dành cho Hiệu ứng Weather & Đổi chủ đề toàn bộ Skin -->
@@ -571,6 +575,31 @@
     <!-- Scripts Game -->
     <script src="online.js"></script>
     <script>
+        // XỬ LÝ LỖI PRAYLUCKADVANCED KHÔNG TỒN TẠI
+        function prayLuckAdvanced() {
+            // Kiểm tra xem hàm prayLuck ban đầu trong script.js có tồn tại không
+            if (typeof window.prayLuck === 'function') {
+                // Gọi prayLuck 10 lần hoặc thực hiện logic đổi 1000 công đức
+                let meritElem = document.getElementById("merit");
+                let luckElem = document.getElementById("luck");
+                
+                let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
+                let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
+
+                if (merit >= 1000) {
+                    merit -= 1000;
+                    luck += 12;
+                    if (meritElem) meritElem.innerText = merit;
+                    if (luckElem) luckElem.innerText = luck;
+                    alert("Cầu nguyện cao cấp thành công! Bạn nhận được 12 Vận may.");
+                } else {
+                    alert("Bạn không đủ Công đức! (Cần 1.000 Công đức)");
+                }
+            } else {
+                alert("Tính năng đang cập nhật!");
+            }
+        }
+
         // Quản lý lưu trữ Skin bằng LocalStorage
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
         let ownedSkins = JSON.parse(localStorage.getItem('ownedSkins')) || ['default'];
@@ -580,7 +609,6 @@
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
-            // Kiểm tra xem đã sở hữu skin chưa
             if (ownedSkins.includes(skinName)) {
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
@@ -589,7 +617,6 @@
                 return;
             }
 
-            // Nếu chưa mua -> tiến hành trừ Kim Cương
             if (currentKC >= cost) {
                 currentKC -= cost;
                 
@@ -612,18 +639,13 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            // Xóa toàn bộ class skin cũ
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
 
-            // Áp dụng class mới
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
             }
 
-            // Cập nhật trạng thái hiển thị của các nút Mua -> Áp dụng
             updateShopButtons();
-
-            // Tạo hiệu ứng thời tiết tương ứng
             renderWeatherEffects();
         }
 
@@ -647,10 +669,9 @@
         // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
-            fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
+            fxContainer.innerHTML = "";
 
             if (currentSkin === 'cherry') {
-                // Tạo cánh hoa rơi
                 for (let i = 0; i < 25; i++) {
                     let petal = document.createElement("div");
                     petal.className = "fx-petal";
@@ -663,19 +684,16 @@
                     fxContainer.appendChild(petal);
                 }
             } else if (currentSkin === 'desert') {
-                // Hiệu ứng bụi cát
                 let dust = document.createElement("div");
                 dust.className = "fx-dust";
                 fxContainer.appendChild(dust);
 
-                // Cỏ khô thổi ngang
                 let tumbleweed = document.createElement("div");
                 tumbleweed.className = "fx-tumbleweed";
                 tumbleweed.innerText = "🌾";
                 tumbleweed.style.animationDuration = "7s";
                 fxContainer.appendChild(tumbleweed);
             } else if (currentSkin === 'winter') {
-                // Hiệu ứng tuyết rơi
                 for (let i = 0; i < 35; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
@@ -697,7 +715,6 @@
             document.getElementById("modalTho").style.display = "none";
         }
 
-        // Tự động load theme khi vừa vào trang web
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
         });
