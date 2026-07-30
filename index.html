@@ -91,24 +91,9 @@
             animation: sandDustBlow 8s linear infinite;
         }
 
-        /* CSS Bổ Sung Cho Khu Mò Cua & Chợ */
-        .river-area {
-            background: rgba(30, 144, 255, 0.15);
-            border: 2px dashed #1e90ff;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .market-board {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid #d4af37;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        /* ==================== THEME STYLES ==================== */
+        /* ==================== THEME STYLES (ĐỔI TẤT CẢ GIAO DIỆN) ==================== */
+        
+        /* 🌸 SKIN HOA ANH ĐÀO (CHERRY) */
         body.skin-cherry {
             background-color: #2d1b24 !important;
             color: #ffd6e8 !important;
@@ -133,6 +118,7 @@
             border-color: #ff9ebb !important;
         }
 
+        /* 🏜️ SKIN SA MẠC (DESERT) */
         body.skin-desert {
             background-color: #2a2118 !important;
             color: #f2d6b3 !important;
@@ -158,6 +144,7 @@
             border-color: #d4a359 !important;
         }
 
+        /* ❄️ SKIN MÙA ĐÔNG (WINTER) */
         body.skin-winter {
             background-color: #141e28 !important;
             color: #d0f0fd !important;
@@ -212,8 +199,6 @@
         <nav class="main-nav">
             <button class="nav-btn active" onclick="openTab('farm')">🌾 Nông Trại</button>
             <button class="nav-btn" onclick="openTab('animals')">🐾 Chuồng Thú</button>
-            <button class="nav-btn" onclick="openTab('catch')">🦀 Mò Cua</button>
-            <button class="nav-btn" onclick="openTab('market')">🏪 Chợ Nông Sản</button>
             <button class="nav-btn" onclick="openTab('shop')">🛒 Cửa Hàng</button>
             <button class="nav-btn" onclick="openTab('bag')">🎒 Túi Đồ</button>
             <button class="nav-btn" onclick="openTab('temple')">🔔 Chùa Công Đức</button>
@@ -226,7 +211,7 @@
         <!-- ==================== DASHBOARD CHÍNH ==================== -->
         <main class="game-dashboard">
 
-            <!-- CỘT BÊN TRÁI -->
+            <!-- CỘT BÊN TRÁI: THỐNG KÊ NHÂN VẬT & MÕ CÔNG ĐỨC -->
             <aside class="side-panel panel-left">
                 <div class="card">
                     <h3>⭐ NHÂN VẬT</h3>
@@ -262,7 +247,7 @@
                 </div>
             </aside>
 
-            <!-- CỘT GIỮA: NỘI DUNG CHÍNH -->
+            <!-- CỘT GIỮA: NỘI DUNG CHÍNH (CÁC TAB) -->
             <section class="main-content">
 
                 <!-- TAB 1: NÔNG TRẠI -->
@@ -275,6 +260,7 @@
                         <button onclick="moGhiChu()" style="padding: 6px 14px; cursor: pointer; border-radius: 6px; border: 1px solid #d4af37; background: #1a1a1a; color: #d4af37; font-weight: bold;">📜 Thơ</button>
                     </div>
 
+                    <!-- Lưới đất 32 ô -->
                     <div id="garden" class="garden-grid">
                         <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
                         <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
@@ -290,101 +276,105 @@
                 <!-- TAB 2: TRANG TRẠI THÚ NUÔI -->
                 <section id="animals" class="tab" style="display:none;">
                     <h2>🐾 Trang Trại Thú Nuôi</h2>
+                    
                     <div class="shop-section">
                         <h3>🛒 Mua Thú Nuôi</h3>
                         <div class="shop-grid">
                             <div class="shopItem">
                                 <h3>🐔 Gà Mái Linh Thạch</h3>
                                 <p>Giá: 500 Xu</p>
+                                <p>Đẻ trứng linh khí</p>
                                 <button onclick="buyAnimal('chicken', 500)">Mua Gà</button>
                             </div>
                             <div class="shopItem">
                                 <h3>🐄 Bò Tiên Cảnh</h3>
                                 <p>Giá: 1.500 Xu</p>
+                                <p>Cho sữa tiên</p>
                                 <button onclick="buyAnimal('cow', 1500)">Mua Bò</button>
                             </div>
                             <div class="shopItem">
                                 <h3>🐖 Heo Kim Giáp</h3>
                                 <p>Giá: 3.000 Xu</p>
+                                <p>Sản xuất vàng thỏi</p>
                                 <button onclick="buyAnimal('pig', 3000)">Mua Heo</button>
                             </div>
                         </div>
                     </div>
 
                     <hr style="margin: 20px 0;">
+
                     <h3>🏠 Khu Vực Thú Nuôi Của Bạn</h3>
                     <div id="animalList" class="shop-grid">
                         <p>Chưa có con vật nào trong trang trại.</p>
                     </div>
                 </section>
 
-                <!-- TAB 3: KHU MÒ CUA BẮT ỐC -->
-                <section id="catch" class="tab" style="display:none;">
-                    <h2>🦀 Khu Vực Bờ Sông & Mò Cua Bắt Ốc</h2>
-                    <div class="river-area">
-                        <h3>🌊 Bờ Sông Linh Khí</h3>
-                        <p>Hãy chọn phương thức để bắt các loài thủy hải sản:</p>
-                        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
-                            <button onclick="catchSeafood('hand')" style="padding: 10px 20px;">🖐️ Mò Tay (Miễn phí)</button>
-                            <button onclick="catchSeafood('net')" style="padding: 10px 20px;">🕸️ Thả Lưới (Chi phí: 50 Xu)</button>
-                        </div>
-                    </div>
-
-                    <div class="shop-section">
-                        <h3>🦐 Bể Hải Sản Đã Bắt</h3>
-                        <div class="shop-grid" id="seaFoodTank">
-                            <div class="shopItem"><h3>🦀 Cua Đồng</h3><p>Số lượng: <span id="crabCount">0</span></p></div>
-                            <div class="shopItem"><h3>🐚 Ốc Bươu</h3><p>Số lượng: <span id="snailCount">0</span></p></div>
-                            <div class="shopItem"><h3>🦐 Tôm Hùm Tiên</h3><p>Số lượng: <span id="shrimpCount">0</span></p></div>
-                            <div class="shopItem"><h3>🐟 Cá Cảnh Hoàng Kim</h3><p>Số lượng: <span id="fishCount">0</span></p></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 4: CHỢ NÔNG SẢN -->
-                <section id="market" class="tab" style="display:none;">
-                    <h2>🏪 Chợ Giao Thương Nông Sản</h2>
-                    <div class="market-board">
-                        <h3>📊 Thị Giá Hôm Nay</h3>
-                        <p>Giá nông sản biến động liên tục. Hãy chọn thời điểm thích hợp để bán!</p>
-                    </div>
-
-                    <div class="shop-section">
-                        <h3>💰 Gian Hàng Của Bạn (Bán Sản Phẩm)</h3>
-                        <div class="shop-grid">
-                            <div class="shopItem">
-                                <h3>🦀 Bán Cua Đồng</h3>
-                                <button onclick="sellMarketItem('crab', 100)">Bán 1 Con (100 Xu)</button>
-                            </div>
-                            <div class="shopItem">
-                                <h3>🐚 Bán Ốc Bươu</h3>
-                                <button onclick="sellMarketItem('snail', 50)">Bán 1 Con (50 Xu)</button>
-                            </div>
-                            <div class="shopItem">
-                                <h3>🦐 Bán Tôm Hùm Tiên</h3>
-                                <button onclick="sellMarketItem('shrimp', 250)">Bán 1 Con (250 Xu)</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- TAB 5: CỬA HÀNG -->
+                <!-- TAB 3: CỬA HÀNG -->
                 <section id="shop" class="tab" style="display:none;">
                     <h2>🛒 Cửa Hàng Tổng Hợp</h2>
+
                     <div class="shop-section">
                         <h3>🌱 Hạt Giống</h3>
                         <div class="shop-grid">
                             <div class="shopItem"><h3>🌾 Hạt Lúa</h3><p>Giá: 20 xu</p><button onclick="buySeed('lua',20)">Mua</button></div>
                             <div class="shopItem"><h3>🥕 Hạt Cà Rốt</h3><p>Giá: 40 xu</p><button onclick="buySeed('carot',40)">Mua</button></div>
                             <div class="shopItem"><h3>🍅 Hạt Cà Chua</h3><p>Giá: 60 xu</p><button onclick="buySeed('cachua',60)">Mua</button></div>
+                            <div class="shopItem"><h3>🌽 Hạt Bắp</h3><p>Giá: 100 xu</p><button onclick="buySeed('bap',100)">Mua</button></div>
+                            <div class="shopItem"><h3>🌻 Hướng Dương</h3><p>Giá: 150 xu</p><button onclick="buySeed('huongduong',150)">Mua</button></div>
+                            <div class="shopItem"><h3>🍓 Hạt Dâu Tây</h3><p>Giá: 180 xu</p><button onclick="buySeed('dautay',180)">Mua</button></div>
+                            <div class="shopItem"><h3>🥭 Hạt Xoài</h3><p>Giá: 220 xu</p><button onclick="buySeed('xoai',220)">Mua</button></div>
+                            <div class="shopItem"><h3>🍍 Hạt Dứa</h3><p>Giá: 200 xu</p><button onclick="buySeed('dua',200)">Mua</button></div>
+                            <div class="shopItem"><h3>🍇 Hạt Nho</h3><p>Giá: 300 xu</p><button onclick="buySeed('nho',300)">Mua</button></div>
+                            <div class="shopItem"><h3>🍉 Hạt Dưa Hấu</h3><p>Giá: 350 xu</p><button onclick="buySeed('duahau',350)">Mua</button></div>
+                            <div class="shopItem"><h3>🍌 Hạt Chuối</h3><p>Giá: 400 xu</p><button onclick="buySeed('chuoi',400)">Mua</button></div>
+                            <div class="shopItem"><h3>🍎 Hạt Táo</h3><p>Giá: 500 xu</p><button onclick="buySeed('tao',500)">Mua</button></div>
+                            <div class="shopItem"><h3>🍒 Hạt Anh Đào</h3><p>Giá: 600 xu</p><button onclick="buySeed('anhdao',600)">Mua</button></div>
+                            <div class="shopItem"><h3>🌹 Hạt Hoa Hồng</h3><p>Giá: 800 xu</p><button onclick="buySeed('hoahong',800)">Mua</button></div>
+                            <div class="shopItem"><h3>🌵 Hạt Xương Rồng</h3><p>Giá: 1000 xu</p><button onclick="buySeed('xuongrong',1000)">Mua</button></div>
                         </div>
                     </div>
+
                     <hr>
+
                     <div class="shop-section">
-                        <h3>💎 Cửa Hàng Kim Cương & Skin</h3>
+                        <h3>💧 Dụng Cụ & Nâng Cấp</h3>
                         <div class="shop-grid">
                             <div class="shopItem">
+                                <h3 id="canName">Đang tải...</h3>
+                                <p>Giá: <span id="canPrice">0</span> xu</p>
+                                <button onclick="buyWateringCan()">Mua bình</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>🏡 Nâng Cấp Nông Trại</h3>
+                                <p>Mỗi lần nâng cấp sẽ mở thêm ô đất.</p>
+                                <button onclick="upgradeFarm()">Nâng cấp</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>🪨 Đá Quý Thô</h3>
+                                <p>Giá: 50.000 Xu</p>
+                                <button onclick="buyGem()">Mua đá quý</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>⛏️ Đập Đá Quý</h3>
+                                <p>Chi phí: 50.000 Xu</p>
+                                <button onclick="breakGem()">Đập ngay</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="shop-section">
+                        <h3>💎 Cửa Hàng Kim Cương</h3>
+                        <div class="shop-grid">
+                            <div class="shopItem">
+                                <h3>💰 Đổi Kim Cương</h3>
+                                <p>1 💎 = 1000 Xu</p>
+                                <button onclick="exchangeDiamond()">Đổi ngay</button>
+                            </div>
+                            <div class="shopItem">
                                 <h3>🎨 Skin Mặc Định</h3>
+                                <p>Cơ bản</p>
                                 <button onclick="changeSkin('default', 0)">Áp dụng</button>
                             </div>
                             <div class="shopItem">
@@ -403,29 +393,103 @@
                                 <button id="btnSkinWinter" onclick="changeSkin('winter', 40)">Mua</button>
                             </div>
                         </div>
+
+                        <div class="wheel-container">
+                            <h3>🎡 Vòng Quay May Mắn (5 💎 / lượt)</h3>
+                            <button onclick="spinLuckyWheel()" class="btn-spin">Quay ngay</button>
+                            <div class="wheelBox">
+                                <div class="arrow">▼</div>
+                                <div id="wheel">
+                                    <div>💎 10 KC</div>
+                                    <div>💰 500 Xu</div>
+                                    <div>🎁 Hộp quà</div>
+                                    <div>🌱 Hạt hiếm</div>
+                                    <div>💰 1000 Xu</div>
+                                    <div>💎 5 KC</div>
+                                </div>
+                            </div>
+                            <p id="wheelResult">Chưa quay</p>
+                        </div>
                     </div>
                 </section>
 
-                <!-- TAB 6: TÚI ĐỒ -->
+                <!-- TAB 4: TÚI ĐỒ -->
                 <section id="bag" class="tab" style="display:none;">
                     <h2>🎒 Túi Đồ Hạt Giống</h2>
                     <div class="bag-grid">
                         <div class="bagItem">🌾 Lúa: <span id="luaCount">0</span> <button onclick="selectSeed('lua')">Chọn</button></div>
                         <div class="bagItem">🥕 Cà rốt: <span id="carotCount">0</span> <button onclick="selectSeed('carot')">Chọn</button></div>
+                        <div class="bagItem">🍅 Cà chua: <span id="cachuaCount">0</span> <button onclick="selectSeed('cachua')">Chọn</button></div>
+                        <div class="bagItem">🌽 Bắp: <span id="bapCount">0</span> <button onclick="selectSeed('bap')">Chọn</button></div>
+                        <div class="bagItem">🌻 Hướng dương: <span id="huongduongCount">0</span> <button onclick="selectSeed('huongduong')">Chọn</button></div>
+                        <div class="bagItem">🍓 Dâu tây: <span id="dautayCount">0</span> <button onclick="selectSeed('dautay')">Chọn</button></div>
+                        <div class="bagItem">🥭 Xoài: <span id="xoaiCount">0</span> <button onclick="selectSeed('xoai')">Chọn</button></div>
+                        <div class="bagItem">🍍 Dứa: <span id="duaCount">0</span> <button onclick="selectSeed('dua')">Chọn</button></div>
+                        <div class="bagItem">🍇 Nho: <span id="nhoCount">0</span> <button onclick="selectSeed('nho')">Chọn</button></div>
+                        <div class="bagItem">🍉 Dưa hấu: <span id="duahauCount">0</span> <button onclick="selectSeed('duahau')">Chọn</button></div>
+                        <div class="bagItem">🍌 Chuối: <span id="chuoiCount">0</span> <button onclick="selectSeed('chuoi')">Chọn</button></div>
+                        <div class="bagItem">🍎 Táo: <span id="taoCount">0</span> <button onclick="selectSeed('tao')">Chọn</button></div>
+                        <div class="bagItem">🍒 Anh đào: <span id="anhdaoCount">0</span> <button onclick="selectSeed('anhdao')">Chọn</button></div>
+                        <div class="bagItem">🌹 Hoa hồng: <span id="hoahongCount">0</span> <button onclick="selectSeed('hoahong')">Chọn</button></div>
+                        <div class="bagItem">🌲 Cây thông: <span id="thongCount">0</span> <button onclick="selectSeed('thong')">Chọn</button></div>
+                        <div class="bagItem">🌵 Xương rồng: <span id="xuongrongCount">0</span> <button onclick="selectSeed('xuongrong')">Chọn</button></div>
+                        <div class="bagItem">🪷 Sen tuyết: <span id="sentuyetCount">0</span> <button onclick="selectSeed('sentuyet')">Chọn</button></div>
+                    </div>
+
+                    <hr>
+                    <h2>🎒 Rương Đồ Đặc Biệt</h2>
+                    <div class="bag-grid">
+                        <div class="bagItem">🎁 Hộp bí ẩn: <span id="boxCount">0</span> <button onclick="openGift()">Mở</button></div>
+                        <div class="bagItem">🌟 Hạt giống hiếm: <span id="rareSeedCount">0</span> <button onclick="selectSeed('rarePlant')">Chọn</button></div>
+                        <div class="bagItem">🪨 Đá quý thô: <span id="gemCount">0</span></div>
                     </div>
                 </section>
 
-                <!-- TAB 7: CHÙA CÔNG ĐỨC -->
+                <!-- TAB 5: CHÙA CÔNG ĐỨC -->
                 <section id="temple" class="tab" style="display:none;">
                     <h2>🔔 Chùa Công Đức</h2>
-                    <div class="temple-box">
-                        <p>🙏 Tỷ lệ may mắn hiện tại: <strong id="luckPercent">0%</strong></p>
+                    <div id="templeContent">
+                        <div class="temple-box">
+                            <p>🙏 Tỷ lệ may mắn hiện tại: <strong id="luckPercent">0%</strong></p>
+                            <button class="btn-pray" onclick="prayLuck()">Đổi 100 Công đức lấy 1 Vận may</button>
+                            <button class="btn-pray" onclick="prayLuckAdvanced()" style="margin-left: 10px;">Đổi 1.000 Công đức lấy 12 Vận may</button>
+                        </div>
+
+                        <hr>
+                        <h3>🧘 Thuê Sư Thầy Tự Động Gõ Mõ</h3>
+                        <div class="monk-grid">
+                            <div class="monk-card">
+                                <h4>🧘 Sư thầy</h4>
+                                <p>Giá: 1.000 Xu</p>
+                                <p>+1 Công đức / giây</p>
+                                <button onclick="hireMonk(1)">Thuê ngay</button>
+                            </div>
+                            <div class="monk-card">
+                                <h4>🧘‍♂️ Đại sư</h4>
+                                <p>Giá: 5.000 Xu</p>
+                                <p>+5 Công đức / giây</p>
+                                <button onclick="hireMonk(2)">Thuê ngay</button>
+                            </div>
+                            <div class="monk-card">
+                                <h4>👼 Trụ trì</h4>
+                                <p>Giá: 10.000 Xu</p>
+                                <p>+10 Công đức / giây</p>
+                                <button onclick="hireMonk(3)">Thuê ngay</button>
+                            </div>
+                            <div class="monk-card">
+                                <h4>✨ Tổ sư</h4>
+                                <p>Giá: 50.000 Xu</p>
+                                <p>+60 Công đức / giây</p>
+                                <button onclick="hireMonk(4)">Thuê ngay</button>
+                            </div>
+                        </div>
+                        <p id="monkStatus" class="monk-status">Chưa thuê sư thầy</p>
                     </div>
                 </section>
 
             </section>
 
-            <!-- CỘT BÊN PHẢI -->
+            <!-- CỘT BÊN PHẢI: TRANG BỊ, TÀI NGUYÊN & KHUNG CHAT -->
             <aside class="side-panel panel-right">
                 <div class="card">
                     <h3>💧 TRANG BỊ</h3>
@@ -434,22 +498,51 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <h3>💎 TÀI NGUYÊN HIẾM</h3>
+                    <div class="stat-row">
+                        <span>💎 Kim Cương:</span>
+                        <strong id="diamondCountShop">0</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>💎 Kim Cương (Túi):</span>
+                        <strong id="diamondCountBag">0</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>🎁 Hộp Quà:</span>
+                        <strong id="gift">0</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>🌟 Hạt Hiếm:</span>
+                        <strong id="rareSeed">0</strong>
+                    </div>
+                </div>
+
+                <!-- BẢNG XẾP HẠNG -->
                 <div class="card leaderboard-card">
-                    <h3>🏆 BẢNG XẾP HẠNG</h3>
+                    <h3>🏆 BẢNG XẾP HẠNG TOP XU</h3>
                     <ol id="leaderboardList" class="leaderboard-list">
                         <li>Đang tải...</li>
                     </ol>
                 </div>
 
+                <!-- CHAT THẾ GIỚI -->
                 <div class="card chat-card">
                     <h3>💬 CHAT THẾ GIỚI</h3>
+
                     <div id="authStatus" class="auth-box">
                         <input type="text" id="playerNameInput" placeholder="Nhập tên nhân vật..." />
                         <button onclick="loginGame()">Vào Game (Online)</button>
                     </div>
+
                     <div id="chatBox" class="chat-messages">
-                        <div id="messageList" class="chat-messages-list" style="height: 150px; overflow-y: auto;">
+                        <div id="messageList" class="chat-messages-list" style="height: 200px; overflow-y: auto;">
                         </div>
+                    </div>
+
+                    <div id="chatInputBox" class="chat-input-area" style="display: flex; margin-top: 8px;">
+                        <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)" style="flex: 1;" />
+                        <button onclick="sendChatMessage()">Gửi</button>
                     </div>
                 </div>
             </aside>
@@ -457,59 +550,37 @@
         </main>
     </div>
 
-    <!-- Modal Thơ -->
+    <!-- Khung màn hình hiển thị bài thơ -->
     <div id="modalTho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
-        <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center;">
-            <h3 style="color: #d4af37; margin-top: 0;">📜 Bí Kíp Nông Dân</h3>
-            <p style="color: #f3f3f3; font-style: italic;">
+        <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
+            <h3 style="color: #d4af37; margin-top: 0; font-size: 24px;">📜 Bí Kíp Nông Dân</h3>
+            <p style="color: #f3f3f3; line-height: 1.8; font-style: italic; font-size: 18px; letter-spacing: 1px;">
                 Sáng ra gieo hạt, tối ngóng mầm,<br>
-                Chờ cây lớn nổi đúng là hâm...
+                Chờ cây lớn nổi đúng là hâm.<br>
+                Tay ôm luống đất, mơ mộng hão,<br>
+                Làm giàu kiểu này chắc mười năm!
             </p>
             <button onclick="dongGhiChu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Đóng</button>
         </div>
     </div>
 
-    <!-- Firebase SDK -->
+    <!-- Thư viện Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- Game Scripts -->
+    <!-- Scripts Game -->
     <script src="online.js"></script>
     <script>
-        // HÀM CHUYỂN TAB DÀNH CHO CÁC NÚT ĐIỀU HƯỚNG (ĐÃ ĐƯỢC THÊM VÀO ĐỂ KHẮC PHỤC LỖI)
-        function openTab(tabId) {
-            // Ẩn tất cả các tab
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.style.display = 'none');
-
-            // Hiển thị tab được chọn
-            const targetTab = document.getElementById(tabId);
-            if (targetTab) {
-                targetTab.style.display = 'block';
-            }
-
-            // Cập nhật trạng thái active cho nút nav
-            const navBtns = document.querySelectorAll('.nav-btn');
-            navBtns.forEach(btn => btn.classList.remove('active'));
-            
-            // Tìm nút khớp với tab và highlight
-            const currentBtn = Array.from(navBtns).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId));
-            if (currentBtn) {
-                currentBtn.classList.add('active');
-            }
-        }
-
-        // Quản lý Skin
+        // Quản lý lưu trữ Skin bằng LocalStorage
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
         let ownedSkins = JSON.parse(localStorage.getItem('ownedSkins')) || ['default'];
 
-        // Kho hải sản
-        let seaInventory = { crab: 0, snail: 0, shrimp: 0, fish: 0 };
-
+        // Đổi hoặc mua Skin
         function changeSkin(skinName, cost) {
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
+            // Kiểm tra xem đã sở hữu skin chưa
             if (ownedSkins.includes(skinName)) {
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
@@ -518,35 +589,70 @@
                 return;
             }
 
+            // Nếu chưa mua -> tiến hành trừ Kim Cương
             if (currentKC >= cost) {
                 currentKC -= cost;
+                
                 if (kcElement) kcElement.innerText = currentKC;
+                if (document.getElementById("diamondCountShop")) document.getElementById("diamondCountShop").innerText = currentKC;
+                if (document.getElementById("diamondCountBag")) document.getElementById("diamondCountBag").innerText = currentKC;
+
                 ownedSkins.push(skinName);
                 localStorage.setItem('ownedSkins', JSON.stringify(ownedSkins));
+
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
+
                 alert("Chúc mừng! Bạn đã mua và mở khóa skin thành công!");
                 updateTheme();
             } else {
-                alert("Bạn không đủ kim cương (💎)!");
+                alert("Bạn không đủ kim cương (💎) để mua skin này! (Cần " + cost + " 💎)");
             }
         }
 
+        // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
+            // Xóa toàn bộ class skin cũ
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
+
+            // Áp dụng class mới
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
             }
+
+            // Cập nhật trạng thái hiển thị của các nút Mua -> Áp dụng
+            updateShopButtons();
+
+            // Tạo hiệu ứng thời tiết tương ứng
             renderWeatherEffects();
         }
 
+        function updateShopButtons() {
+            const btnMap = {
+                'cherry': 'btnSkinCherry',
+                'desert': 'btnSkinDesert',
+                'winter': 'btnSkinWinter'
+            };
+
+            for (let skin in btnMap) {
+                let btn = document.getElementById(btnMap[skin]);
+                if (btn) {
+                    if (ownedSkins.includes(skin)) {
+                        btn.innerText = (currentSkin === skin) ? "Đang Dùng" : "Sử Dụng";
+                    }
+                }
+            }
+        }
+
+        // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
             if (!fxContainer) return;
-            fxContainer.innerHTML = "";
+            fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
 
             if (currentSkin === 'cherry') {
-                for (let i = 0; i < 20; i++) {
+                // Tạo cánh hoa rơi
+                for (let i = 0; i < 25; i++) {
                     let petal = document.createElement("div");
                     petal.className = "fx-petal";
                     let size = Math.random() * 8 + 8;
@@ -554,88 +660,48 @@
                     petal.style.height = (size + 4) + "px";
                     petal.style.left = Math.random() * 100 + "vw";
                     petal.style.animationDuration = (Math.random() * 4 + 4) + "s";
+                    petal.style.animationDelay = (Math.random() * 5) + "s";
                     fxContainer.appendChild(petal);
                 }
+            } else if (currentSkin === 'desert') {
+                // Hiệu ứng bụi cát
+                let dust = document.createElement("div");
+                dust.className = "fx-dust";
+                fxContainer.appendChild(dust);
+
+                // Cỏ lăn sa mạc
+                let weed = document.createElement("div");
+                weed.className = "fx-tumbleweed";
+                weed.innerText = "🌾";
+                weed.style.animationDuration = "12s";
+                fxContainer.appendChild(weed);
             } else if (currentSkin === 'winter') {
-                for (let i = 0; i < 25; i++) {
+                // Tuyết rơi
+                for (let i = 0; i < 30; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
                     flake.innerText = "❄";
                     flake.style.left = Math.random() * 100 + "vw";
+                    flake.style.fontSize = (Math.random() * 10 + 10) + "px";
                     flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
+                    flake.style.animationDelay = (Math.random() * 5) + "s";
                     fxContainer.appendChild(flake);
                 }
             }
         }
 
-        // Logic Mò Cua
-        function catchSeafood(type) {
-            let moneyEl = document.getElementById("money");
-            let money = parseInt(moneyEl.innerText) || 0;
-
-            if (type === 'net' && money < 50) {
-                alert("Bạn không đủ Xu để thả lưới!");
-                return;
-            }
-
-            if (type === 'net') {
-                money -= 50;
-                moneyEl.innerText = money;
-            }
-
-            let rand = Math.random();
-            if (rand < 0.4) {
-                seaInventory.snail += 1;
-                alert("🐌 Bắt được 1 con Ốc Bươu!");
-            } else if (rand < 0.7) {
-                seaInventory.crab += 1;
-                alert("🦀 Bắt được 1 con Cua Đồng!");
-            } else if (rand < 0.9) {
-                seaInventory.shrimp += 1;
-                alert("🦐 Bắt được 1 con Tôm Hùm Tiên!");
-            } else {
-                seaInventory.fish += 1;
-                alert("🐟 Bắt được 1 con Cá Cảnh Hoàng Kim!");
-            }
-
-            updateSeaUI();
+        // Hàm mở/đóng Modal Thơ Bí Kíp Nông Dân
+        function moGhiChu() {
+            document.getElementById("modalTho").style.display = "flex";
         }
 
-        function updateSeaUI() {
-            if (document.getElementById("crabCount")) document.getElementById("crabCount").innerText = seaInventory.crab;
-            if (document.getElementById("snailCount")) document.getElementById("snailCount").innerText = seaInventory.snail;
-            if (document.getElementById("shrimpCount")) document.getElementById("shrimpCount").innerText = seaInventory.shrimp;
-            if (document.getElementById("fishCount")) document.getElementById("fishCount").innerText = seaInventory.fish;
+        function dongGhiChu() {
+            document.getElementById("modalTho").style.display = "none";
         }
 
-        function sellMarketItem(item, price) {
-            let moneyEl = document.getElementById("money");
-            let money = parseInt(moneyEl.innerText) || 0;
-
-            if (item === 'crab' && seaInventory.crab > 0) {
-                seaInventory.crab -= 1;
-                money += price;
-            } else if (item === 'snail' && seaInventory.snail > 0) {
-                seaInventory.snail -= 1;
-                money += price;
-            } else if (item === 'shrimp' && seaInventory.shrimp > 0) {
-                seaInventory.shrimp -= 1;
-                money += price;
-            } else {
-                alert("Bạn không có sản phẩm này để bán!");
-                return;
-            }
-
-            moneyEl.innerText = money;
-            updateSeaUI();
-        }
-
-        function moGhiChu() { document.getElementById("modalTho").style.display = "flex"; }
-        function dongGhiChu() { document.getElementById("modalTho").style.display = "none"; }
-
+        // Chạy khởi tạo giao diện khi trang web load xong
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
-            updateSeaUI();
         });
     </script>
 </body>
