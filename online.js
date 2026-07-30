@@ -47,7 +47,13 @@ window.sendChatMessage = function() {
     if (!input) return;
 
     const text = input.value.trim();
-    const user = localStorage.getItem("playerName") || "Nông dân";
+   let user = localStorage.getItem("playerName");
+
+// Nếu chưa đặt tên riêng trong LocalStorage thì mới dùng Level hoặc tên mặc định
+if (!user) {
+    const currentLevel = (typeof level !== "undefined") ? level : 1;
+    user = "Nông dân Cấp " + currentLevel;
+}
     
     if (text === "") return;
     
