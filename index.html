@@ -300,20 +300,25 @@
                 </div>
             </div>
 
-            <!-- CHAT THẾ GIỚI (Đã được đưa vào đúng vị trí) -->
+            <!-- CHAT THẾ GIỚI -->
             <div class="card chat-card">
                 <h3>💬 CHAT THẾ GIỚI</h3>
+                
                 <div id="authStatus" class="auth-box">
                     <input type="text" id="playerNameInput" placeholder="Nhập tên nhân vật..." />
                     <button onclick="loginGame()">Vào Game (Online)</button>
                 </div>
                 
-                <div id="chatBox" class="chat-messages" style="display:none;">
-                    <div id="messageList"></div>
+                <div id="chatBox" class="chat-messages">
+                    <!-- Khung chứa các tin nhắn đã gửi -->
+                    <div id="messageList" class="chat-messages-list" style="height: 200px; overflow-y: auto;">
+                        <!-- Tin nhắn sẽ tự động xuất hiện ở đây -->
+                    </div>
                 </div>
                 
-                    <div id="chatInputBox" class="chat-input-area">
-                    <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)">
+                <!-- Ô nhập và nút gửi -->
+                <div id="chatInputBox" class="chat-input-area" style="display: flex; margin-top: 8px;">
+                    <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)" style="flex: 1;" />
                     <button onclick="sendChatMessage()">Gửi</button>
                 </div>
             </div>
@@ -322,7 +327,7 @@
     </main>
 </div>
 
-<!-- Thư viện Firebase SDK (Bắt buộc phải đặt TRƯỚC file online.js) -->
+<!-- Thư viện Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
