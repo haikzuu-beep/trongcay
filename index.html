@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.4s, color 0.4s, border-color 0.4s;
         }
 
         body {
@@ -231,6 +232,8 @@
         }
 
         button:hover { background: #43a047; }
+        button.btn-secondary { background: #757575; }
+        button.btn-secondary:hover { background: #616161; }
 
         /* WHEEL */
         .wheel-container { text-align: center; margin-top: 15px; }
@@ -255,6 +258,37 @@
 
         .chat-msg { margin-bottom: 4px; }
         .chat-msg .author { font-weight: bold; color: #2e7d32; }
+
+        /* ==================== THEME SKINS STYLES ==================== */
+        /* 🌸 SKIN HOA ANH ĐÀO */
+        body.theme-sakura { background-color: #fce4ec; }
+        body.theme-sakura .game-header { background: #d81b60; }
+        body.theme-sakura .currency-badge { background: #880e4f; }
+        body.theme-sakura .nav-btn { border-color: #f48fb1; color: #c2185b; }
+        body.theme-sakura .nav-btn:hover, body.theme-sakura .nav-btn.active { background: #e91e63; border-color: #c2185b; color: white; }
+        body.theme-sakura .card h3 { color: #d81b60; border-bottom-color: #f8bbd0; }
+        body.theme-sakura .plot { background: #f8bbd0; border-color: #f48fb1; color: #880e4f; }
+        body.theme-sakura .plot:hover { background: #f48fb1; }
+
+        /* 🏜️ SKIN SA MẠC */
+        body.theme-desert { background-color: #fff3e0; }
+        body.theme-desert .game-header { background: #e65100; }
+        body.theme-desert .currency-badge { background: #bf360c; }
+        body.theme-desert .nav-btn { border-color: #ffcc80; color: #e65100; }
+        body.theme-desert .nav-btn:hover, body.theme-desert .nav-btn.active { background: #ff9800; border-color: #e65100; color: white; }
+        body.theme-desert .card h3 { color: #e65100; border-bottom-color: #ffe0b2; }
+        body.theme-desert .plot { background: #d7ccc8; border-color: #a1887f; color: #4e342e; }
+        body.theme-desert .plot:hover { background: #bcaaa4; }
+
+        /* ❄️ SKIN MÙA ĐÔNG */
+        body.theme-snow { background-color: #e0f7fa; }
+        body.theme-snow .game-header { background: #00838f; }
+        body.theme-snow .currency-badge { background: #006064; }
+        body.theme-snow .nav-btn { border-color: #80deea; color: #00838f; }
+        body.theme-snow .nav-btn:hover, body.theme-snow .nav-btn.active { background: #00acc1; border-color: #00838f; color: white; }
+        body.theme-snow .card h3 { color: #00838f; border-bottom-color: #b2ebf2; }
+        body.theme-snow .plot { background: #b2ebf2; border-color: #4dd0e1; color: #006064; }
+        body.theme-snow .plot:hover { background: #80deea; }
     </style>
 </head>
 
@@ -446,17 +480,17 @@
                         <div class="shopItem">
                             <h3>🎨 Skin Hoa Anh Đào</h3>
                             <p>Giá: 20 💎</p>
-                            <button onclick="buySkin('sakura')">Mua</button>
+                            <button id="btnSkinSakura" onclick="buySkin('sakura', 20)">Mua</button>
                         </div>
                         <div class="shopItem">
                             <h3>🎨 Skin Sa Mạc</h3>
                             <p>Giá: 30 💎</p>
-                            <button onclick="buySkin('desert')">Mua</button>
+                            <button id="btnSkinDesert" onclick="buySkin('desert', 30)">Mua</button>
                         </div>
                         <div class="shopItem">
                             <h3>🎨 Skin Mùa Đông</h3>
                             <p>Giá: 40 💎</p>
-                            <button onclick="buySkin('snow')">Mua</button>
+                            <button id="btnSkinSnow" onclick="buySkin('snow', 40)">Mua</button>
                         </div>
                     </div>
 
@@ -603,6 +637,14 @@
         wateringCanLevel: 1,
         monkLevel: 0,
         
+        // Trạng thái Skin
+        currentSkin: 'default', // 'default', 'sakura', 'desert', 'snow'
+        ownedSkins: {
+            sakura: false,
+            desert: false,
+            snow: false
+        },
+
         bag: {
             lua: 0, carot: 0, cachua: 0, bap: 0, huongduong: 0,
             dautay: 0, xoai: 0, dua: 0, nho: 0, duahau: 0,
@@ -685,6 +727,7 @@
         if (document.getElementById("rareSeedCount")) document.getElementById("rareSeedCount").innerText = gameState.bag.rarePlant;
         if (document.getElementById("gemCount")) document.getElementById("gemCount").innerText = gameState.bag.gem;
 
+        updateSkinButtons();
         renderAnimals();
     }
 
@@ -922,7 +965,62 @@
         } else alert("Bạn không có Đá Quý Thô!");
     }
 
-    function buySkin(type) { alert("Tính năng Trang trí Skin đang phát triển!"); }
+    /* ==================== QUẢN LÝ SKIN (GIAO DIỆN) ==================== */
+    function buySkin(type, price) {
+        // Nếu đã sở hữu
+        if (gameState.ownedSkins[type]) {
+            if (gameState.currentSkin === type) {
+                // Đang mặc -> Tháo ra
+                applySkin('default');
+            } else {
+                // Mặc vào
+                applySkin(type);
+            }
+            updateUI();
+            return;
+        }
+
+        // Mua skin mới
+        if (gameState.diamond >= price) {
+            gameState.diamond -= price;
+            gameState.ownedSkins[type] = true;
+            applySkin(type);
+            alert("🎨 Mua & Trang bị Skin thành công!");
+            updateUI();
+        } else {
+            alert("Không đủ Kim Cương!");
+        }
+    }
+
+    function applySkin(type) {
+        document.body.classList.remove('theme-sakura', 'theme-desert', 'theme-snow');
+        if (type !== 'default') {
+            document.body.classList.add(`theme-${type}`);
+        }
+        gameState.currentSkin = type;
+    }
+
+    function updateSkinButtons() {
+        const skinTypes = ['sakura', 'desert', 'snow'];
+        const skinNames = { sakura: "Hoa Anh Đào", desert: "Sa Mạc", snow: "Mùa Đông" };
+
+        skinTypes.forEach(type => {
+            let btnId = "btnSkin" + type.charAt(0).toUpperCase() + type.slice(1);
+            let btn = document.getElementById(btnId);
+            if (!btn) return;
+
+            if (!gameState.ownedSkins[type]) {
+                btn.innerText = "Mua";
+                btn.className = "";
+            } else if (gameState.currentSkin === type) {
+                btn.innerText = "Đang dùng";
+                btn.className = "btn-secondary";
+            } else {
+                btn.innerText = "Trang bị";
+                btn.className = "";
+            }
+        });
+    }
 
     function spinLuckyWheel() {
         if (gameState.diamond >= 5) {
