@@ -222,7 +222,7 @@
             border-color: #70c1b3 !important;
         }
 
-        /* 🌙 SKIN MẶT TRĂNG (MOON) - Huyền ảo, Mơ mộng */
+        /* 🌙 SKIN MẶT TRĂNG (MOON) */
         body.skin-moon {
             background-color: #0b1021 !important;
             color: #d1d9ff !important;
@@ -248,7 +248,7 @@
             border-color: #7b8cde !important;
         }
 
-        /* 🌻 SKIN HƯỚNG DƯƠNG (SUNFLOWER) - Trong sáng, Vui tươi */
+        /* 🌻 SKIN HƯỚNG DƯƠNG (SUNFLOWER) */
         body.skin-sunflower {
             background-color: #2c2505 !important;
             color: #fff3c4 !important;
@@ -497,13 +497,11 @@
                                 <p>Giá: 40 💎</p>
                                 <button id="btnSkinWinter" onclick="changeSkin('winter', 40)">Mua</button>
                             </div>
-                            <!-- THÊM SKIN MẶT TRĂNG -->
                             <div class="shopItem">
                                 <h3>🌙 Skin Mặt Trăng</h3>
                                 <p>Giá: 50 💎</p>
                                 <button id="btnSkinMoon" onclick="changeSkin('moon', 50)">Mua</button>
                             </div>
-                            <!-- THÊM SKIN HƯỚNG DƯƠNG -->
                             <div class="shopItem">
                                 <h3>🌻 Skin Hướng Dương</h3>
                                 <p>Giá: 50 💎</p>
@@ -688,34 +686,63 @@
     <!-- Scripts Game -->
     <script src="online.js"></script>
     <script>
-        // XỬ LÝ LỖI PRAYLUCKADVANCED KHÔNG TỒN TẠI
-        function prayLuckAdvanced() {
-            if (typeof window.prayLuck === 'function') {
-                let meritElem = document.getElementById("merit");
-                let luckElem = document.getElementById("luck");
-                
-                let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
-                let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
+        /* ==================== 1. ĐIỀU HƯỚNG TAB & MODAL THƠ ==================== */
+        function openTab(tabId) {
+            // Ẩn toàn bộ các tab
+            let tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.style.display = 'none');
 
-                if (merit >= 1000) {
-                    merit -= 1000;
-                    luck += 12;
-                    if (meritElem) meritElem.innerText = merit;
-                    if (luckElem) luckElem.innerText = luck;
-                    alert("Cầu nguyện cao cấp thành công! Bạn nhận được 12 Vận may.");
-                } else {
-                    alert("Bạn không đủ Công đức! (Cần 1.000 Công đức)");
-                }
-            } else {
-                alert("Tính năng đang cập nhật!");
+            // Bỏ trạng thái active của nút bấm
+            let navBtns = document.querySelectorAll('.main-nav .nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Hiển thị tab được chọn
+            let activeTab = document.getElementById(tabId);
+            if (activeTab) {
+                activeTab.style.display = 'block';
+            }
+
+            // Đặt active cho nút điều hướng tương ứng
+            if (event && event.currentTarget && event.currentTarget.classList) {
+                event.currentTarget.classList.add('active');
             }
         }
 
-        // Quản lý lưu trữ Skin bằng LocalStorage
+        function moGhiChu() {
+            let modal = document.getElementById('modalTho');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function dongGhiChu() {
+            let modal = document.getElementById('modalTho');
+            if (modal) modal.style.display = 'none';
+        }
+
+
+        /* ==================== 2. TÍNH NĂNG CỐNG ĐỨC & CẦU NGUYỆN ==================== */
+        function prayLuckAdvanced() {
+            let meritElem = document.getElementById("merit");
+            let luckElem = document.getElementById("luck");
+            
+            let merit = meritElem ? parseInt(meritElem.innerText) || 0 : 0;
+            let luck = luckElem ? parseInt(luckElem.innerText) || 0 : 0;
+
+            if (merit >= 1000) {
+                merit -= 1000;
+                luck += 12;
+                if (meritElem) meritElem.innerText = merit;
+                if (luckElem) luckElem.innerText = luck;
+                alert("Cầu nguyện cao cấp thành công! Bạn nhận được 12 Vận may.");
+            } else {
+                alert("Bạn không đủ Công đức! (Cần 1.000 Công đức)");
+            }
+        }
+
+
+        /* ==================== 3. QUẢN LÝ SKIN VÀ HIỆU ỨNG ==================== */
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
         let ownedSkins = JSON.parse(localStorage.getItem('ownedSkins')) || ['default'];
 
-        // Đổi hoặc mua Skin
         function changeSkin(skinName, cost) {
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
@@ -748,7 +775,6 @@
             }
         }
 
-        // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter', 'skin-moon', 'skin-sunflower');
 
@@ -831,13 +857,11 @@
             }
             // Skin Mặt Trăng (Moon)
             else if (currentSkin === 'moon') {
-                // Mặt trăng
                 let moon = document.createElement('div');
                 moon.className = 'fx-moon';
                 moon.innerText = '🌙';
                 container.appendChild(moon);
 
-                // Các ngôi sao lấp lánh
                 for (let i = 0; i < 40; i++) {
                     let star = document.createElement('div');
                     star.className = 'fx-star';
@@ -852,13 +876,11 @@
             }
             // Skin Hướng Dương (Sunflower)
             else if (currentSkin === 'sunflower') {
-                // Mặt trời tỏa sáng
                 let sun = document.createElement('div');
                 sun.className = 'fx-sun';
                 sun.innerText = '☀️';
                 container.appendChild(sun);
 
-                // Các bông hoa hướng dương trang trí
                 for (let i = 0; i < 6; i++) {
                     let flower = document.createElement('div');
                     flower.className = 'fx-sunflower';
