@@ -228,3 +228,17 @@ window.addEventListener("DOMContentLoaded", () => {
     loadChatMessages();
     listenToLeaderboard();
 });
+// Khôi phục bộ nhớ từ LocalStorage nếu chơi offline/lưu máy
+window.addEventListener('DOMContentLoaded', () => {
+    // Tự động load lại dữ liệu lưu ở trình duyệt
+    if (localStorage.getItem('userMoney')) {
+        document.getElementById('money').innerText = localStorage.getItem('userMoney');
+    }
+    if (localStorage.getItem('userLevel')) {
+        document.getElementById('level').innerText = localStorage.getItem('userLevel');
+    }
+    
+    // Gọi hàm cập nhật lại giao diện
+    if (typeof updateTheme === 'function') updateTheme();
+    if (typeof updateSeaUI === 'function') updateSeaUI();
+});
