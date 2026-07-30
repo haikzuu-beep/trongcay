@@ -91,6 +91,23 @@
             animation: sandDustBlow 8s linear infinite;
         }
 
+        /* CSS Bổ Sung Cho Khu Mò Cua & Chợ */
+        .river-area {
+            background: rgba(30, 144, 255, 0.15);
+            border: 2px dashed #1e90ff;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .market-board {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid #d4af37;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
         /* ==================== THEME STYLES (ĐỔI TẤT CẢ GIAO DIỆN) ==================== */
         
         /* 🌸 SKIN HOA ANH ĐÀO (CHERRY) */
@@ -199,6 +216,8 @@
         <nav class="main-nav">
             <button class="nav-btn active" onclick="openTab('farm')">🌾 Nông Trại</button>
             <button class="nav-btn" onclick="openTab('animals')">🐾 Chuồng Thú</button>
+            <button class="nav-btn" onclick="openTab('catch')">🦀 Mò Cua</button>
+            <button class="nav-btn" onclick="openTab('market')">🏪 Chợ Nông Sản</button>
             <button class="nav-btn" onclick="openTab('shop')">🛒 Cửa Hàng</button>
             <button class="nav-btn" onclick="openTab('bag')">🎒 Túi Đồ</button>
             <button class="nav-btn" onclick="openTab('temple')">🔔 Chùa Công Đức</button>
@@ -306,6 +325,66 @@
                     <h3>🏠 Khu Vực Thú Nuôi Của Bạn</h3>
                     <div id="animalList" class="shop-grid">
                         <p>Chưa có con vật nào trong trang trại.</p>
+                    </div>
+                </section>
+
+                <!-- TAB MỚI 1: KHU MÒ CUA BẮT ỐC -->
+                <section id="catch" class="tab" style="display:none;">
+                    <h2>🦀 Khu Vực Bờ Sông & Mò Cua Bắt Ốc</h2>
+                    
+                    <div class="river-area">
+                        <h3>🌊 Bờ Sông Linh Khí</h3>
+                        <p>Hãy chọn phương thức để bắt các loài thủy hải sản:</p>
+                        <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center;">
+                            <button onclick="catchSeafood('hand')" style="padding: 10px 20px;">🖐️ Mò Tay (Tốn 5 Năng Lượng)</button>
+                            <button onclick="catchSeafood('net')" style="padding: 10px 20px;">🕸️ Thả Lưới (Chi phí: 50 Xu)</button>
+                        </div>
+                    </div>
+
+                    <div class="shop-section">
+                        <h3>🦐 Bể Hải Sản Đã Bắt</h3>
+                        <div class="shop-grid" id="seaFoodTank">
+                            <div class="shopItem"><h3>🦀 Cua Đồng</h3><p>Số lượng: <span id="crabCount">0</span></p></div>
+                            <div class="shopItem"><h3>🐚 Ốc Bươu</h3><p>Số lượng: <span id="snailCount">0</span></p></div>
+                            <div class="shopItem"><h3>🦐 Tôm Hùm Tiên</h3><p>Số lượng: <span id="shrimpCount">0</span></p></div>
+                            <div class="shopItem"><h3>🐟 Cá Cảnh Hoàng Kim</h3><p>Số lượng: <span id="fishCount">0</span></p></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB MỚI 2: CHỢ NÔNG SẢN (BÁN HÀNG) -->
+                <section id="market" class="tab" style="display:none;">
+                    <h2>🏪 Chợ Giao Thương Nông Sản</h2>
+                    
+                    <div class="market-board">
+                        <h3>📊 Thị Giá Hôm Nay</h3>
+                        <p>Giá nông sản biến động liên tục. Hãy chọn thời điểm thích hợp để bán!</p>
+                        <ul id="marketPrices" style="list-style: none; padding: 0;">
+                            <li>🌾 Cây Trồng: <strong>15 - 50 Xu/kg</strong></li>
+                            <li>🦀 Hải Sản (Cua/Ốc/Tôm): <strong>80 - 300 Xu/con</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="shop-section">
+                        <h3>💰 Gian Hàng Của Bạn (Bán Sản Phẩm)</h3>
+                        <div class="shop-grid">
+                            <div class="shopItem">
+                                <h3>🦀 Bán Cua Đồng</h3>
+                                <button onclick="sellMarketItem('crab', 100)">Bán 1 Con (100 Xu)</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>🐚 Bán Ốc Bươu</h3>
+                                <button onclick="sellMarketItem('snail', 50)">Bán 1 Con (50 Xu)</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>🦐 Bán Tôm Hùm Tiên</h3>
+                                <button onclick="sellMarketItem('shrimp', 250)">Bán 1 Con (250 Xu)</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>📦 Bán Nông Sản Tổng Hợp</h3>
+                                <button onclick="sellMarketItem('crops', 200)">Bán Toàn Bộ Nông Sản</button>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -575,12 +654,14 @@
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
         let ownedSkins = JSON.parse(localStorage.getItem('ownedSkins')) || ['default'];
 
+        // Kho hải sản của người chơi
+        let seaInventory = { crab: 0, snail: 0, shrimp: 0, fish: 0 };
+
         // Đổi hoặc mua Skin
         function changeSkin(skinName, cost) {
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
-            // Kiểm tra xem đã sở hữu skin chưa
             if (ownedSkins.includes(skinName)) {
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
@@ -589,7 +670,6 @@
                 return;
             }
 
-            // Nếu chưa mua -> tiến hành trừ Kim Cương
             if (currentKC >= cost) {
                 currentKC -= cost;
                 
@@ -612,18 +692,13 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            // Xóa toàn bộ class skin cũ
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
 
-            // Áp dụng class mới
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
             }
 
-            // Cập nhật trạng thái hiển thị của các nút Mua -> Áp dụng
             updateShopButtons();
-
-            // Tạo hiệu ứng thời tiết tương ứng
             renderWeatherEffects();
         }
 
@@ -644,14 +719,12 @@
             }
         }
 
-        // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
             if (!fxContainer) return;
-            fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
+            fxContainer.innerHTML = "";
 
             if (currentSkin === 'cherry') {
-                // Tạo cánh hoa rơi
                 for (let i = 0; i < 25; i++) {
                     let petal = document.createElement("div");
                     petal.className = "fx-petal";
@@ -664,19 +737,16 @@
                     fxContainer.appendChild(petal);
                 }
             } else if (currentSkin === 'desert') {
-                // Hiệu ứng bụi cát
                 let dust = document.createElement("div");
                 dust.className = "fx-dust";
                 fxContainer.appendChild(dust);
 
-                // Cỏ lăn sa mạc
                 let weed = document.createElement("div");
                 weed.className = "fx-tumbleweed";
                 weed.innerText = "🌾";
                 weed.style.animationDuration = "12s";
                 fxContainer.appendChild(weed);
             } else if (currentSkin === 'winter') {
-                // Tuyết rơi
                 for (let i = 0; i < 30; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
@@ -690,7 +760,73 @@
             }
         }
 
-        // Hàm mở/đóng Modal Thơ Bí Kíp Nông Dân
+        // Logic Mò Cua Bắt Ốc
+        function catchSeafood(type) {
+            let moneyEl = document.getElementById("money");
+            let money = parseInt(moneyEl.innerText) || 0;
+
+            if (type === 'net' && money < 50) {
+                alert("Bạn không đủ Xu để thả lưới!");
+                return;
+            }
+
+            if (type === 'net') {
+                money -= 50;
+                moneyEl.innerText = money;
+            }
+
+            // Tỷ lệ bắt ngẫu nhiên
+            let rand = Math.random();
+            if (rand < 0.4) {
+                seaInventory.snail += 1;
+                alert("🐌 Bạn đã bắt được 1 con Ốc Bươu!");
+            } else if (rand < 0.7) {
+                seaInventory.crab += 1;
+                alert("🦀 Bạn đã bắt được 1 con Cua Đồng!");
+            } else if (rand < 0.9) {
+                seaInventory.shrimp += 1;
+                alert("🦐 Mò thành công 1 con Tôm Hùm Tiên!");
+            } else {
+                seaInventory.fish += 1;
+                alert("🐟 Tuyệt vời! Bạn đã bắt được 1 con Cá Cảnh Hoàng Kim!");
+            }
+
+            updateSeaUI();
+        }
+
+        function updateSeaUI() {
+            document.getElementById("crabCount").innerText = seaInventory.crab;
+            document.getElementById("snailCount").innerText = seaInventory.snail;
+            document.getElementById("shrimpCount").innerText = seaInventory.shrimp;
+            document.getElementById("fishCount").innerText = seaInventory.fish;
+        }
+
+        // Logic Bán Hàng Tại Chợ
+        function sellMarketItem(item, price) {
+            let moneyEl = document.getElementById("money");
+            let money = parseInt(moneyEl.innerText) || 0;
+
+            if (item === 'crab' && seaInventory.crab > 0) {
+                seaInventory.crab -= 1;
+                money += price;
+                alert("Bán 1 con Cua Đồng thu về " + price + " Xu!");
+            } else if (item === 'snail' && seaInventory.snail > 0) {
+                seaInventory.snail -= 1;
+                money += price;
+                alert("Bán 1 con Ốc Bươu thu về " + price + " Xu!");
+            } else if (item === 'shrimp' && seaInventory.shrimp > 0) {
+                seaInventory.shrimp -= 1;
+                money += price;
+                alert("Bán 1 con Tôm Hùm Tiên thu về " + price + " Xu!");
+            } else {
+                alert("Bạn không còn sản phẩm này trong kho để bán!");
+                return;
+            }
+
+            moneyEl.innerText = money;
+            updateSeaUI();
+        }
+
         function moGhiChu() {
             document.getElementById("modalTho").style.display = "flex";
         }
@@ -699,9 +835,9 @@
             document.getElementById("modalTho").style.display = "none";
         }
 
-        // Chạy khởi tạo giao diện khi trang web load xong
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
+            updateSeaUI();
         });
     </script>
 </body>
