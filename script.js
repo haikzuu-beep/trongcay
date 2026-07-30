@@ -243,6 +243,11 @@ function saveGame() {
     localStorage.setItem("rareSeeds", rareSeeds);
     localStorage.setItem("farmLevel", farmLevel);
     localStorage.setItem("gems", gems);
+
+    // 🏆 TỰ ĐỘNG CẬP NHẬT BẢNG XẾP HẠNG MỖI KHI LƯU GAME
+    if (typeof updateLeaderboardData === "function") {
+        updateLeaderboardData();
+    }
 }
 
 function addExp(amount) {
@@ -553,6 +558,7 @@ function hireMonk(type) {
 
     money -= price;
     monkWorking = true;
+    saveGame();
     updateUI();
     alert(name + " bắt đầu gõ mõ!");
 
@@ -766,6 +772,7 @@ window.addEventListener("DOMContentLoaded", () => {
     updateUI();
     drawGarden();
 });
+
 // ===============================
 // HỆ THỐNG CHAT THẾ GIỚI (FIREBASE)
 // ===============================
