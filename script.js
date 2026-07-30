@@ -62,28 +62,28 @@ let selectedSeed = "";
 // Dữ liệu cấu hình các loại vật nuôi
 const animalData = {
     chicken: {
-        name: "Gà Mái Linh Thạch",
+        name: "Gà Mái Tinh Nghịch",
         icon: "🐔",
         productIcon: "🥚",
-        productName: "Trứng Linh Khí",
+        productName: "Trứng gà",
         feedCost: 20, // Tốn 20 Xu mỗi lần cho ăn
         produceTime: 30, // 30 giây đẻ 1 trứng
         reward: 80 // Bán trứng được 80 Xu
     },
     cow: {
-        name: "Bò Tiên Cảnh",
+        name: "Bò biết bay",
         icon: "🐄",
         productIcon: "🥛",
-        productName: "Sữa Tiên",
+        productName: "Sữa bò",
         feedCost: 50,
         produceTime: 60, // 60 giây ra 1 bình sữa
         reward: 220
     },
     pig: {
-        name: "Heo Kim Giáp",
+        name: "Heo ủn ỉn",
         icon: "🐖",
         productIcon: "🪙",
-        productName: "Vàng Thỏi",
+        productName: "Vàng thỏi",
         feedCost: 100,
         produceTime: 120, // 120 giây ra 1 vàng thỏi
         reward: 500
