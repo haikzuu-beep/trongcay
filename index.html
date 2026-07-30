@@ -704,6 +704,24 @@
             updateTheme();
         });
     </script>
+<script src="online.js"></script>
+<script>
+  // Hàm chữa cháy trực tiếp trên HTML
+  function openTab(evt, tabName) {
+      var tabcontents = document.getElementsByClassName("tabcontent");
+      for (var i = 0; i < tabcontents.length; i++) {
+          tabcontents[i].style.display = "none";
+      }
+      var tablinks = document.getElementsByClassName("tablinks");
+      for (var i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      var target = document.getElementById(tabName);
+      if (target) target.style.display = "block";
+      if (evt && evt.currentTarget) evt.currentTarget.className += " active";
+  }
+</script>
+</body>
 </body>
 
 </html>
