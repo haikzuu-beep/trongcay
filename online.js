@@ -19,7 +19,31 @@ if (typeof firebase !== "undefined" && !firebase.apps.length) {
 
 const database = typeof firebase !== "undefined" ? firebase.database() : null;
 const chatRef = database ? database.ref("global_chat") : null;
+// =========================================================
+// ĐĂNG NHẬP & XỬ LÝ TÊN NGƯỜI CHƠI
+// =========================================================
+window.loginGame = function() {
+    // 1. Tìm ô nhập tên người chơi (hoặc ô nhập chat)
+    const inputElem = document.getElementById("playerNameInput") 
+                   || document.getElementById("chatMessageInput");
+                   
+    if (!inputElem) return;
 
+    const inputName = inputElem.value.trim();
+    if (!inputName) {
+        alert("⚠️ Vui lòng nhập tên nhân vật!");
+        return;
+    }
+    
+    // 2. Lưu tên vừa nhập vào LocalStorage
+    localStorage.setItem("playerName", inputName);
+    
+    alert("✅ Đã đặt tên nhân vật thành công: " + inputName);
+
+    // 3. Ẩn nút đăng nhập / hiển thị khung chat (nếu có)
+    const authStatus = document.getElementById("authStatus");
+    if (authStatus) authStatus.style.display = "none";
+};
 // Hàm chống chèn mã độc (Anti-XSS)
 function escapeHTML(str) {
     return str.replace(/[&<>'"]/g, 
