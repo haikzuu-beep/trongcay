@@ -79,6 +79,159 @@
         </table>
     </div>
 
-    <script src="admin.js"></script>
+    <!-- SCRIPT TÍCH HỢP TOÀN BỘ LOGIC BẢO MẬT & XỬ LÝ DỮ LIỆU -->
+    <script>
+        // ==========================================
+        // CẤU HÌNH FIREBASE (Thay thế bằng cấu hình của bạn)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Khởi tạo Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+
+        const db = firebase.database();
+
+        // ==========================================
+        // CÀI ĐẶT BẢO MẬT & MẬT KHẨU ADMIN
+        // ==========================================
+        const ADMIN_PASSWORD = "123456"; // Mật khẩu truy cập của bạn (có thể đổi tại đây)
+
+        // Kiểm tra quyền khi vừa load trang
+        document.addEventListener("DOMContentLoaded", () => {
+            const isLogged = localStorage.getItem("admin_logged_in");
+            if (isLogged === "true") {
+                showAdminDashboard();
+            }
+        });
+
+        // Hàm kiểm tra mật khẩu đăng nhập
+        function checkAdminPassword() {
+            const inputPass = document.getElementById("adminPasswordInput").value;
+            
+            if (inputPass === ADMIN_PASSWORD) {
+                localStorage.setItem("admin_logged_in", "true");
+                showAdminDashboard();
+            } else {
+                alert("Mật khẩu không chính xác!");
+                document.getElementById("adminPasswordInput").value = "";
+            }
+        }
+
+        // Bắt sự kiện phím Enter ở ô mật khẩu
+        function handleAdminLoginKeyPress(event) {
+            if (event.key === "Enter") {
+                checkAdminPassword();
+            }
+        }
+
+        // Hiển thị giao diện quản lý và ẩn khung đăng nhập
+        function showAdminDashboard() {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("adminContent").style.display = "block";
+            loadAllPlayers();
+        }
+
+        // Đăng xuất khỏi trang admin
+        function logoutAdmin() {
+            localStorage.removeItem("admin_logged_in");
+            location.reload(); // Tải lại trang để hiện khung đăng nhập
+        }
+
+        // ==========================================
+        // CÁC CHỨC NĂNG QUẢN LÝ NGƯỜI CHƠI
+        // ==========================================
+
+        // Tải toàn bộ danh sách người chơi từ Firebase Realtime Database
+        function loadAllPlayers() {
+            const tableBody = document.getElementById("playerListTable");
+            tableBody.innerHTML = `<tr><td colspan="5">Đang tải dữ liệu người chơi...</td></tr>`;
+
+            // Nhánh dữ liệu người chơi trên Firebase (mặc định là "players", bạn có thể đổi nếu cần)
+            db.ref("players").once("value")
+                .then((snapshot) => {
+                    tableBody.innerHTML = "";
+                    
+                    if (!snapshot.exists()) {
+                        tableBody.innerHTML = `<tr><td colspan="5">Không tìm thấy người chơi nào trong cơ sở dữ liệu.</td></tr>`;
+                        return;
+                    }
+
+                    snapshot.forEach((childSnapshot) => {
+                        const uid = childSnapshot.key;
+                        const playerData = childSnapshot.val();
+                        
+                        const playerName = playerData.name || playerData.username || "Không có tên";
+                        const playerMoney = playerData.money !== undefined ? playerData.money : 0;
+                        const lastUpdated = playerData.lastUpdated || "Không rõ";
+
+                        // Tạo dòng dữ liệu cho bảng
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td><code>${uid}</code></td>
+                            <td>${playerName}</td>
+                            <td><input type="number" id="money_${uid}" value="${playerMoney}"></td>
+                            <td>${lastUpdated}</td>
+                            <td>
+                                <button class="btn btn-save" onclick="updatePlayerMoney('${uid}')">💾 Lưu</button>
+                                <button class="btn btn-delete" onclick="deletePlayer('${uid}')">🗑️ Xóa</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Lỗi khi tải dữ liệu:", error);
+                    tableBody.innerHTML = `<tr><td colspan="5" style="color: #dc3545;">Lỗi tải dữ liệu từ Firebase. Vui lòng kiểm tra lại cấu hình!</td></tr>`;
+                });
+        }
+
+        // Cập nhật số xu của người chơi cụ thể
+        function updatePlayerMoney(uid) {
+            const newMoney = parseInt(document.getElementById(`money_${uid}`).value);
+
+            if (isNaN(newMoney)) {
+                alert("Vui lòng nhập một số hợp lệ!");
+                return;
+            }
+
+            const updateData = {
+                money: newMoney,
+                lastUpdated: new Date().toLocaleString()
+            };
+
+            db.ref("players/" + uid).update(updateData)
+                .then(() => {
+                    alert(`Đã cập nhật thành công số xu cho người chơi (UID: ${uid})!`);
+                    loadAllPlayers();
+                })
+                .catch((error) => {
+                    alert("Lỗi khi cập nhật: " + error.message);
+                });
+        }
+
+        // Xóa người chơi khỏi cơ sở dữ liệu
+        function deletePlayer(uid) {
+            if (confirm(`Bạn có chắc chắn muốn XÓA người chơi có UID: ${uid} không? Hành động này không thể hoàn tác!`)) {
+                db.ref("players/" + uid).remove()
+                    .then(() => {
+                        alert("Đã xóa người chơi thành công!");
+                        loadAllPlayers();
+                    })
+                    .catch((error) => {
+                        alert("Lỗi khi xóa: " + error.message);
+                    });
+            }
+        }
+    </script>
 </body>
 </html>
