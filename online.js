@@ -17,7 +17,7 @@ if (typeof firebase !== "undefined" && !firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-const database = firebase ? firebase.database() : null;
+const database = typeof firebase !== "undefined" ? firebase.database() : null;
 const chatRef = database ? database.ref("global_chat") : null;
 
 // Hàm chống chèn mã độc (Anti-XSS)
@@ -34,38 +34,7 @@ function escapeHTML(str) {
 }
 
 // =========================================================
-// 2. ĐĂNG NHẬP & QUẢN LÝ TÊN NGƯỜI CHƠI
-// =========================================================
-window.loginGame = function() {
-    const inputElem = document.getElementById("playerNameInput");
-    if (!inputElem) return;
-
-    const inputName = inputElem.value.trim();
-    if (!inputName) {
-        alert("⚠️ Vui lòng nhập tên nhân vật!");
-        return;
-    }
-    
-    // Lưu tên người chơi vào LocalStorage
-    localStorage.setItem("playerName", inputName);
-    
-    // Chuyển đổi giao diện sang khung Chat
-    showChatUI();
-};
-
-function showChatUI() {
-    const authStatus = document.getElementById("authStatus");
-    const chatBox = document.getElementById("chatBox");
-
-    if (authStatus) authStatus.style.display = "none";
-    if (chatBox) chatBox.style.display = "block";
-    
-    // Khởi tạo & tải danh sách tin nhắn
-    loadChatMessages();
-}
-
-// =========================================================
-// 3. GỬI TIN NHẮN LÊN FIREBASE
+// 2. GỬI TIN NHẮN LÊN FIREBASE
 // =========================================================
 window.sendChatMessage = function() {
     if (!chatRef) {
@@ -73,7 +42,8 @@ window.sendChatMessage = function() {
         return;
     }
 
-    const input = document.getElementById("chatInput");
+    // Sửa ID ở đây cho khớp với index.html (chatMessageInput)
+    const input = document.getElementById("chatMessageInput");
     if (!input) return;
 
     const text = input.value.trim();
@@ -86,44 +56,35 @@ window.sendChatMessage = function() {
         user: user,
         text: text,
         timestamp: Date.now()
+    }).then(() => {
+        input.value = ""; // Gửi xong xóa trắng ô nhập
+    }).catch((error) => {
+        console.error("Lỗi gửi chat:", error);
+        alert("❌ Gửi tin nhắn thất bại: " + error.message);
     });
-    
-    input.value = "";
+};
+
+// Đăng ký hàm handleKeypress nếu HTML gọi
+window.handleChatKeyPress = function(event) {
+    if (event.key === "Enter") {
+        window.sendChatMessage();
+    }
 };
 
 // =========================================================
-// 4. TẢI & LẮNG NGHE TIN NHẮN REALTIME
+// 3. TẢI & LẮNG NGHE TIN NHẮN REALTIME
 // =========================================================
 function loadChatMessages() {
-    const messageList = document.getElementById("messageList");
-    if (!messageList) return;
-
-    // Kiểm tra và khởi tạo khung nhập tin nhắn nếu HTML chưa có
-    let chatInputArea = document.querySelector(".chat-input-area");
-    if (!chatInputArea) {
-        const chatCard = document.querySelector(".chat-card");
-        if (chatCard) {
-            chatInputArea = document.createElement("div");
-            chatInputArea.className = "chat-input-area";
-            chatInputArea.innerHTML = `
-                <input type="text" id="chatInput" placeholder="Nhập tin nhắn..." maxlength="150" />
-                <button id="sendChatBtn" onclick="window.sendChatMessage()">Gửi</button>
-            `;
-            chatCard.appendChild(chatInputArea);
-            
-            // Bắt sự kiện nhấn phím Enter để gửi nhanh
-            const chatInput = document.getElementById("chatInput");
-            if (chatInput) {
-                chatInput.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") window.sendChatMessage();
-                });
-            }
-        }
-    }
-
     if (!chatRef) return;
 
-    // Xóa listener cũ trước khi đăng ký listener mới (chống trùng dữ liệu)
+    // Tìm khung chứa tin nhắn (hỗ trợ tìm theo id hoặc thuộc tính tiếng Việt ở index.html)
+    let messageList = document.getElementById("messageList") 
+                   || document.querySelector('[ident="danh sach tin nhan"]')
+                   || document.querySelector('.chat-messages');
+
+    if (!messageList) return;
+
+    // Xóa listener cũ chống lặp tin nhắn
     chatRef.off();
 
     // Lắng nghe 50 tin nhắn mới nhất
@@ -136,20 +97,22 @@ function loadChatMessages() {
 
         const msgDiv = document.createElement("div");
         msgDiv.className = "chat-item";
-        msgDiv.innerHTML = `<span class="chat-user">[${safeUser}]:</span> <span class="chat-text">${safeText}</span>`;
+        msgDiv.style.marginBottom = "4px";
+        msgDiv.style.color = "#ffffff";
+        msgDiv.innerHTML = `<strong style="color: #ffca28;">[${safeUser}]:</strong> <span>${safeText}</span>`;
+        
         messageList.appendChild(msgDiv);
         
-        // Tự động cuộn xuống tin nhắn mới nhất
+        // Tự động cuộn xuống dưới cùng
         messageList.scrollTop = messageList.scrollHeight;
     });
 }
 
-// =========================================================
-// 5. TỰ ĐỘNG MỞ CHAT NẾU ĐÃ ĐĂNG NHẬP TRƯỚC ĐÓ
-// =========================================================
+// KHỞI CHẠY LẮNG NGHE CHAT KHI TẢI TRANG
 window.addEventListener("DOMContentLoaded", () => {
-    const savedName = localStorage.getItem("playerName");
-    if (savedName) {
-        showChatUI();
-    }
+    // Đảm bảo ô nhập liệu hiển thị
+    const chatInputBox = document.getElementById("chatInputBox");
+    if (chatInputBox) chatInputBox.style.display = "flex";
+
+    loadChatMessages();
 });
