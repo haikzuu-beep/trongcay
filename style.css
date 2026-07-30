@@ -681,3 +681,31 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* ==================== BẢNG XẾP HẠNG ==================== */
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.leaderboard-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+/* Đổi màu nổi bật cho TOP 1 */
+.leaderboard-list li:nth-child(1) {
+    background-color: rgba(255, 215, 0, 0.2);
+    border: 1px solid #ffd700;
+}
+
+.rank-money {
+    color: #ffca28;
+    font-weight: bold;
+}
