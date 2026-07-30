@@ -647,6 +647,7 @@
         // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
+            if (!fxContainer) return;
             fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
 
             if (currentSkin === 'cherry') {
@@ -668,27 +669,28 @@
                 dust.className = "fx-dust";
                 fxContainer.appendChild(dust);
 
-                // Cỏ khô thổi ngang
-                let tumbleweed = document.createElement("div");
-                tumbleweed.className = "fx-tumbleweed";
-                tumbleweed.innerText = "🌾";
-                tumbleweed.style.animationDuration = "7s";
-                fxContainer.appendChild(tumbleweed);
+                // Cỏ lăn sa mạc
+                let weed = document.createElement("div");
+                weed.className = "fx-tumbleweed";
+                weed.innerText = "🌾";
+                weed.style.animationDuration = "12s";
+                fxContainer.appendChild(weed);
             } else if (currentSkin === 'winter') {
-                // Hiệu ứng tuyết rơi
-                for (let i = 0; i < 35; i++) {
+                // Tuyết rơi
+                for (let i = 0; i < 30; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
                     flake.innerText = "❄";
                     flake.style.left = Math.random() * 100 + "vw";
                     flake.style.fontSize = (Math.random() * 10 + 10) + "px";
                     flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                    flake.style.animationDelay = (Math.random() * 4) + "s";
+                    flake.style.animationDelay = (Math.random() * 5) + "s";
                     fxContainer.appendChild(flake);
                 }
             }
         }
 
+        // Hàm mở/đóng Modal Thơ Bí Kíp Nông Dân
         function moGhiChu() {
             document.getElementById("modalTho").style.display = "flex";
         }
@@ -697,13 +699,11 @@
             document.getElementById("modalTho").style.display = "none";
         }
 
-        // Tự động load theme khi vừa vào trang web
+        // Chạy khởi tạo giao diện khi trang web load xong
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
         });
     </script>
-    <script src="script.js"></script>
-
 </body>
 
 </html>
