@@ -64,6 +64,27 @@
             }
         }
 
+        /* HIỆU ỨNG SKIN MẶT TRĂNG & HƯỚNG DƯƠNG */
+        @keyframes starSparkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        @keyframes moonGlow {
+            0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 255, 200, 0.6)); }
+            50% { filter: drop-shadow(0 0 35px rgba(255, 255, 220, 0.9)); }
+        }
+
+        @keyframes sunGlow {
+            0%, 100% { transform: rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.7)); }
+            50% { transform: rotate(180deg) scale(1.08); filter: drop-shadow(0 0 45px rgba(255, 220, 50, 1)); }
+        }
+
+        @keyframes flowerSway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
         .fx-petal {
             position: absolute;
             background: #ffb7c5;
@@ -93,6 +114,37 @@
             height: 100vh;
             background: radial-gradient(circle, rgba(210, 180, 140, 0.2) 10%, transparent 70%);
             animation: sandDustBlow 8s linear infinite;
+        }
+
+        /* Phần tử thời tiết cho Trăng & Mặt trời */
+        .fx-star {
+            position: absolute;
+            color: #fff;
+            font-size: 14px;
+            animation: starSparkle ease-in-out infinite alternate;
+        }
+
+        .fx-moon {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 70px;
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+
+        .fx-sun {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 80px;
+            animation: sunGlow 20s linear infinite;
+        }
+
+        .fx-sunflower-bottom {
+            position: absolute;
+            bottom: -5px;
+            font-size: 32px;
+            animation: flowerSway 3s ease-in-out infinite;
         }
 
         /* ==================== THEME STYLES (ĐỔI TẤT CẢ GIAO DIỆN) ==================== */
@@ -171,6 +223,59 @@
         body.skin-winter .plot {
             background: #2d4356 !important;
             border-color: #70c1b3 !important;
+        }
+
+        /* 🌙 SKIN MẶT TRĂNG (MOON - HUYỀN ẢO, MƠ MỘNG) */
+        body.skin-moon {
+            background-color: #0b1021 !important;
+            color: #e2e8f0 !important;
+        }
+        body.skin-moon .card, 
+        body.skin-moon .tab, 
+        body.skin-moon .shopItem, 
+        body.skin-moon .bagItem, 
+        body.skin-moon .monk-card {
+            background: #151d38 !important;
+            border-color: #7c3aed !important;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+            color: #f1f5f9 !important;
+        }
+        body.skin-moon button, 
+        body.skin-moon .nav-btn {
+            background: #6d28d9 !important;
+            color: #fff !important;
+            border-color: #a78bfa !important;
+        }
+        body.skin-moon .plot {
+            background: #1e1b4b !important;
+            border-color: #8b5cf6 !important;
+        }
+
+        /* 🌻 SKIN HƯỚNG DƯƠNG (SUNFLOWER - TRONG SÁNG, VUI TƯƠI) */
+        body.skin-sunflower {
+            background-color: #3f2e18 !important;
+            color: #fef08a !important;
+        }
+        body.skin-sunflower .card, 
+        body.skin-sunflower .tab, 
+        body.skin-sunflower .shopItem, 
+        body.skin-sunflower .bagItem, 
+        body.skin-sunflower .monk-card {
+            background: #543d1f !important;
+            border-color: #eab308 !important;
+            box-shadow: 0 0 10px rgba(234, 179, 8, 0.2);
+            color: #fef9c3 !important;
+        }
+        body.skin-sunflower button, 
+        body.skin-sunflower .nav-btn {
+            background: #ca8a04 !important;
+            color: #fff !important;
+            border-color: #fde047 !important;
+            font-weight: bold;
+        }
+        body.skin-sunflower .plot {
+            background: #654321 !important;
+            border-color: #eab308 !important;
         }
     </style>
 </head>
@@ -396,6 +501,17 @@
                                 <p>Giá: 40 💎</p>
                                 <button id="btnSkinWinter" onclick="changeSkin('winter', 40)">Mua</button>
                             </div>
+                            <!-- THÊM SKIN MẶT TRĂNG & HƯỚNG DƯƠNG TẠI ĐÂY -->
+                            <div class="shopItem">
+                                <h3>🌙 Skin Mặt Trăng</h3>
+                                <p>Giá: 50 💎</p>
+                                <button id="btnSkinMoon" onclick="changeSkin('moon', 50)">Mua</button>
+                            </div>
+                            <div class="shopItem">
+                                <h3>🌻 Skin Hướng Dương</h3>
+                                <p>Giá: 35 💎</p>
+                                <button id="btnSkinSunflower" onclick="changeSkin('sunflower', 35)">Mua</button>
+                            </div>
                         </div>
 
                         <div class="wheel-container">
@@ -577,9 +693,7 @@
     <script>
         // XỬ LÝ LỖI PRAYLUCKADVANCED KHÔNG TỒN TẠI
         function prayLuckAdvanced() {
-            // Kiểm tra xem hàm prayLuck ban đầu trong script.js có tồn tại không
             if (typeof window.prayLuck === 'function') {
-                // Gọi prayLuck 10 lần hoặc thực hiện logic đổi 1000 công đức
                 let meritElem = document.getElementById("merit");
                 let luckElem = document.getElementById("luck");
                 
@@ -639,7 +753,7 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
+            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter', 'skin-moon', 'skin-sunflower');
 
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
@@ -653,74 +767,103 @@
             const btnMap = {
                 'cherry': 'btnSkinCherry',
                 'desert': 'btnSkinDesert',
-                'winter': 'btnSkinWinter'
+                'winter': 'btnSkinWinter',
+                'moon': 'btnSkinMoon',
+                'sunflower': 'btnSkinSunflower'
             };
 
             for (let skin in btnMap) {
                 let btn = document.getElementById(btnMap[skin]);
                 if (btn) {
                     if (ownedSkins.includes(skin)) {
-                        btn.innerText = (currentSkin === skin) ? "Đang Dùng" : "Sử Dụng";
+                        if (currentSkin === skin) {
+                            btn.innerText = "Đang dùng";
+                            btn.style.opacity = "0.7";
+                        } else {
+                            btn.innerText = "Sử dụng";
+                            btn.style.opacity = "1";
+                        }
                     }
                 }
             }
         }
 
-        // Tạo hiệu ứng thời tiết
+        // Tạo hiệu ứng thời tiết tương ứng cho từng Skin
         function renderWeatherEffects() {
-            const fxContainer = document.getElementById("fx-overlay");
-            fxContainer.innerHTML = "";
+            const overlay = document.getElementById('fx-overlay');
+            if (!overlay) return;
+            overlay.innerHTML = ''; // Xóa hiệu ứng cũ
 
             if (currentSkin === 'cherry') {
                 for (let i = 0; i < 25; i++) {
-                    let petal = document.createElement("div");
-                    petal.className = "fx-petal";
-                    let size = Math.random() * 8 + 8;
-                    petal.style.width = size + "px";
-                    petal.style.height = (size + 4) + "px";
-                    petal.style.left = Math.random() * 100 + "vw";
-                    petal.style.animationDuration = (Math.random() * 4 + 4) + "s";
-                    petal.style.animationDelay = (Math.random() * 5) + "s";
-                    fxContainer.appendChild(petal);
+                    let petal = document.createElement('div');
+                    petal.className = 'fx-petal';
+                    petal.style.left = Math.random() * 100 + 'vw';
+                    petal.style.width = (Math.random() * 8 + 8) + 'px';
+                    petal.style.height = (Math.random() * 8 + 8) + 'px';
+                    petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    petal.style.animationDelay = (Math.random() * 5) + 's';
+                    overlay.appendChild(petal);
                 }
-            } else if (currentSkin === 'desert') {
-                let dust = document.createElement("div");
-                dust.className = "fx-dust";
-                fxContainer.appendChild(dust);
-
-                let tumbleweed = document.createElement("div");
-                tumbleweed.className = "fx-tumbleweed";
-                tumbleweed.innerText = "🌾";
-                tumbleweed.style.animationDuration = "7s";
-                fxContainer.appendChild(tumbleweed);
             } else if (currentSkin === 'winter') {
                 for (let i = 0; i < 35; i++) {
-                    let flake = document.createElement("div");
-                    flake.className = "fx-snowflake";
-                    flake.innerText = "❄";
-                    flake.style.left = Math.random() * 100 + "vw";
-                    flake.style.fontSize = (Math.random() * 10 + 10) + "px";
-                    flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                    flake.style.animationDelay = (Math.random() * 4) + "s";
-                    fxContainer.appendChild(flake);
+                    let flake = document.createElement('div');
+                    flake.className = 'fx-snowflake';
+                    flake.innerText = '❄';
+                    flake.style.left = Math.random() * 100 + 'vw';
+                    flake.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                    flake.style.animationDelay = (Math.random() * 5) + 's';
+                    overlay.appendChild(flake);
+                }
+            } else if (currentSkin === 'desert') {
+                let dust = document.createElement('div');
+                dust.className = 'fx-dust';
+                overlay.appendChild(dust);
+
+                let tumbleweed = document.createElement('div');
+                tumbleweed.className = 'fx-tumbleweed';
+                tumbleweed.innerText = '🌾';
+                tumbleweed.style.animationDuration = '12s';
+                overlay.appendChild(tumbleweed);
+            } else if (currentSkin === 'moon') {
+                // Hiệu ứng Mặt Trăng soi sáng & Sao lấp lánh huyền ảo
+                let moon = document.createElement('div');
+                moon.className = 'fx-moon';
+                moon.innerText = '🌙';
+                overlay.appendChild(moon);
+
+                for (let i = 0; i < 40; i++) {
+                    let star = document.createElement('div');
+                    star.className = 'fx-star';
+                    star.innerText = Math.random() > 0.5 ? '✨' : '⭐';
+                    star.style.top = Math.random() * 90 + 'vh';
+                    star.style.left = Math.random() * 100 + 'vw';
+                    star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                    star.style.animationDelay = (Math.random() * 3) + 's';
+                    overlay.appendChild(star);
+                }
+            } else if (currentSkin === 'sunflower') {
+                // Hiệu ứng Mặt Trời rực rỡ & Cánh đồng Hoa Hướng Dương tươi sáng
+                let sun = document.createElement('div');
+                sun.className = 'fx-sun';
+                sun.innerText = '☀️';
+                overlay.appendChild(sun);
+
+                for (let i = 0; i < 12; i++) {
+                    let flower = document.createElement('div');
+                    flower.className = 'fx-sunflower-bottom';
+                    flower.innerText = '🌻';
+                    flower.style.left = (i * 8.5 + Math.random() * 2) + 'vw';
+                    flower.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    flower.style.animationDelay = (Math.random() * 2) + 's';
+                    overlay.appendChild(flower);
                 }
             }
         }
 
-        function moGhiChu() {
-            document.getElementById("modalTho").style.display = "flex";
-        }
-
-        function dongGhiChu() {
-            document.getElementById("modalTho").style.display = "none";
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            updateTheme();
-        });
+        // Tự động cập nhật Theme khi mở trang
+        document.addEventListener('DOMContentLoaded', updateTheme);
     </script>
-    <script src="script.js"></script>
-
 </body>
 
 </html>
