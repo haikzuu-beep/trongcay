@@ -466,3 +466,29 @@ function buyAnimal(type, price) {
         alert("Bạn không đủ Xu!");
     }
 }
+// ==========================================
+// 8. XỬ LÝ CHUYỂN TAB GIAO DIỆN
+// ==========================================
+function openTab(evt, tabName) {
+    // Ẩn tất cả các nội dung tab
+    let tabcontents = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < tabcontents.length; i++) {
+        tabcontents[i].style.display = "none";
+    }
+
+    // Bỏ class 'active' khỏi tất cả các nút tab
+    let tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Hiển thị tab được chọn và thêm class 'active' cho nút vừa bấm
+    let targetTab = document.getElementById(tabName);
+    if (targetTab) {
+        targetTab.style.display = "block";
+    }
+    
+    if (evt && evt.currentTarget) {
+        evt.currentTarget.className += " active";
+    }
+}
