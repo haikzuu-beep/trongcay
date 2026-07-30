@@ -766,3 +766,77 @@ window.addEventListener("DOMContentLoaded", () => {
     updateUI();
     drawGarden();
 });
+// ===============================
+// HỆ THỐNG CHAT THẾ GIỚI (FIREBASE)
+// ===============================
+
+// Hàm gửi tin nhắn khi bấm nút "Gửi"
+function sendChatMessage() {
+    const input = document.getElementById("chatMessageInput");
+    if (!input) return;
+
+    const messageText = input.value.trim();
+
+    // Kiểm tra tin nhắn trống
+    if (messageText === "") return;
+
+    // Kiểm tra xem Firebase đã kết nối thành công chưa
+    if (typeof firebase === "undefined" || !firebase.apps.length) {
+        alert("❌ Chưa kết nối được tới Firebase database!");
+        return;
+    }
+
+    // Tên người chơi lấy theo cấp độ hoặc mặc định
+    const playerName = "Nông dân Cấp " + level;
+
+    // Đẩy dữ liệu lên Firebase Realtime Database node 'chats'
+    firebase.database().ref("chats").push({
+        sender: playerName,
+        text: messageText,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+    }).then(() => {
+        input.value = ""; // Xóa trắng ô nhập liệu sau khi gửi thành công
+    }).catch((error) => {
+        console.error("Lỗi gửi tin nhắn:", error);
+        alert("❌ Gửi tin nhắn thất bại! Lỗi: " + error.message);
+    });
+}
+
+// Hàm hỗ trợ nhấn phím Enter để gửi tin nhắn
+function handleChatKeyPress(event) {
+    if (event.key === "Enter") {
+        sendChatMessage();
+    }
+}
+
+// Lắng nghe tin nhắn mới từ Firebase và hiển thị ra giao diện
+function listenForChatMessages() {
+    if (typeof firebase === "undefined" || !firebase.apps.length) return;
+
+    const chatContainer = document.querySelector('[ident="danh sach tin nhan"]') 
+                       || document.querySelector('.chat-messages') 
+                       || document.getElementById("chatBox");
+
+    // Chỉ lấy 50 tin nhắn mới nhất
+    firebase.database().ref("chats").limitToLast(50).on("child_added", (snapshot) => {
+        const data = snapshot.val();
+        if (!data || !chatContainer) return;
+
+        const msgDiv = document.createElement("div");
+        msgDiv.className = "chat-item";
+        msgDiv.style.marginBottom = "6px";
+        msgDiv.style.color = "#ffffff"; // Đảm bảo chữ màu trắng trên nền tối
+        msgDiv.innerHTML = `<strong style="color: #ffca28;">${data.sender}:</strong> <span>${data.text}</span>`;
+
+        chatContainer.appendChild(msgDiv);
+        
+        // Tự động cuộn xuống tin nhắn mới nhất
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+}
+
+// Kích hoạt lắng nghe chat khi trang tải xong
+window.addEventListener("DOMContentLoaded", () => {
+    // Đợi 1 chút để online.js kịp initialize Firebase
+    setTimeout(listenForChatMessages, 1000);
+});
