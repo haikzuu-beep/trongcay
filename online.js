@@ -139,3 +139,60 @@ function loadChatMessages() {
 window.addEventListener("DOMContentLoaded", () => {
     loadChatMessages();
 });
+// ==================== BẢNG XẾP HẠNG ====================
+
+// 1. Hàm cập nhật Xu của người chơi hiện tại lên Firebase
+function updateLeaderboardData() {
+    if (!currentUser) return; // Nếu chưa vào game thì bỏ qua
+
+    // Lấy số xu hiện tại từ biến global trong script.js (hoặc lấy từ DOM nếu dùng money)
+    let currentMoney = typeof money !== 'undefined' ? money : 0;
+
+    // Lưu/Cập nhật vào node "users" trên Firebase Realtime Database
+    database.ref("users/" + currentUser.uid).set({
+        name: currentUser.name,
+        money: currentMoney,
+        lastUpdated: firebase.database.ServerValue.TIMESTAMP
+    });
+}
+
+// 2. Lắng nghe thay đổi Bảng Xếp Hạng (Top 5 người chơi nhiều Xu nhất)
+function listenToLeaderboard() {
+    let leaderboardRef = database.ref("users").orderByChild("money").limitToLast(5);
+
+    leaderboardRef.on("value", (snapshot) => {
+        let leaderboardList = document.getElementById("leaderboardList");
+        if (!leaderboardList) return;
+
+        leaderboardList.innerHTML = ""; // Xóa danh sách cũ
+
+        let players = [];
+        snapshot.forEach((childSnapshot) => {
+            players.push(childSnapshot.val());
+        });
+
+        // Vì Firebase sắp xếp tăng dần nên đảo ngược để người nhiều Xu nhất lên Top 1
+        players.reverse();
+
+        if (players.length === 0) {
+            leaderboardList.innerHTML = "<li>Chưa có dữ liệu</li>";
+            return;
+        }
+
+        players.forEach((player, index) => {
+            let li = document.createElement("li");
+            let rankIcon = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`;
+            
+            li.innerHTML = `
+                <span>${rankIcon} <strong>${player.name}</strong></span>
+                <span class="rank-money">💰 ${player.money.toLocaleString()}</span>
+            `;
+            leaderboardList.appendChild(li);
+        });
+    });
+}
+
+// Gọi hàm lắng nghe bảng xếp hạng khi vừa tải trang
+document.addEventListener("DOMContentLoaded", () => {
+    listenToLeaderboard();
+});
