@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Quản lý Nông Trại</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; padding: 20px; }
+        h1 { color: #ffca28; }
+        
+        /* Màn hình khóa Admin */
+        #loginBox {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        #loginBox input {
+            width: 80%;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #1a1a1a;
+            color: white;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Ẩn nội dung admin khi chưa đăng nhập */
+        #adminContent { display: none; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #2a2a2a; }
+        th, td { border: 1px solid #444; padding: 10px; text-align: center; }
+        th { background: #333; color: #ffca28; }
+        input[type="number"] { width: 90px; padding: 5px; text-align: center; }
+        .btn { padding: 6px 12px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; }
+        .btn-save { background: #28a745; color: white; }
+        .btn-delete { background: #dc3545; color: white; }
+        .btn-refresh { background: #007bff; color: white; padding: 10px 15px; margin-bottom: 10px; }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+</head>
+<body>
+
+    <!-- MÀN HÌNH ĐĂNG NHẬP ADMIN -->
+    <div id="loginBox">
+        <h2>🔒 KHU VỰC ADMIN</h2>
+        <p style="color: #aaa; font-size: 14px;">Vui lòng nhập mật khẩu Quản trị viên</p>
+        <input type="password" id="adminPasswordInput" placeholder="Nhập mật khẩu..." onkeypress="handleAdminLoginKeyPress(event)">
+        <br>
+        <button class="btn btn-save" style="width: 85%; padding: 10px;" onclick="checkAdminPassword()">Đăng Nhập</button>
+    </div>
+
+    <!-- BẢNG QUẢN LÝ (BỊ ẨN MẶC ĐỊNH) -->
+    <div id="adminContent">
+        <h1>🛠️ BẢNG QUẢN LÝ NGƯỜI CHƠI (ADMIN)</h1>
+        <button class="btn btn-refresh" onclick="loadAllPlayers()">🔄 Tải lại danh sách</button>
+        <button class="btn btn-delete" style="float: right;" onclick="logoutAdmin()">🚪 Đăng xuất</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>UID</th>
+                    <th>Tên người chơi</th>
+                    <th>Số Xu (Money)</th>
+                    <th>Cập nhật lần cuối</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="playerListTable">
+                <tr><td colspan="5">Đang tải dữ liệu người chơi...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
