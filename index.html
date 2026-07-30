@@ -25,7 +25,7 @@
             overflow: hidden;
         }
 
-        /* ----- ANIMATIONS TỰ NHIÊN ----- */
+        /* ----- ANIMATIONS TỰ NHIÊN & HIỆU ỨNG SKIN ----- */
         @keyframes fallAndSway {
             0% {
                 transform: translateY(-20px) translateX(0) rotate(0deg);
@@ -64,6 +64,24 @@
             }
         }
 
+        /* Hiệu ứng lấp lánh của sao (Mặt trăng) */
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Hiệu ứng tỏa sáng mặt trời (Hướng dương) */
+        @keyframes sunGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px #ffcc00); }
+            50% { transform: scale(1.08); filter: drop-shadow(0 0 30px #ffea00); }
+        }
+
+        /* Hiệu ứng hoa hướng dương đung đưa */
+        @keyframes flowerSway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
         .fx-petal {
             position: absolute;
             background: #ffb7c5;
@@ -93,6 +111,37 @@
             height: 100vh;
             background: radial-gradient(circle, rgba(210, 180, 140, 0.2) 10%, transparent 70%);
             animation: sandDustBlow 8s linear infinite;
+        }
+
+        /* Phần tử trang trí Mặt Trăng, Ngôi sao, Mặt Trời & Hoa */
+        .fx-moon {
+            position: absolute;
+            top: 50px;
+            right: 80px;
+            font-size: 80px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 230, 0.9));
+        }
+
+        .fx-star {
+            position: absolute;
+            color: #fff;
+            font-size: 18px;
+            animation: starTwinkle linear infinite;
+        }
+
+        .fx-sun {
+            position: absolute;
+            top: 40px;
+            right: 80px;
+            font-size: 90px;
+            animation: sunGlow 4s ease-in-out infinite;
+        }
+
+        .fx-sunflower {
+            position: absolute;
+            bottom: 10px;
+            font-size: 35px;
+            animation: flowerSway 3s ease-in-out infinite;
         }
 
         /* ==================== THEME STYLES (ĐỔI TẤT CẢ GIAO DIỆN) ==================== */
@@ -171,6 +220,58 @@
         body.skin-winter .plot {
             background: #2d4356 !important;
             border-color: #70c1b3 !important;
+        }
+
+        /* 🌙 SKIN MẶT TRĂNG (MOON) - Huyền ảo, Mơ mộng */
+        body.skin-moon {
+            background-color: #0b1021 !important;
+            color: #d1d9ff !important;
+        }
+        body.skin-moon .card, 
+        body.skin-moon .tab, 
+        body.skin-moon .shopItem, 
+        body.skin-moon .bagItem, 
+        body.skin-moon .monk-card {
+            background: #151c38 !important;
+            border-color: #7b8cde !important;
+            color: #e2e7ff !important;
+            box-shadow: 0 0 10px rgba(123, 140, 222, 0.2);
+        }
+        body.skin-moon button, 
+        body.skin-moon .nav-btn {
+            background: #3a4b9f !important;
+            color: #ffffff !important;
+            border-color: #93a3ee !important;
+        }
+        body.skin-moon .plot {
+            background: #1e264a !important;
+            border-color: #7b8cde !important;
+        }
+
+        /* 🌻 SKIN HƯỚNG DƯƠNG (SUNFLOWER) - Trong sáng, Vui tươi */
+        body.skin-sunflower {
+            background-color: #2c2505 !important;
+            color: #fff3c4 !important;
+        }
+        body.skin-sunflower .card, 
+        body.skin-sunflower .tab, 
+        body.skin-sunflower .shopItem, 
+        body.skin-sunflower .bagItem, 
+        body.skin-sunflower .monk-card {
+            background: #3e340a !important;
+            border-color: #ffcc00 !important;
+            color: #fffde6 !important;
+        }
+        body.skin-sunflower button, 
+        body.skin-sunflower .nav-btn {
+            background: #e6b800 !important;
+            color: #1a1500 !important;
+            border-color: #ffe066 !important;
+            font-weight: bold;
+        }
+        body.skin-sunflower .plot {
+            background: #52440d !important;
+            border-color: #ffcc00 !important;
         }
     </style>
 </head>
@@ -396,6 +497,18 @@
                                 <p>Giá: 40 💎</p>
                                 <button id="btnSkinWinter" onclick="changeSkin('winter', 40)">Mua</button>
                             </div>
+                            <!-- THÊM SKIN MẶT TRĂNG -->
+                            <div class="shopItem">
+                                <h3>🌙 Skin Mặt Trăng</h3>
+                                <p>Giá: 50 💎</p>
+                                <button id="btnSkinMoon" onclick="changeSkin('moon', 50)">Mua</button>
+                            </div>
+                            <!-- THÊM SKIN HƯỚNG DƯƠNG -->
+                            <div class="shopItem">
+                                <h3>🌻 Skin Hướng Dương</h3>
+                                <p>Giá: 50 💎</p>
+                                <button id="btnSkinSunflower" onclick="changeSkin('sunflower', 50)">Mua</button>
+                            </div>
                         </div>
 
                         <div class="wheel-container">
@@ -577,9 +690,7 @@
     <script>
         // XỬ LÝ LỖI PRAYLUCKADVANCED KHÔNG TỒN TẠI
         function prayLuckAdvanced() {
-            // Kiểm tra xem hàm prayLuck ban đầu trong script.js có tồn tại không
             if (typeof window.prayLuck === 'function') {
-                // Gọi prayLuck 10 lần hoặc thực hiện logic đổi 1000 công đức
                 let meritElem = document.getElementById("merit");
                 let luckElem = document.getElementById("luck");
                 
@@ -639,7 +750,7 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
+            document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter', 'skin-moon', 'skin-sunflower');
 
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
@@ -653,74 +764,115 @@
             const btnMap = {
                 'cherry': 'btnSkinCherry',
                 'desert': 'btnSkinDesert',
-                'winter': 'btnSkinWinter'
+                'winter': 'btnSkinWinter',
+                'moon': 'btnSkinMoon',
+                'sunflower': 'btnSkinSunflower'
             };
 
             for (let skin in btnMap) {
                 let btn = document.getElementById(btnMap[skin]);
                 if (btn) {
-                    if (ownedSkins.includes(skin)) {
-                        btn.innerText = (currentSkin === skin) ? "Đang Dùng" : "Sử Dụng";
+                    if (currentSkin === skin) {
+                        btn.innerText = "Đang Dùng";
+                        btn.disabled = true;
+                    } else if (ownedSkins.includes(skin)) {
+                        btn.innerText = "Sử dụng";
+                        btn.disabled = false;
+                    } else {
+                        btn.innerText = "Mua";
+                        btn.disabled = false;
                     }
                 }
             }
         }
 
-        // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
-            const fxContainer = document.getElementById("fx-overlay");
-            fxContainer.innerHTML = "";
+            const container = document.getElementById('fx-overlay');
+            if (!container) return;
+            container.innerHTML = '';
 
+            // Skin Hoa Anh Đào
             if (currentSkin === 'cherry') {
                 for (let i = 0; i < 25; i++) {
-                    let petal = document.createElement("div");
-                    petal.className = "fx-petal";
-                    let size = Math.random() * 8 + 8;
-                    petal.style.width = size + "px";
-                    petal.style.height = (size + 4) + "px";
-                    petal.style.left = Math.random() * 100 + "vw";
-                    petal.style.animationDuration = (Math.random() * 4 + 4) + "s";
-                    petal.style.animationDelay = (Math.random() * 5) + "s";
-                    fxContainer.appendChild(petal);
+                    let petal = document.createElement('div');
+                    petal.className = 'fx-petal';
+                    petal.style.left = Math.random() * 100 + 'vw';
+                    petal.style.width = (Math.random() * 8 + 8) + 'px';
+                    petal.style.height = (Math.random() * 8 + 8) + 'px';
+                    petal.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    petal.style.animationDelay = (Math.random() * 5) + 's';
+                    container.appendChild(petal);
                 }
-            } else if (currentSkin === 'desert') {
-                let dust = document.createElement("div");
-                dust.className = "fx-dust";
-                fxContainer.appendChild(dust);
+            } 
+            // Skin Sa Mạc
+            else if (currentSkin === 'desert') {
+                let dust = document.createElement('div');
+                dust.className = 'fx-dust';
+                container.appendChild(dust);
 
-                let tumbleweed = document.createElement("div");
-                tumbleweed.className = "fx-tumbleweed";
-                tumbleweed.innerText = "🌾";
-                tumbleweed.style.animationDuration = "7s";
-                fxContainer.appendChild(tumbleweed);
-            } else if (currentSkin === 'winter') {
+                let tumble = document.createElement('div');
+                tumble.className = 'fx-tumbleweed';
+                tumble.innerText = '🌾';
+                tumble.style.animationDuration = '12s';
+                container.appendChild(tumble);
+            } 
+            // Skin Mùa Đông
+            else if (currentSkin === 'winter') {
                 for (let i = 0; i < 35; i++) {
-                    let flake = document.createElement("div");
-                    flake.className = "fx-snowflake";
-                    flake.innerText = "❄";
-                    flake.style.left = Math.random() * 100 + "vw";
-                    flake.style.fontSize = (Math.random() * 10 + 10) + "px";
-                    flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                    flake.style.animationDelay = (Math.random() * 4) + "s";
-                    fxContainer.appendChild(flake);
+                    let flake = document.createElement('div');
+                    flake.className = 'fx-snowflake';
+                    flake.innerText = '❄';
+                    flake.style.left = Math.random() * 100 + 'vw';
+                    flake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                    flake.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    flake.style.animationDelay = (Math.random() * 5) + 's';
+                    container.appendChild(flake);
+                }
+            }
+            // Skin Mặt Trăng (Moon)
+            else if (currentSkin === 'moon') {
+                // Mặt trăng
+                let moon = document.createElement('div');
+                moon.className = 'fx-moon';
+                moon.innerText = '🌙';
+                container.appendChild(moon);
+
+                // Các ngôi sao lấp lánh
+                for (let i = 0; i < 40; i++) {
+                    let star = document.createElement('div');
+                    star.className = 'fx-star';
+                    star.innerText = '✦';
+                    star.style.left = Math.random() * 100 + 'vw';
+                    star.style.top = Math.random() * 80 + 'vh';
+                    star.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    star.style.animationDelay = (Math.random() * 3) + 's';
+                    container.appendChild(star);
+                }
+            }
+            // Skin Hướng Dương (Sunflower)
+            else if (currentSkin === 'sunflower') {
+                // Mặt trời tỏa sáng
+                let sun = document.createElement('div');
+                sun.className = 'fx-sun';
+                sun.innerText = '☀️';
+                container.appendChild(sun);
+
+                // Các bông hoa hướng dương trang trí
+                for (let i = 0; i < 6; i++) {
+                    let flower = document.createElement('div');
+                    flower.className = 'fx-sunflower';
+                    flower.innerText = '🌻';
+                    flower.style.left = (i * 18 + 5) + 'vw';
+                    flower.style.animationDelay = (i * 0.4) + 's';
+                    container.appendChild(flower);
                 }
             }
         }
 
-        function moGhiChu() {
-            document.getElementById("modalTho").style.display = "flex";
-        }
-
-        function dongGhiChu() {
-            document.getElementById("modalTho").style.display = "none";
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            updateTheme();
-        });
+        // Tải giao diện khi trang web khởi động
+        window.addEventListener('DOMContentLoaded', updateTheme);
     </script>
-    <script src="script.js"></script>
-
 </body>
 
 </html>
