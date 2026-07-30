@@ -56,6 +56,179 @@ let monkTimer = null;
 let selectedSeed = "";
 
 // ===============================
+// HỆ THỐNG TRANG TRẠI THÚ NUÔI (MỚI)
+// ===============================
+
+// Dữ liệu cấu hình các loại vật nuôi
+const animalData = {
+    chicken: {
+        name: "Gà Mái Linh Thạch",
+        icon: "🐔",
+        productIcon: "🥚",
+        productName: "Trứng Linh Khí",
+        feedCost: 20, // Tốn 20 Xu mỗi lần cho ăn
+        produceTime: 30, // 30 giây đẻ 1 trứng
+        reward: 80 // Bán trứng được 80 Xu
+    },
+    cow: {
+        name: "Bò Tiên Cảnh",
+        icon: "🐄",
+        productIcon: "🥛",
+        productName: "Sữa Tiên",
+        feedCost: 50,
+        produceTime: 60, // 60 giây ra 1 bình sữa
+        reward: 220
+    },
+    pig: {
+        name: "Heo Kim Giáp",
+        icon: "🐖",
+        productIcon: "🪙",
+        productName: "Vàng Thỏi",
+        feedCost: 100,
+        produceTime: 120, // 120 giây ra 1 vàng thỏi
+        reward: 500
+    }
+};
+
+// Mảng chứa danh sách vật nuôi đang sở hữu
+let myAnimals = JSON.parse(localStorage.getItem("myAnimals")) || [];
+
+// 1. Mua vật nuôi
+function buyAnimal(type, price) {
+    if (money < price) {
+        alert("❌ Xu đâu mà đòi mua thú nuôi hả cưng, XU ĐÂUUU!");
+        return;
+    }
+
+    money -= price;
+    myAnimals.push({
+        id: Date.now() + Math.random(), // ID định danh duy nhất
+        type: type,
+        hungry: true, // Mới mua về sẽ bị đói
+        lastFedTime: 0
+    });
+
+    saveGame();
+    updateUI();
+    renderAnimals();
+    alert("🎉 Bạn đã mua thành công " + animalData[type].name + "!");
+}
+
+// 2. Cho thú ăn
+function feedAnimal(index) {
+    let animal = myAnimals[index];
+    if (!animal) return;
+
+    let config = animalData[animal.type];
+
+    if (!animal.hungry) {
+        alert("💤 " + config.name + " đang no và đang tạo sản phẩm, không cần ăn thêm!");
+        return;
+    }
+
+    if (money < config.feedCost) {
+        alert("❌ Không đủ " + config.feedCost + " Xu để mua thức ăn!");
+        return;
+    }
+
+    money -= config.feedCost;
+    animal.hungry = false;
+    animal.lastFedTime = Date.now();
+
+    saveGame();
+    updateUI();
+    renderAnimals();
+    alert("🌾 Đã cho " + config.name + " ăn! Hãy đợi thu hoạch sản phẩm.");
+}
+
+// 3. Thu hoạch sản phẩm từ thú
+function harvestAnimal(index) {
+    let animal = myAnimals[index];
+    if (!animal) return;
+
+    let config = animalData[animal.type];
+
+    if (animal.hungry) {
+        alert("🌾 Con vật này đang đói, hãy cho ăn trước!");
+        return;
+    }
+
+    let elapsed = (Date.now() - animal.lastFedTime) / 1000;
+    if (elapsed < config.produceTime) {
+        let timeLeft = Math.ceil(config.produceTime - elapsed);
+        alert("⏳ " + config.name + " chưa tạo xong " + config.productName + "!\nCòn " + timeLeft + " giây nữa.");
+        return;
+    }
+
+    // Thu hoạch thành công
+    money += config.reward;
+    addExp(15);
+
+    // Chuyển lại trạng thái đói để đợi lượt ăn tiếp theo
+    animal.hungry = true;
+    animal.lastFedTime = 0;
+
+    saveGame();
+    updateUI();
+    renderAnimals();
+    alert("🎉 Thu hoạch thành công " + config.productName + "!\n+" + config.reward + " Xu\n+15 EXP");
+}
+
+// 4. Render giao diện danh sách thú nuôi
+function renderAnimals() {
+    let container = document.getElementById("animalList");
+    if (!container) return;
+
+    if (myAnimals.length === 0) {
+        container.innerHTML = "<p>Chưa có con vật nào trong trang trại.</p>";
+        return;
+    }
+
+    let html = "";
+    myAnimals.forEach((animal, index) => {
+        let config = animalData[animal.type];
+        let statusText = "";
+        let buttonHTML = "";
+
+        if (animal.hungry) {
+            statusText = "<span style='color: #ff5252;'>🔴 Đang đói</span>";
+            buttonHTML = `<button onclick="feedAnimal(${index})">🌾 Cho ăn (${config.feedCost} Xu)</button>`;
+        } else {
+            let elapsed = (Date.now() - animal.lastFedTime) / 1000;
+            let percent = Math.min(100, Math.floor((elapsed / config.produceTime) * 100));
+
+            if (percent >= 100) {
+                statusText = "<span style='color: #4caf50;'>🟢 Đã có sản phẩm!</span>";
+                buttonHTML = `<button onclick="harvestAnimal(${index})">${config.productIcon} Thu hoạch (${config.reward} Xu)</button>`;
+            } else {
+                let timeLeft = Math.ceil(config.produceTime - elapsed);
+                statusText = `🟡 Đang sản xuất (${percent}%) - còn ${timeLeft}s`;
+                buttonHTML = `<button onclick="harvestAnimal(${index})">⏳ Đợi tạo xong...</button>`;
+            }
+        }
+
+        html += `
+            <div class="shopItem" style="border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 8px;">
+                <h3>${config.icon} ${config.name}</h3>
+                <p>Trạng thái: <strong>${statusText}</strong></p>
+                <p>Sản phẩm: ${config.productIcon} ${config.productName}</p>
+                ${buttonHTML}
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+}
+
+// Chạy vòng lặp cập nhật đếm ngược thời gian sản xuất của thú
+setInterval(() => {
+    let animalTab = document.getElementById("animals");
+    if (animalTab && animalTab.style.display !== "none") {
+        renderAnimals();
+    }
+}, 1000);
+
+// ===============================
 // QUẢN LÝ Ô ĐẤT NÔNG TRẠI
 // ===============================
 
@@ -243,6 +416,7 @@ function saveGame() {
     localStorage.setItem("rareSeeds", rareSeeds);
     localStorage.setItem("farmLevel", farmLevel);
     localStorage.setItem("gems", gems);
+    localStorage.setItem("myAnimals", JSON.stringify(myAnimals)); // Lưu thú nuôi
 
     // 🏆 TỰ ĐỘNG CẬP NHẬT BẢNG XẾP HẠNG MỖI KHI LƯU GAME
     if (typeof updateLeaderboardData === "function") {
@@ -268,6 +442,11 @@ function openTab(name) {
     }
     let target = document.getElementById(name);
     if (target) target.style.display = "block";
+
+    // Nếu mở tab animals thì render lại danh sách thú nuôi
+    if (name === "animals") {
+        renderAnimals();
+    }
 
     // Cập nhật lại màu các nút tab
     let navBtns = document.querySelectorAll(".nav-btn");
@@ -771,6 +950,7 @@ function buySkin(skinType) {
 window.addEventListener("DOMContentLoaded", () => {
     updateUI();
     drawGarden();
+    renderAnimals();
 });
 
 // ===============================
@@ -821,8 +1001,8 @@ function listenForChatMessages() {
     if (typeof firebase === "undefined" || !firebase.apps.length) return;
 
     const chatContainer = document.querySelector('[ident="danh sach tin nhan"]') 
-                       || document.querySelector('.chat-messages') 
-                       || document.getElementById("chatBox");
+                        || document.querySelector('.chat-messages') 
+                        || document.getElementById("chatBox");
 
     // Chỉ lấy 50 tin nhắn mới nhất
     firebase.database().ref("chats").limitToLast(50).on("child_added", (snapshot) => {
