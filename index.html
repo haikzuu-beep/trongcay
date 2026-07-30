@@ -27,7 +27,7 @@
                     💎 KC: <span id="diamondCount">0</span>
                 </div>
             </div>
-        </header> <!-- ĐÃ THÊM THẺ ĐÓNG HEADER VÀO ĐÂY -->
+        </header>
 
         <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
         <nav class="main-nav">
@@ -41,19 +41,6 @@
                 <button type="button" class="nav-btn">⚙️ Đến trang Admin</button>
             </a>
         </nav>
-<!-- Cửa hàng Skin & Nút Thơ -->
-<div style="display: flex; align-items: center; justify-content: space-between; margin: 15px; flex-wrap: wrap; gap: 10px;">
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <h2 style="margin: 0; color: #fff;">Khu Vườn Nông Trại</h2>
-        <button onclick="moGhiChu()" style="padding: 5px 10px; cursor: pointer; border-radius: 5px; border: 1px solid #d4af37; background: #1a1a1a; color: #d4af37; font-weight: bold;">📜 Thơ</button>
-    </div>
-    <div id="shop-container">
-        <button onclick="changeSkin('default', 0)" style="margin-right: 5px;">Mặc định</button>
-        <button onclick="changeSkin('cherry', 20)" style="margin-right: 5px;">Hoa Anh Đào (20 💎)</button>
-        <button onclick="changeSkin('desert', 30)" style="margin-right: 5px;">Sa Mạc (30 💎)</button>
-        <button onclick="changeSkin('winter', 40)">Mùa Đông (40 💎)</button>
-    </div>
-</div>
         
         <!-- ==================== DASHBOARD CHÍNH ==================== -->
         <main class="game-dashboard">
@@ -99,9 +86,12 @@
 
                 <!-- TAB 1: NÔNG TRẠI -->
                 <section id="farm" class="tab">
-                    <div class="panel-header">
-                        <h2>Khu Vườn Nông Trại</h2>
-                        <p class="subtitle">Đang chọn: <strong id="selected">Chưa chọn</strong></p>
+                    <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h2>Khu Vườn Nông Trại</h2>
+                            <p class="subtitle">Đang chọn: <strong id="selected">Chưa chọn</strong></p>
+                        </div>
+                        <button onclick="moGhiChu()" style="padding: 6px 14px; cursor: pointer; border-radius: 6px; border: 1px solid #d4af37; background: #1a1a1a; color: #d4af37; font-weight: bold;">📜 Thơ</button>
                     </div>
 
                     <!-- Lưới đất 32 ô -->
@@ -381,6 +371,20 @@
         </main>
     </div>
 
+    <!-- Khung màn hình hiển thị bài thơ (chuẩn phong cách thư pháp) -->
+    <div id="modalTho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
+        <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
+            <h3 style="color: #d4af37; margin-top: 0; font-size: 24px;">📜 Bí Kíp Nông Dân</h3>
+            <p style="color: #f3f3f3; line-height: 1.8; font-style: italic; font-size: 18px; letter-spacing: 1px;">
+                Sáng ra gieo hạt, tối ngóng mầm,<br>
+                Chờ cây lớn nổi đúng là hâm.<br>
+                Tay ôm luống đất, mơ mộng hão,<br>
+                Làm giàu kiểu này chắc mười năm!
+            </p>
+            <button onclick="dongGhiChu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Đóng</button>
+        </div>
+    </div>
+
     <!-- Thư viện Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -391,57 +395,46 @@
         let currentSkin = 'default';
 
         function changeSkin(skinName, cost) {
-            if (typeof diamonds !== 'undefined' && diamonds >= cost) {
-                diamonds -= cost;
+            // Lấy giá trị kim cương hiện tại từ giao diện (đảm bảo đồng bộ với script.js)
+            let kcElement = document.getElementById("diamondCount");
+            let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
+
+            if (currentKC >= cost) {
+                currentKC -= cost;
+                
+                // Cập nhật lại số kim cương lên các vị trí hiển thị trên giao diện
+                if (kcElement) kcElement.innerText = currentKC;
+                if (document.getElementById("diamondCountShop")) document.getElementById("diamondCountShop").innerText = currentKC;
+                if (document.getElementById("diamondCountBag")) document.getElementById("diamondCountBag").innerText = currentKC;
+
                 currentSkin = skinName;
-                alert("Đã đổi skin khu vườn thành công!");
-                updateTheme();
-            } else if (typeof diamonds === 'undefined') {
-                currentSkin = skinName;
-                alert("Đã chọn skin: " + skinName);
+                alert("Đã mua và đổi skin khu vườn thành công!");
                 updateTheme();
             } else {
-                alert("Bạn không đủ kim cương (💎) để mua skin này!");
+                alert("Bạn không đủ kim cương (💎) để mua skin này! (Cần " + cost + " 💎)");
             }
         }
 
         function updateTheme() {
             const container = document.querySelector(".game-container") || document.body;
             if (currentSkin === 'cherry') {
-                container.style.backgroundColor = "#ffcdd2"; // Hồng hoa anh đào
+                container.style.backgroundColor = "#2d1b24"; // Màu hồng sẫm phong cách Tu Tiên
             } else if (currentSkin === 'desert') {
-                container.style.backgroundColor = "#ffe0b2"; // Vàng sa mạc
+                container.style.backgroundColor = "#2b251a"; // MàuSa mạc sẫm
             } else if (currentSkin === 'winter') {
-                container.style.backgroundColor = "#b3e5fc"; // Xanh băng mùa đông
+                container.style.backgroundColor = "#1a252c"; // Màu Mùa đông sẫm
             } else {
                 container.style.backgroundColor = ""; // Mặc định
             }
         }
-        <!-- Khung màn hình hiển thị bài thơ (chuẩn phong cách thư pháp) -->
-<div id="modalTho" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 9999;">
-    <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
-        <h3 style="color: #d4af37; margin-top: 0; font-family: 'ZCOOL KuaiLe', cursive; font-size: 24px;">📜 Bí Kíp Nông Dân</h3>
-        <p style="color: #f3f3f3; line-height: 1.8; font-style: italic; font-family: 'ZCOOL KuaiLe', cursive; font-size: 20px; letter-spacing: 1px;">
-            Sáng ra gieo hạt, tối ngóng mầm,<br>
-            Chờ cây lớn nổi đúng là hâm.<br>
-            Tay ôm luống đất, mơ mộng hão,<br>
-            Làm giàu kiểu này chắc mười năm!
-        </p>
-        <button onclick="dongGhiChu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'ZCOOL KuaiLe', cursive;">Đóng</button>
-    </div>
-</div>
-            
 
-<script>
-function moGhiChu() {
-    document.getElementById("modalTho").style.display = "flex";
-}
+        function moGhiChu() {
+            document.getElementById("modalTho").style.display = "flex";
+        }
 
-function dongGhiChu() {
-    document.getElementById("modalTho").style.display = "none";
-}
-</script>
-    
+        function dongGhiChu() {
+            document.getElementById("modalTho").style.display = "none";
+        }
     </script>
     <script src="script.js"></script>
 
