@@ -1,4 +1,47 @@
 <!DOCTYPE html>
+<!-- MÀN HÌNH SẢNH GAME (LOBBY) -->
+<div id="sanhGame" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; font-family: 'ZCOOL KuaiLe', cursive;">
+    <h1 style="color: #d4af37; font-size: 38px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212,175,55,0.6);">🌾 Nông Trại 🌾</h1>
+    <p style="color: #bbb; font-size: 16px; margin-bottom: 30px;">Tu Tiên Nông Trại - Bản Cổ Phong</p>
+    
+    <button onclick="vaoGame()" style="padding: 14px 45px; background: linear-gradient(135deg, #d4af37, #aa820a); color: #1a1a1a; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.4); margin-bottom: 15px;">🎮 VÀO GAME</button>
+    
+    <button onclick="moThanhTuu()" style="padding: 10px 30px; background: #222; color: #d4af37; border: 2px solid #d4af37; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🏆 THÀNH TỰU</button>
+
+    <button onclick="hoiReset()" style="padding: 8px 25px; background: #331111; color: #ff5555; border: 1px solid #ff5555; border-radius: 20px; font-size: 15px; cursor: pointer;">🔄 Reset Game</button>
+</div>
+
+<!-- KHUNG XÁC NHẬN RESET -->
+<div id="modalReset" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100001; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #ff5555; padding: 25px; border-radius: 12px; width: 85%; max-width: 300px; text-align: center; box-shadow: 0px 4px 15px rgba(255,85,85,0.4);">
+        <h3 style="color: #ff5555; margin-top: 0; font-size: 20px;">⚠️ Cảnh Báo</h3>
+        <p style="color: #f3f3f3; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
+            Bạn có chắc chắn muốn reset game không, mọi thứ sẽ trở lại từ đầu!
+        </p>
+        <div style="display: flex; justify-content: space-around;">
+            <button onclick="thucHienReset()" style="padding: 8px 20px; background: #ff5555; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Có</button>
+            <button onclick="dongReset()" style="padding: 8px 20px; background: #444; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Không</button>
+        </div>
+    </div>
+</div>
+
+<!-- KHUNG BẢNG THÀNH TỰU -->
+<div id="modalThanhTuu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100000; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
+        <h3 style="color: #d4af37; margin-top: 0; font-size: 24px;">🏆 Thành Tựu Nông Dân</h3>
+        <div style="color: #f3f3f3; line-height: 1.8; font-size: 15px; text-align: left; margin-bottom: 20px;">
+            <p id="tt1">1. ??? (Sử dụng nút reset game)</p>
+            <p id="tt2">2. ??? (Tích được 3000 Kim cương)</p>
+        </div>
+        <button onclick="dongThanhTuu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Đóng</button>
+    </div>
+</div>
+
+<!-- BẢNG THÔNG BÁO NHẬN THÀNH TỰU -->
+<div id="modalThongBaoTT" style="display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #d4af37; color: #1a1a1a; padding: 12px 25px; border-radius: 25px; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+    🎉 Chúc mừng! Đã mở khóa thành tựu mới!
+</div>
+
 <html lang="vi">
 
 <head>
@@ -700,3 +743,68 @@
     </script>
 </body>
 </html>
+<script>
+function kiemTraThanhTuu() {
+    let daReset = localStorage.getItem("da_reset") === "true";
+    let kimCung = parseInt(localStorage.getItem("kim_cuong") || "0");
+
+    if (daReset) {
+        document.getElementById("tt1").innerHTML = "1. <b>Còn cái nịt</b> (Đã hoàn thành)";
+        document.getElementById("tt1").style.color = "#4eff4e";
+    } else {
+        document.getElementById("tt1").innerHTML = "1. ??? (Sử dụng nút reset game)";
+        document.getElementById("tt1").style.color = "#f3f3f3";
+    }
+
+    if (kimCung >= 3000) {
+        document.getElementById("tt2").innerHTML = "2. <b>Đại Jaa</b> (Đã hoàn thành)";
+        document.getElementById("tt2").style.color = "#4eff4e";
+    } else {
+        document.getElementById("tt2").innerHTML = "2. ??? (Tích được 3000 Kim cương)";
+        document.getElementById("tt2").style.color = "#f3f3f3";
+    }
+}
+
+function moThanhTuu() {
+    kiemTraThanhTuu();
+    document.getElementById("modalThanhTuu").style.display = "flex";
+}
+
+function dongThanhTuu() {
+    document.getElementById("modalThanhTuu").style.display = "none";
+}
+
+function vaoGame() {
+    document.getElementById("sanhGame").style.display = "none";
+}
+
+function hoiReset() {
+    document.getElementById("modalReset").style.display = "flex";
+}
+
+function dongReset() {
+    document.getElementById("modalReset").style.display = "none";
+}
+
+function thucHienReset() {
+    localStorage.setItem("da_reset", "true");
+    localStorage.clear();
+    localStorage.setItem("da_reset", "true");
+
+    dongReset();
+    hienThongBaoTT("Đã reset game thành công! Nhận được thành tựu: Còn cái nịt");
+    
+    setTimeout(() => {
+        location.reload();
+    }, 1500);
+}
+
+function hienThongBaoTT(noiDung) {
+    let tb = document.getElementById("modalThongBaoTT");
+    tb.innerText = "🎉 " + noiDung;
+    tb.style.display = "block";
+    setTimeout(() => {
+        tb.style.display = "none";
+    }, 3000);
+}
+</script>
