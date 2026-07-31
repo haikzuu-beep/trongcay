@@ -15,12 +15,12 @@ if (typeof firebaseConfig === 'undefined') {
 }
 
 // Khởi tạo Firebase
-if (!firebase.apps.length) {
+if (typeof firebase !== 'undefined' && !firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
 // Tránh lỗi Identifier 'db' has already been declared
-var db = window.db || firebase.database();
+var db = window.db || (typeof firebase !== 'undefined' ? firebase.database() : null);
 window.db = db;
 
 // ==========================================
@@ -51,9 +51,11 @@ if (typeof window.currentUser === 'undefined') {
 }
 var currentUser = window.currentUser;
 
-// Danh sách tên Bình tưới & Giá nâng cấp
-const canNames = ["Bình Nhựa Cùn", "Bình Đồng", "Bình Bạc", "Bình Vàng", "Bình Tiên Chi"];
-const canPrices = [0, 500, 2000, 10000, 50000];
+// Gán an toàn tránh khai báo lại const/var
+window.canNames = window.canNames || ["Bình Nhựa Cùn", "Bình Đồng", "Bình Bạc", "Bình Vàng", "Bình Tiên Chi"];
+window.canPrices = window.canPrices || [0, 500, 2000, 10000, 50000];
+var canNames = window.canNames;
+var canPrices = window.canPrices;
 
 // ==========================================
 // 3. KHỞI TẠO GAME VÀ LẮNG NGHE FIREBASE
@@ -83,6 +85,7 @@ function updateUI() {
     
     // Chỉ số nhân vật
     setElemText("level", currentUser.level);
+    setElemText("farmLevel", currentUser.level);
     setElemText("expText", `${currentUser.exp} / ${currentUser.level * 100}`);
     let expPercent = Math.min(100, (currentUser.exp / (currentUser.level * 100)) * 100);
     let expFill = document.getElementById("expFill");
@@ -159,6 +162,8 @@ function loginGame() {
 }
 
 function listenOnlineData() {
+    if (!db) return;
+
     // 1. Chat thế giới (20 tin nhắn gần nhất)
     db.ref('chats').limitToLast(20).on('value', snapshot => {
         let list = document.getElementById('messageList');
@@ -201,7 +206,7 @@ function sendChatMessage() {
     }
     let input = document.getElementById('chatMessageInput');
     let text = input ? input.value.trim() : '';
-    if (!text) return;
+    if (!text || !db) return;
 
     db.ref('chats').push({
         sender: currentUser.name,
@@ -216,7 +221,7 @@ function handleChatKeyPress(e) {
 }
 
 function syncToFirebase() {
-    if (!currentUser.name) return;
+    if (!currentUser.name || !db) return;
     db.ref('users/' + currentUser.name).set({
         name: currentUser.name,
         money: currentUser.money,
@@ -479,25 +484,32 @@ function buyAnimal(type, price) {
 // 8. XỬ LÝ CHUYỂN TAB GIAO DIỆN
 // ==========================================
 function openTab(evt, tabName) {
-    // Ẩn tất cả các nội dung tab
-    let tabcontents = document.getElementsByClassName("tabcontent");
+    let tabcontents = document.getElementsByClassName("tab");
     for (let i = 0; i < tabcontents.length; i++) {
         tabcontents[i].style.display = "none";
     }
 
-    // Bỏ class 'active' khỏi tất cả các nút tab
-    let tablinks = document.getElementsByClassName("tablinks");
-    for (let i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    let navBtns = document.getElementsByClassName("nav-btn");
+    for (let i = 0; i < navBtns.length; i++) {
+        navBtns[i].classList.remove("active");
     }
 
-    // Hiển thị tab được chọn và thêm class 'active' cho nút vừa bấm
     let targetTab = document.getElementById(tabName);
     if (targetTab) {
         targetTab.style.display = "block";
     }
-    
-    if (evt && evt.currentTarget) {
-        evt.currentTarget.className += " active";
+
+    if (evt) {
+        if (evt.currentTarget) {
+            evt.currentTarget.classList.add("active");
+        } else if (typeof evt === 'string') {
+            // Trường hợp truyền chuỗi tabName trực tiếp
+            let btns = document.querySelectorAll('.nav-btn');
+            btns.forEach(btn => {
+                if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabName)) {
+                    btn.classList.add("active");
+                }
+            });
+        }
     }
 }
