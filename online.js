@@ -162,9 +162,27 @@ function loginGame() {
 }
 
 function listenOnlineData() {
-    if (!db) return;
+    if (!db || !currentUser.name) return;
 
-    // 1. Chat thế giới (20 tin nhắn gần nhất)
+    // 1. Lắng nghe thay đổi dữ liệu nhân vật trực tiếp từ Firebase về Game
+    db.ref('users/' + currentUser.name).on('value', snapshot => {
+        let data = snapshot.val();
+        if (data) {
+            // Cập nhật lại Xu và Merit nếu trên Firebase có thay đổi
+            if (data.money !== undefined && data.money !== currentUser.money) {
+                currentUser.money = Number(data.money) || 0;
+                setElemText("money", currentUser.money);
+                localStorage.setItem('userMoney', currentUser.money);
+            }
+            if (data.merit !== undefined && data.merit !== currentUser.merit) {
+                currentUser.merit = Number(data.merit) || 0;
+                setElemText("merit", currentUser.merit);
+                localStorage.setItem('userMerit', currentUser.merit);
+            }
+        }
+    });
+
+    // 2. Chat thế giới (20 tin nhắn gần nhất)
     db.ref('chats').limitToLast(20).on('value', snapshot => {
         let list = document.getElementById('messageList');
         if (!list) return;
@@ -181,7 +199,7 @@ function listenOnlineData() {
         }
     });
 
-    // 2. Bảng xếp hạng Top Xu (10 người cao nhất)
+    // 3. Bảng xếp hạng Top Xu (10 người cao nhất)
     db.ref('users').orderByChild('money').limitToLast(10).on('value', snapshot => {
         let list = document.getElementById('leaderboardList');
         if (!list) return;
@@ -190,7 +208,7 @@ function listenOnlineData() {
         snapshot.forEach(child => {
             users.push(child.val());
         });
-        users.reverse(); // Đưa người nhiều xu nhất lên top 1
+        users.reverse();
         users.forEach((u, index) => {
             let li = document.createElement('li');
             li.innerHTML = `<b>#${index + 1} ${u.name || 'Vô danh'}</b>: ${u.money || 0} Xu`;
