@@ -1116,7 +1116,6 @@ function xoaSuKienGiuNut() {
     btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
     btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
 }
-
 function updateMiniGameFisc() {
     // 1. Điều khiển thanh xanh lá: Giữ thì dịch sang phải, thả ra thì trôi về trái
     if (dangGiuManHinh) {
@@ -1126,29 +1125,45 @@ function updateMiniGameFisc() {
     }
 
     if (viTriThanhXanh < 0) viTriThanhXanh = 0;
-    if (viTriThanhXanh > 210) viTriThanhXanh = 210; // Giới hạn thanh xanh trong khung (thanh rộng 90px trên tổng 300px)
+    if (viTriThanhXanh > 210) viTriThanhXanh = 210;
 
-    // Gán vị trí cho thanh xanh lá
     document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
 
-    // 2. Con cá tự động bơi lội qua lại ngẫu nhiên
-    viTriConCa += tocDoCa;
-    if (viTriConCa <= 0 || viTriConCa >= 284) {
-        tocDoCa = -tocDoCa; // Đổi hướng khi đụng mép
-        tocDoCa += (Math.random() - 0.5) * 2; // Thêm chút ngẫu nhiên cho cá bơi lắt léo
+    // 2. Cải tiến cá: Di chuyển tự do ngẫu nhiên, có thể đứng im và giảm tốc độ 50%
+    if (typeof fishTimerDungIm === 'undefined') {
+        window.fishTimerDungIm = 0;
+        window.tocDoCaX = (Math.random() - 0.5) * 1.5; // Giảm tốc độ còn một nửa
     }
 
-    // Gán vị trí cho icon con cá
+    if (fishTimerDungIm > 0) {
+        fishTimerDungIm--; // Đang đứng im chill chill
+    } else {
+        // Thỉnh thoảng có 5% cơ hội cá đứng im ngẫu nhiên từ 1 đến 2 giây (25-50 khung hình)
+        if (Math.random() < 0.05) {
+            fishTimerDungIm = Math.floor(Math.random() * 25) + 25;
+        } else {
+            // Đổi hướng ngẫu nhiên tự do hơn thay vì chỉ chạy qua lại cứng nhắc
+            if (Math.random() < 0.08) {
+                window.tocDoCaX = (Math.random() - 0.5) * 1.5;
+            }
+            viTriConCa += window.tocDoCaX;
+        }
+    }
+
+    // Giới hạn cá không bị bơi ra khỏi khung
+    if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = Math.abs(window.tocDoCaX); }
+    if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -Math.abs(window.tocDoCaX); }
+
     document.getElementById("thanhConTro").style.left = viTriConCa + "px";
 
-    // 3. Kiểm tra xem con cá (viTriConCa) có nằm trong lòng thanh xanh lá không
+    // 3. Kiểm tra bắt cá & điều chỉnh tốc độ thanh tiến trình (Tăng giữ nguyên, giảm chậm lại)
     let dauThanhXanh = viTriThanhXanh;
-    let cuoiThanhXanh = viTriThanhXanh + 90; // 90px là chiều rộng của thanh xanh
+    let cuoiThanhXanh = viTriThanhXanh + 90;
 
     if (viTriConCa >= dauThanhXanh && viTriConCa <= cuoiThanhXanh) {
-        tienTrinhCau += 0.8; // Bọc trúng cá -> tăng thanh tiến trình
+        tienTrinhCau += 0.8; // Tăng tiến trình giữ nguyên như cũ
     } else {
-        tienTrinhCau -= 1.0; // Để tuột ra ngoài -> giảm tiến trình
+        tienTrinhCau -= 0.4; // Giảm tiến trình chậm lại một nửa để dễ thở hơn
     }
 
     if (tienTrinhCau < 0) tienTrinhCau = 0;
@@ -1174,7 +1189,8 @@ function updateMiniGameFisc() {
         resetTrangThaiCau();
     }
 }
-
+ 
+     
 function DungMiniGameCauCaFisc() {
     if (timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
