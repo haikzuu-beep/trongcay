@@ -1,22 +1,27 @@
 // ==========================================
 // 1. CẤU HÌNH FIREBASE CHÍNH THỨC
 // ==========================================
-var firebaseConfig = {
-    apiKey: "AIzaSyAAQDD5JVHWF80LjmxCmeUj-eOPh8U20CQ",
-    authDomain: "your-farm-c05ae.firebaseapp.com",
-    databaseURL: "https://your-farm-c05ae-default-rtdb.firebaseio.com",
-    projectId: "your-farm-c05ae",
-    storageBucket: "your-farm-c05ae.firebasestorage.app",
-    messagingSenderId: "234932348162",
-    appId: "1:234932348162:web:7e20fe4c5a6333bb188e1b",
-    measurementId: "G-GNRRP4HS1L"
-};
+if (typeof firebaseConfig === 'undefined') {
+    var firebaseConfig = {
+        apiKey: "AIzaSyAAQDD5JVHWF80LjmxCmeUj-eOPh8U20CQ",
+        authDomain: "your-farm-c05ae.firebaseapp.com",
+        databaseURL: "https://your-farm-c05ae-default-rtdb.firebaseio.com",
+        projectId: "your-farm-c05ae",
+        storageBucket: "your-farm-c05ae.firebasestorage.app",
+        messagingSenderId: "234932348162",
+        appId: "1:234932348162:web:7e20fe4c5a6333bb188e1b",
+        measurementId: "G-GNRRP4HS1L"
+    };
+}
 
 // Khởi tạo Firebase
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
-const db = firebase.database();
+
+// Tránh lỗi Identifier 'db' has already been declared
+var db = window.db || firebase.database();
+window.db = db;
 
 // ==========================================
 // 2. BIẾN TOÀN CỤC & DỮ LIỆU CHÍNH
@@ -466,6 +471,7 @@ function buyAnimal(type, price) {
         alert("Bạn không đủ Xu!");
     }
 }
+
 // ==========================================
 // 8. XỬ LÝ CHUYỂN TAB GIAO DIỆN
 // ==========================================
