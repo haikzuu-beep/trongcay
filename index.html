@@ -1030,8 +1030,8 @@ function dongCauCa() {
 }
 // --- XỬ LÝ LOGIC CÂU CÁ CHUẨN KIỂU FISC (ROBLOX) ---
 let dangGiuManHinh = false;
-let viTriTro = 150;
-let viTriMucTieu = 100;
+let viTriThanhXanh = 100; // Vị trí thanh trượt xanh lá của bạn
+let viTriConCa = 150;     // Vị trí con cá đang chạy
 let tocDoCa = 3;
 let tienTrinhCau = 50;
 let timerMiniGame = null;
@@ -1046,7 +1046,6 @@ function resetTrangThaiCau() {
     document.getElementById("vungMiniGame").style.display = "none";
     document.getElementById("hieuUngCanCau").style.transform = "rotate(0deg)";
     
-    // Gán sự kiện click quăng cần
     btn.onclick = quangCanCau;
     xoaSuKienGiuNut();
 }
@@ -1081,19 +1080,18 @@ function kichHoatMiniGameCauCa() {
     tiengTucLapSuKienGiuNut();
 
     tienTrinhCau = 50;
-    viTriTro = 150;
-    viTriMucTieu = 100;
+    viTriThanhXanh = 100;
+    viTriConCa = 150;
     tocDoCa = 4;
 
     if (timerMiniGame) clearInterval(timerMiniGame);
     timerMiniGame = setInterval(updateMiniGameFisc, 40);
 }
 
-// Thiết lập sự kiện Nhấn & Giữ mượt mà cho cả Điện thoại ( cảm ứng ) lẫn Máy tính ( chuột )
 let pressTimer = null;
 function tiengTucLapSuKienGiuNut() {
     let btn = document.getElementById("btnHanhDong");
-    btn.onclick = null; // Hủy click thường
+    btn.onclick = null;
 
     const batDauGiu = (e) => {
         if(e) e.preventDefault();
@@ -1120,34 +1118,37 @@ function xoaSuKienGiuNut() {
 }
 
 function updateMiniGameFisc() {
-    // Nếu đang giữ nút, con trượt chạy sang phải; nếu thả ra, trượt về trái
+    // 1. Điều khiển thanh xanh lá: Giữ thì dịch sang phải, thả ra thì trôi về trái
     if (dangGiuManHinh) {
-        viTriTro += 7;
+        viTriThanhXanh += 7;
     } else {
-        viTriTro -= 6;
+        viTriThanhXanh -= 6;
     }
 
-    // Giới hạn trong khung (thanh rộng khoảng 310px)
-    if (viTriTro < 0) viTriTro = 0;
-    if (viTriTro > 284) viTriTro = 284;
+    if (viTriThanhXanh < 0) viTriThanhXanh = 0;
+    if (viTriThanhXanh > 210) viTriThanhXanh = 210; // Giới hạn thanh xanh trong khung (thanh rộng 90px trên tổng 300px)
 
-    document.getElementById("thanhConTro").style.left = viTriTro + "px";
+    // Gán vị trí cho thanh xanh lá
+    document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
 
-    // Vùng mục tiêu tự động di chuyển lượn qua lượn lại kiểu cá bơi
-    viTriMucTieu += tocDoCa;
-    if (viTriMucTieu <= 0 || viTriMucTieu >= 210) {
-        tocDoCa = -tocDoCa; // Đổi hướng khi chạm mép
+    // 2. Con cá tự động bơi lội qua lại ngẫu nhiên
+    viTriConCa += tocDoCa;
+    if (viTriConCa <= 0 || viTriConCa >= 284) {
+        tocDoCa = -tocDoCa; // Đổi hướng khi đụng mép
+        tocDoCa += (Math.random() - 0.5) * 2; // Thêm chút ngẫu nhiên cho cá bơi lắt léo
     }
-    document.getElementById("vungMucTieu").style.left = viTriMucTieu + "px";
 
-    // Kiểm tra xem con trượt có nằm trong vùng xanh lá không
-    let vungDau = viTriMucTieu;
-    let vungCuoi = viTriMucTieu + 90;
+    // Gán vị trí cho icon con cá
+    document.getElementById("thanhConTro").style.left = viTriConCa + "px";
 
-    if (viTriTro >= vungDau && viTriTro <= vungCuoi) {
-        tienTrinhCau += 0.8; // Tăng tiến trình câu cá thành công
+    // 3. Kiểm tra xem con cá (viTriConCa) có nằm trong lòng thanh xanh lá không
+    let dauThanhXanh = viTriThanhXanh;
+    let cuoiThanhXanh = viTriThanhXanh + 90; // 90px là chiều rộng của thanh xanh
+
+    if (viTriConCa >= dauThanhXanh && viTriConCa <= cuoiThanhXanh) {
+        tienTrinhCau += 0.8; // Bọc trúng cá -> tăng thanh tiến trình
     } else {
-        tienTrinhCau -= 1.0; // Giảm nếu để tuột ra ngoài
+        tienTrinhCau -= 1.0; // Để tuột ra ngoài -> giảm tiến trình
     }
 
     if (tienTrinhCau < 0) tienTrinhCau = 0;
@@ -1156,7 +1157,7 @@ function updateMiniGameFisc() {
     document.getElementById("thanhTienTrinh").style.width = tienTrinhCau + "%";
     document.getElementById("txtPhanTram").innerText = Math.floor(tienTrinhCau) + "%";
 
-    // Thắng hoặc Thua
+    // Kết quả Thắng / Thua
     if (tienTrinhCau >= 100) {
         DungMiniGameCauCaFisc();
         let dsCaCau = [
@@ -1178,6 +1179,7 @@ function DungMiniGameCauCaFisc() {
     if (timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
     xoaSuKienGiuNut();
-            }
-    
+}
+ 
+        
 </script>
