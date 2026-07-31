@@ -26,27 +26,30 @@ window.db = db;
 // ==========================================
 // 2. BIẾN TOÀN CỤC & DỮ LIỆU CHÍNH
 // ==========================================
-let currentUser = {
-    name: localStorage.getItem('playerName') || '',
-    money: parseInt(localStorage.getItem('userMoney')) || 200,
-    diamond: parseInt(localStorage.getItem('userDiamond')) || 0,
-    level: parseInt(localStorage.getItem('userLevel')) || 1,
-    exp: parseInt(localStorage.getItem('userExp')) || 0,
-    merit: parseInt(localStorage.getItem('userMerit')) || 0,
-    luck: parseInt(localStorage.getItem('userLuck')) || 0,
-    selectedSeed: null,
-    wateringCanLevel: parseInt(localStorage.getItem('canLevel')) || 1,
-    seeds: JSON.parse(localStorage.getItem('userSeeds')) || {
-        lua: 0, carot: 0, cachua: 0, bap: 0, huongduong: 0,
-        dautay: 0, xoai: 0, dua: 0, nho: 0, duahau: 0,
-        chuoi: 0, tao: 0, anhdao: 0, hoahong: 0, thong: 0,
-        xuongrong: 0, sentuyet: 0, rarePlant: 0
-    },
-    specialItems: JSON.parse(localStorage.getItem('userSpecialItems')) || {
-        box: 0, gem: 0
-    },
-    monkLevel: parseInt(localStorage.getItem('monkLevel')) || 0
-};
+if (typeof window.currentUser === 'undefined') {
+    window.currentUser = {
+        name: localStorage.getItem('playerName') || '',
+        money: parseInt(localStorage.getItem('userMoney')) || 200,
+        diamond: parseInt(localStorage.getItem('userDiamond')) || 0,
+        level: parseInt(localStorage.getItem('userLevel')) || 1,
+        exp: parseInt(localStorage.getItem('userExp')) || 0,
+        merit: parseInt(localStorage.getItem('userMerit')) || 0,
+        luck: parseInt(localStorage.getItem('userLuck')) || 0,
+        selectedSeed: null,
+        wateringCanLevel: parseInt(localStorage.getItem('canLevel')) || 1,
+        seeds: JSON.parse(localStorage.getItem('userSeeds')) || {
+            lua: 0, carot: 0, cachua: 0, bap: 0, huongduong: 0,
+            dautay: 0, xoai: 0, dua: 0, nho: 0, duahau: 0,
+            chuoi: 0, tao: 0, anhdao: 0, hoahong: 0, thong: 0,
+            xuongrong: 0, sentuyet: 0, rarePlant: 0
+        },
+        specialItems: JSON.parse(localStorage.getItem('userSpecialItems')) || {
+            box: 0, gem: 0
+        },
+        monkLevel: parseInt(localStorage.getItem('monkLevel')) || 0
+    };
+}
+var currentUser = window.currentUser;
 
 // Danh sách tên Bình tưới & Giá nâng cấp
 const canNames = ["Bình Nhựa Cùn", "Bình Đồng", "Bình Bạc", "Bình Vàng", "Bình Tiên Chi"];
