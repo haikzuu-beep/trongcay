@@ -1129,26 +1129,27 @@ function updateMiniGameFisc() {
 
     document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
 
-    // 2. Cải tiến cá: Di chuyển tự do ngẫu nhiên, có thể đứng im và giảm tốc độ 50%
+        // 2. Cải tiến cá: Bơi nhanh hơn và ít đứng im lại
     if (typeof fishTimerDungIm === 'undefined') {
         window.fishTimerDungIm = 0;
-        window.tocDoCaX = (Math.random() - 0.5) * 1.5; // Giảm tốc độ còn một nửa
+        window.tocDoCaX = (Math.random() - 0.5) * 3; // Tăng tốc độ lên cho vừa tay hơn
     }
 
     if (fishTimerDungIm > 0) {
-        fishTimerDungIm--; // Đang đứng im chill chill
+        fishTimerDungIm--; // Giảm thời gian đứng im lại
     } else {
-        // Thỉnh thoảng có 5% cơ hội cá đứng im ngẫu nhiên từ 1 đến 2 giây (25-50 khung hình)
-        if (Math.random() < 0.05) {
-            fishTimerDungIm = Math.floor(Math.random() * 25) + 25;
+        // Giảm tỷ lệ đứng im xuống còn 2% và thời gian đứng im cực ngắn (từ 5 đến 15 khung hình)
+        if (Math.random() < 0.02) {
+            fishTimerDungIm = Math.floor(Math.random() * 10) + 5;
         } else {
-            // Đổi hướng ngẫu nhiên tự do hơn thay vì chỉ chạy qua lại cứng nhắc
-            if (Math.random() < 0.08) {
-                window.tocDoCaX = (Math.random() - 0.5) * 1.5;
+            // Đổi hướng ngẫu nhiên mượt mà
+            if (Math.random() < 0.1) {
+                window.tocDoCaX = (Math.random() - 0.5) * 3;
             }
             viTriConCa += window.tocDoCaX;
         }
     }
+ 
 
     // Giới hạn cá không bị bơi ra khỏi khung
     if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = Math.abs(window.tocDoCaX); }
