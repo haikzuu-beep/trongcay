@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Farm - Tu Tiên Nông Trại</title>
+    <!-- Khắc phục lỗi 404 Favicon -->
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
 
     <!-- CSS Bổ sung dành cho Hiệu ứng Weather & Đổi chủ đề toàn bộ Skin -->
@@ -197,11 +199,11 @@
 
         <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
         <nav class="main-nav">
-            <button class="nav-btn active" onclick="openTab('farm')">🌾 Nông Trại</button>
-            <button class="nav-btn" onclick="openTab('animals')">🐾 Chuồng Thú</button>
-            <button class="nav-btn" onclick="openTab('shop')">🛒 Cửa Hàng</button>
-            <button class="nav-btn" onclick="openTab('bag')">🎒 Túi Đồ</button>
-            <button class="nav-btn" onclick="openTab('temple')">🔔 Chùa Công Đức</button>
+            <button class="nav-btn active" onclick="openTab(event, 'farm')">🌾 Nông Trại</button>
+            <button class="nav-btn" onclick="openTab(event, 'animals')">🐾 Chuồng Thú</button>
+            <button class="nav-btn" onclick="openTab(event, 'shop')">🛒 Cửa Hàng</button>
+            <button class="nav-btn" onclick="openTab(event, 'bag')">🎒 Túi Đồ</button>
+            <button class="nav-btn" onclick="openTab(event, 'temple')">🔔 Chùa Công Đức</button>
             
             <a href="admin.html">
                 <button type="button" class="nav-btn">⚙️ Đến trang Admin</button>
@@ -568,8 +570,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- Scripts Game -->
+    <!-- Script Game chính -->
     <script src="online.js"></script>
+
+    <!-- Script Quản lý UI Skin & Modal -->
     <script>
         // Quản lý lưu trữ Skin bằng LocalStorage
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
@@ -580,7 +584,6 @@
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
-            // Kiểm tra xem đã sở hữu skin chưa
             if (ownedSkins.includes(skinName)) {
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
@@ -589,7 +592,6 @@
                 return;
             }
 
-            // Nếu chưa mua -> tiến hành trừ Kim Cương
             if (currentKC >= cost) {
                 currentKC -= cost;
                 
@@ -612,18 +614,13 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            // Xóa toàn bộ class skin cũ
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
 
-            // Áp dụng class mới
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
             }
 
-            // Cập nhật trạng thái hiển thị của các nút Mua -> Áp dụng
             updateShopButtons();
-
-            // Tạo hiệu ứng thời tiết tương ứng
             renderWeatherEffects();
         }
 
@@ -648,10 +645,9 @@
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
             if (!fxContainer) return;
-            fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
+            fxContainer.innerHTML = "";
 
             if (currentSkin === 'cherry') {
-                // Tạo cánh hoa rơi
                 for (let i = 0; i < 25; i++) {
                     let petal = document.createElement("div");
                     petal.className = "fx-petal";
@@ -664,19 +660,16 @@
                     fxContainer.appendChild(petal);
                 }
             } else if (currentSkin === 'desert') {
-                // Hiệu ứng bụi cát
                 let dust = document.createElement("div");
                 dust.className = "fx-dust";
                 fxContainer.appendChild(dust);
 
-                // Cỏ lăn sa mạc
                 let weed = document.createElement("div");
                 weed.className = "fx-tumbleweed";
                 weed.innerText = "🌾";
                 weed.style.animationDuration = "12s";
                 fxContainer.appendChild(weed);
             } else if (currentSkin === 'winter') {
-                // Tuyết rơi
                 for (let i = 0; i < 30; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
@@ -692,36 +685,18 @@
 
         // Hàm mở/đóng Modal Thơ Bí Kíp Nông Dân
         function moGhiChu() {
-            document.getElementById("modalTho").style.display = "flex";
+            let m = document.getElementById("modalTho");
+            if (m) m.style.display = "flex";
         }
 
         function dongGhiChu() {
-            document.getElementById("modalTho").style.display = "none";
+            let m = document.getElementById("modalTho");
+            if (m) m.style.display = "none";
         }
 
-        // Chạy khởi tạo giao diện khi trang web load xong
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
         });
     </script>
-<script src="online.js"></script>
-<script>
-  // Hàm chữa cháy trực tiếp trên HTML
-  function openTab(evt, tabName) {
-      var tabcontents = document.getElementsByClassName("tabcontent");
-      for (var i = 0; i < tabcontents.length; i++) {
-          tabcontents[i].style.display = "none";
-      }
-      var tablinks = document.getElementsByClassName("tablinks");
-      for (var i = 0; i < tablinks.length; i++) {
-          tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      var target = document.getElementById(tabName);
-      if (target) target.style.display = "block";
-      if (evt && evt.currentTarget) evt.currentTarget.className += " active";
-  }
-</script>
 </body>
-</body>
-
 </html>
