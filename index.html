@@ -23,38 +23,54 @@
     
     <button onclick="hoiReset()" style="padding: 8px 25px; background: #331111; color: #ff5555; border: 1px solid #ff5555; border-radius: 20px; font-size: 15px; cursor: pointer;">🔄 Reset Game</button>
 </div>
-<div id="modalCauCa" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b131f; flex-direction: column; justify-content: space-between; align-items: center; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; padding: 20px; box-sizing: border-box;">
+<div id="modalCauCa" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #1ca3ec, #004d80); flex-direction: column; justify-content: space-between; align-items: center; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; padding: 15px; box-sizing: border-box;">
     
+    <!-- Tiêu đề & Nút về sảnh -->
     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="color: #44ccff; margin: 0; font-size: 20px;">🎣 Hồ Câu Thần Thánh</h3>
-        <button onclick="dongCauCa()" style="background: #333; color: #fff; border: 1px solid #777; padding: 5px 10px; border-radius: 5px; cursor: pointer;">🏠 Về Sảnh</button>
+        <h3 style="color: #fff; margin: 0; font-size: 20px; text-shadow: 2px 2px #003366;">🌊 Vùng Biển Khơi Xanh</h3>
+        <button onclick="dongCauCa()" style="background: rgba(0,0,0,0.4); color: #fff; border: 1px solid #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold;">🏠 Về Sảnh</button>
     </div>
 
-    <!-- GÓC NHÌN THỨ NHẤT -->
-    <div id="khungNhinThuNhat" style="position: relative; width: 100%; max-width: 350px; height: 240px; background: linear-gradient(to bottom, #192f4e, #0d1b2a); border: 2px solid #44ccff; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; box-shadow: inset 0 0 20px rgba(0,0,0,0.6);">
-        <div id="hieuUngCanCau" style="font-size: 40px; transition: transform 0.2s;">🎋</div>
-        <p id="trangThaiCau" style="color: #fff; font-size: 15px; margin-top: 10px; text-align: center; padding: 0 10px;">Chạm nút bên dưới để quăng cần thả thính!</p>
+    <!-- KHUNG CẢNH GIỮA BIỂN & CẦN CÂU -->
+    <div id="khungNhinThuNhat" style="position: relative; width: 100%; max-width: 350px; height: 220px; background: linear-gradient(to bottom, #4fc3f7, #0288d1); border: 3px solid #fff; border-radius: 15px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
+        <!-- Sóng nước trang trí -->
+        <div style="position: absolute; top: 0; width: 100%; height: 20px; background: rgba(255,255,255,0.2);"></div>
+        <!-- Hình ảnh nhân vật / cần câu thả xuống -->
+        <div id="hieuUngCanCau" style="font-size: 45px; margin-bottom: 20px; transition: transform 0.3s; transform-origin: top right;">🎣</div>
+        <div style="position: absolute; bottom: 10px; width: 90%; background: rgba(0, 0, 0, 0.4); padding: 8px; border-radius: 10px; text-align: center;">
+            <p id="trangThaiCau" style="color: #ffeb3b; font-size: 14px; margin: 0; font-weight: bold;">Chạm nút bên dưới để quăng cần thả thính!</p>
+        </div>
     </div>
 
-    <!-- MINI-GAME THANH TRƯỢT -->
-    <div id="vungMiniGame" style="display: none; width: 100%; max-width: 350px; background: #1a1a1a; border: 2px solid #ffaa00; padding: 12px; border-radius: 10px; box-sizing: border-box;">
-        <p style="color: #ffaa00; margin: 0 0 5px 0; font-size: 13px; text-align: center;">⚠️ GIỮ NÚT ĐỂ KÉO CÁ VÀO VÙNG VÀNG!</p>
+    <!-- MINI-GAME KIỂU FISC (THANH TRƯỢT KÉO CÁ) -->
+    <div id="vungMiniGame" style="display: none; width: 100%; max-width: 350px; background: rgba(0, 0, 0, 0.7); border: 2px solid #ffeb3b; padding: 12px; border-radius: 12px; box-sizing: border-box;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="color: #ffeb3b; font-size: 12px; font-weight: bold;">🎣 ĐANG KÉO CÁ LÊN!</span>
+            <span id="txtPhanTram" style="color: #4caf50; font-size: 12px; font-weight: bold;">50%</span>
+        </div>
         
-        <div style="width: 100%; background: #333; height: 10px; border-radius: 5px; margin-bottom: 10px; overflow: hidden;">
-            <div id="thanhTienTrinh" style="width: 0%; height: 100%; background: #44ff44; transition: width 0.1s;"></div>
+        <!-- Thanh tiến trình tổng -->
+        <div style="width: 100%; background: #333; height: 10px; border-radius: 5px; margin-bottom: con; margin-bottom: 10px; overflow: hidden; border: 1px solid #777;">
+            <div id="thanhTienTrinh" style="width: 50%; height: 100%; background: #4caf50; transition: width 0.1s;"></div>
         </div>
 
-        <div style="position: relative; width: 100%; height: 30px; background: #222; border-radius: 5px; border: 1px solid #555;">
-            <div id="vungMucTieu" style="position: absolute; left: 50px; width: 70px; height: 100%; background: rgba(255, 170, 0, 0.4); border-left: 2px dashed #ffaa00; border-right: 2px dashed #ffaa00;"></div>
-            <div id="thanhConTro" style="position: absolute; left: 0px; width: 12px; height: 100%; background: #ff4444; border-radius: 3px;"></div>
+        <!-- Thanh mini-game thu nhỏ kiểu Roblox Fisc -->
+        <div style="position: relative; width: 100%; height: 26px; background: #222; border-radius: 13px; border: 2px solid #555; overflow: hidden;">
+            <!-- Vùng mục tiêu màu xanh lá -->
+            <div id="vungMucTieu" style="position: absolute; left: 100px; width: 90px; height: 100%; background: #4caf50; border-radius: 10px;"></div>
+            <!-- Con trượt/Icon con cá đang chạy -->
+            <div id="thanhConTro" style="position: absolute; left: 120px; width: 26px; height: 100%; background: #ff5722; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; box-shadow: 0 0 5px #fff;">🐟</div>
         </div>
+        <p style="color: #ccc; font-size: 11px; text-align: center; margin: 6px 0 0 0;">Nhấn và Giữ nút bên dưới để giữ cá trong vùng xanh!</p>
     </div>
 
-    <div style="width: 100%; max-width: 350px;">
-        <button id="btnHanhDong" onclick="quangCanCau()" style="width: 100%; padding: 12px; background: #44ccff; color: #0b131f; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 10px rgba(68,204,255,0.3);">🌊 Quăng Cần Câu</button>
+    <!-- Nút hành động thao tác chính -->
+    <div style="width: 100%; max-width: 350px; padding-bottom: 10px;">
+        <button id="btnHanhDong" style="width: 100%; padding: 14px; background: #ff9800; color: #fff; border: 2px solid #fff; border-radius: 25px; font-weight: bold; font-size: 17px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-shadow: 1px 1px #000;">🌊 Quăng Cần Câu</button>
     </div>
 
 </div>
+
 
 <!-- KHUNG TẬP VẼ (CANVAS) -->
 <div id="modalTapVe" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); flex-direction: column; justify-content: center; align-items: center; z-index: 100002; font-family: 'ZCOOL KuaiLe', cursive;">
@@ -1012,32 +1028,37 @@ function dongCauCa() {
     document.getElementById("sanhGame").style.display = "flex";
     DungMiniGameCauCa();
 }
-
-// --- XỬ LÝ LOGIC CÂU CÁ & 10 CON CÁ CƠ BẢN ---
+// --- XỬ LÝ LOGIC CÂU CÁ CHUẨN KIỂU FISC (ROBLOX) ---
 let dangGiuManHinh = false;
 let viTriTro = 150;
 let viTriMucTieu = 100;
-let tienTrinhCau = 0;
+let tocDoCa = 3;
+let tienTrinhCau = 50;
 let timerMiniGame = null;
 let trangThaiCauCa = "CHU_CHUAN_BI";
 
 function resetTrangThaiCau() {
     trangThaiCauCa = "CHU_CHUAN_BI";
     document.getElementById("trangThaiCau").innerText = "Chạm nút bên dưới để quăng cần thả thính!";
-    document.getElementById("btnHanhDong").innerText = "🌊 Quăng Cần Câu";
-    document.getElementById("btnHanhDong").style.background = "#44ccff";
-    document.getElementById("btnHanhDong").style.color = "#0b131f";
+    let btn = document.getElementById("btnHanhDong");
+    btn.innerText = "🌊 Quăng Cần Câu";
+    btn.style.background = "#ff9800";
     document.getElementById("vungMiniGame").style.display = "none";
     document.getElementById("hieuUngCanCau").style.transform = "rotate(0deg)";
+    
+    // Gán sự kiện click quăng cần
+    btn.onclick = quangCanCau;
+    xoaSuKienGiuNut();
 }
 
 function quangCanCau() {
     if (trangThaiCauCa === "CHU_CHUAN_BI") {
         trangThaiCauCa = "CHO_CA";
-        document.getElementById("trangThaiCau").innerText = "⏳ Đang kiên nhẫn chờ cá cắn câu...";
-        document.getElementById("btnHanhDong").innerText = "Đang chờ...";
-        document.getElementById("btnHanhDong").style.background = "#555";
-        document.getElementById("hieuUngCanCau").style.transform = "rotate(-25deg)";
+        document.getElementById("trangThaiCau").innerText = "⏳ Phao đang nổi... Chờ cá cắn câu nhé!";
+        let btn = document.getElementById("btnHanhDong");
+        btn.innerText = "Đang chờ cá...";
+        btn.style.background = "#607d8b";
+        document.getElementById("hieuUngCanCau").style.transform = "rotate(-20deg)";
 
         let thoiGianCho = Math.floor(Math.random() * 2000) + 2000;
         setTimeout(() => {
@@ -1054,81 +1075,109 @@ function kichHoatMiniGameCauCa() {
     document.getElementById("vungMiniGame").style.display = "block";
     
     let btn = document.getElementById("btnHanhDong");
-    btn.innerText = "🛑 GIỮ ĐỂ KÉO CÁ";
-    btn.style.background = "#ffaa00";
-    btn.style.color = "#000";
+    btn.innerText = "🎣 GIỮ ĐỂ KÉO CÁ";
+    btn.style.background = "#4caf50";
 
-    btn.onmousedown = () => dangGiuManHinh = true;
-    btn.onmouseup = () => dangGiuManHinh = false;
-    btn.onttouchstart = (e) => { e.preventDefault(); dangGiuManHinh = true; };
-    btn.ontouchend = (e) => { e.preventDefault(); dangGiuManHinh = false; };
+    tiengTucLapSuKienGiuNut();
 
-    tienTrinhCau = 20;
-    viTriMucTieu = Math.floor(Math.random() * 200);
+    tienTrinhCau = 50;
+    viTriTro = 150;
+    viTriMucTieu = 100;
+    tocDoCa = 4;
 
     if (timerMiniGame) clearInterval(timerMiniGame);
-    timerMiniGame = setInterval(updateMiniGame, 50);
+    timerMiniGame = setInterval(updateMiniGameFisc, 40);
 }
 
-function updateMiniGame() {
+// Thiết lập sự kiện Nhấn & Giữ mượt mà cho cả Điện thoại ( cảm ứng ) lẫn Máy tính ( chuột )
+let pressTimer = null;
+function tiengTucLapSuKienGiuNut() {
+    let btn = document.getElementById("btnHanhDong");
+    btn.onclick = null; // Hủy click thường
+
+    const batDauGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = true;
+    };
+    const ketThucGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = false;
+    };
+
+    btn.onmousedown = batDauGiu;
+    btn.onmouseup = ketThucGiu;
+    btn.onmouseleave = ketThucGiu;
+    
+    btn.ontouchstart = batDauGiu;
+    btn.ontouchend = ketThucGiu;
+    btn.ontouchcancel = ketThucGiu;
+}
+
+function xoaSuKienGiuNut() {
+    let btn = document.getElementById("btnHanhDong");
+    btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
+    btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
+}
+
+function updateMiniGameFisc() {
+    // Nếu đang giữ nút, con trượt chạy sang phải; nếu thả ra, trượt về trái
     if (dangGiuManHinh) {
-        viTriTro += 6;
+        viTriTro += 7;
     } else {
-        viTriTro -= 5;
+        viTriTro -= 6;
     }
 
+    // Giới hạn trong khung (thanh rộng khoảng 310px)
     if (viTriTro < 0) viTriTro = 0;
-    if (viTriTro > 310) viTriTro = 310;
+    if (viTriTro > 284) viTriTro = 284;
 
     document.getElementById("thanhConTro").style.left = viTriTro + "px";
 
-    let vungVangDau = viTriMucTieu;
-    let vungVangCuoi = viTriMucTieu + 70;
+    // Vùng mục tiêu tự động di chuyển lượn qua lượn lại kiểu cá bơi
+    viTriMucTieu += tocDoCa;
+    if (viTriMucTieu <= 0 || viTriMucTieu >= 210) {
+        tocDoCa = -tocDoCa; // Đổi hướng khi chạm mép
+    }
+    document.getElementById("vungMucTieu").style.left = viTriMucTieu + "px";
 
-    if (viTriTro >= vungVangDau && viTriTro <= vungVangCuoi) {
-        tienTrinhCau += 1.2;
-        document.getElementById("thanhTienTrinh").style.background = "#44ff44";
+    // Kiểm tra xem con trượt có nằm trong vùng xanh lá không
+    let vungDau = viTriMucTieu;
+    let vungCuoi = viTriMucTieu + 90;
+
+    if (viTriTro >= vungDau && viTriTro <= vungCuoi) {
+        tienTrinhCau += 0.8; // Tăng tiến trình câu cá thành công
     } else {
-        tienTrinhCau -= 0.8;
-        document.getElementById("thanhTienTrinh").style.background = "#ff4444";
+        tienTrinhCau -= 1.0; // Giảm nếu để tuột ra ngoài
     }
 
     if (tienTrinhCau < 0) tienTrinhCau = 0;
     if (tienTrinhCau > 100) tienTrinhCau = 100;
 
     document.getElementById("thanhTienTrinh").style.width = tienTrinhCau + "%";
+    document.getElementById("txtPhanTram").innerText = Math.floor(tienTrinhCau) + "%";
 
-    if (Math.random() < 0.05) {
-        viTriMucTieu += Math.floor(Math.random() * 60) - 30;
-        if (viTriMucTieu < 0) viTriMucTieu = 0;
-        if (viTriMucTieu > 240) viTriMucTieu = 240;
-        document.getElementById("vungMucTieu").style.left = viTriMucTieu + "px";
-    }
-
+    // Thắng hoặc Thua
     if (tienTrinhCau >= 100) {
-        DungMiniGameCauCa();
-        // Danh sách 10 con cá cơ bản
+        DungMiniGameCauCaFisc();
         let dsCaCau = [
             "🐟 Cá đối", "🐟 Cá thu", "🐟 Cá hồi", "🐟 Cá sơn", 
             "🦐 Tôm sú", "🐡 Cá nóc", "🐟 Cá quân", "🐟 Cá bọ cạp", 
             "⭐ Sao biển", "🦑 Mực lá"
         ];
         let caNhanDc = dsCaCau[Math.floor(Math.random() * dsCaCau.length)];
-        alert("🎉 Chúc mừng bạn đã giật cần thành công và câu được: " + caNhanDc);
+        alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: " + caNhanDc + "!");
         resetTrangThaiCau();
     } else if (tienTrinhCau <= 0) {
-        DungMiniGameCauCa();
-        alert("😢 Ôi không, cá đã sổng mất tiêu vì tuột thanh trượt rồi!");
+        DungMiniGameCauCaFisc();
+        alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
         resetTrangThaiCau();
     }
 }
 
-function DungMiniGameCauCa() {
+function DungMiniGameCauCaFisc() {
     if (timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
-    let btn = document.getElementById("btnHanhDong");
-    btn.onmousedown = null; btn.onmouseup = null; btn.onttouchstart = null; btn.ontouchend = null;
-    btn.onclick = quangCanCau;
-}
+    xoaSuKienGiuNut();
+            }
     
 </script>
