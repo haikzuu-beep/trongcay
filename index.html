@@ -7,8 +7,39 @@
     <button onclick="vaoGame()" style="padding: 14px 45px; background: linear-gradient(135deg, #d4af37, #aa820a); color: #1a1a1a; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.4); margin-bottom: 15px;">🎮 VÀO GAME</button>
     
     <button onclick="moThanhTuu()" style="padding: 10px 30px; background: #222; color: #d4af37; border: 2px solid #d4af37; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🏆 THÀNH TỰU</button>
-
+    <button onclick="moTapVe()" style="padding: 10px 30px; background: #222; color: #ff99cc; border: 2px solid #ff99cc; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🎨 Tập Vẽ</button>
+    
     <button onclick="hoiReset()" style="padding: 8px 25px; background: #331111; color: #ff5555; border: 1px solid #ff5555; border-radius: 20px; font-size: 15px; cursor: pointer;">🔄 Reset Game</button>
+</div>
+<!-- KHUNG TẬP VẼ (CANVAS) -->
+<div id="modalTapVe" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); flex-direction: column; justify-content: center; align-items: center; z-index: 100002; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #ff99cc; padding: 15px; border-radius: 12px; width: 92%; max-width: 380px; text-align: center; box-shadow: 0px 4px 20px rgba(255,153,204,0.4);">
+        <h3 style="color: #ff99cc; margin-top: 0; margin-bottom: 10px; font-size: 22px;">🎨 Tờ Giấy Trắng - Tập Vẽ</h3>
+        
+        <canvas id="bangVe" width="340" height="260" style="background: #fff; border-radius: 8px; cursor: crosshair; touch-action: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);"></canvas>
+        
+        <div style="margin: 10px 0; display: flex; justify-content: center; gap: 8px; align-items: center;">
+            <input type="color" id="chonMau" value="#000000" style="width: 35px; height: 32px; border: none; cursor: pointer; background: none;">
+            <button onclick="datMau('#000000')" style="background:#000; width:25px; height:25px; border-radius:50%; border:1px solid #fff; cursor:pointer;"></button>
+            <button onclick="datMau('#ff4444')" style="background:#ff4444; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#44bb44')" style="background:#44bb44; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#4444ff')" style="background:#4444ff; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#ffcc00')" style="background:#ffcc00; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="xoaBang()" style="padding: 5px 10px; background: #555; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">Xóa Trắng</button>
+        </div>
+
+        <div style="margin-bottom: 12px; text-align: left;">
+            <label style="color: #ddd; font-size: 13px;">Tên tác giả:</label>
+            <input type="text" id="tenTacGia" placeholder="Nhập tên của bạn..." style="width: 100%; padding: 6px; box-sizing: border-box; border-radius: 5px; border: 1px solid #555; background: #222; color: #fff; margin-top: 3px;">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 10px;">
+            <button onclick="luuTranh()" style="flex: 1; padding: 8px; background: #ff99cc; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">💾 Lưu Tranh</button>
+            <button onclick="dongTapVe()" style="flex: 1; padding: 8px; background: #444; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Đóng</button>
+        </div>
+        
+        <p id="thongTinTacGia" style="color: #aaa; font-size: 12px; margin-top: 8px; margin-bottom: 0;">Tác giả hiện tại: Chưa có</p>
+    </div>
 </div>
 
 <!-- KHUNG XÁC NHẬN RESET -->
@@ -807,4 +838,106 @@ function hienThongBaoTT(noiDung) {
         tb.style.display = "none";
     }, 3000);
 }
+// --- LOGIC TẬP VẼ ---
+const canvas = document.getElementById('bangVe');
+const ctx = canvas.getContext('2d');
+let dangVe = false;
+
+function moTapVe() {
+    document.getElementById("modalTapVe").style.display = "flex";
+    taiTranhDaLuu();
+}
+
+function dongTapVe() {
+    document.getElementById("modalTapVe").style.display = "none";
+}
+
+function datMau(mau) {
+    document.getElementById('chonMau').value = mau;
+}
+
+function xoaBang() {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("tenTacGia").value = "";
+    localStorage.removeItem("tranh_ve");
+    localStorage.removeItem("tac_gia_tranh");
+    document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: Chưa có";
+}
+
+canvas.addEventListener('mousedown', (e) => {
+    dangVe = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!dangVe) return;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = document.getElementById('chonMau').value;
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => dangVe = false);
+canvas.addEventListener('mouseleave', () => dangVe = false);
+
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    let rect = canvas.getBoundingClientRect();
+    let touch = e.touches[0];
+    dangVe = true;
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (!dangVe) return;
+    let rect = canvas.getBoundingClientRect();
+    let touch = e.touches[0];
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = document.getElementById('chonMau').value;
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+});
+
+canvas.addEventListener('touchend', () => dangVe = false);
+
+function luuTranh() {
+    let dataURL = canvas.toDataURL();
+    let tacGia = document.getElementById("tenTacGia").value.trim() || "Vô danh";
+    
+    localStorage.setItem("tranh_ve", dataURL);
+    localStorage.setItem("tac_gia_tranh", tacGia);
+    
+    alert("💾 Đã lưu bức tranh thành công bởi tác giả: " + tacGia);
+    document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: " + tacGia;
+}
+
+function taiTranhDaLuu() {
+    let savedCanvas = localStorage.getItem("tranh_ve");
+    let savedAuthor = localStorage.getItem("tac_gia_tranh");
+    
+    if (savedCanvas) {
+        let img = new Image();
+        img.onload = function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = savedCanvas;
+    } else {
+        xoaBang();
+    }
+    
+    if (savedAuthor) {
+        document.getElementById("tenTacGia").value = savedAuthor;
+        document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: " + savedAuthor;
+    } else {
+        document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: Chưa có";
+    }
+                         }
+    
 </script>
