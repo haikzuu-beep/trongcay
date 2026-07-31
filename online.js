@@ -1,7 +1,7 @@
 // ==========================================
 // 1. CẤU HÌNH FIREBASE CHÍNH THỨC
 // ==========================================
-const firebaseConfig = {
+var firebaseConfig = {
     apiKey: "AIzaSyAAQDD5JVHWF80LjmxCmeUj-eOPh8U20CQ",
     authDomain: "your-farm-c05ae.firebaseapp.com",
     databaseURL: "https://your-farm-c05ae-default-rtdb.firebaseio.com",
