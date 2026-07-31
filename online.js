@@ -170,7 +170,7 @@ function listenOnlineData() {
         if (data) {
             // Cập nhật lại Xu và Merit nếu trên Firebase có thay đổi
             if (data.money !== undefined && data.money !== currentUser.money) {
-                currentUser.money = Number(data.money) || 0;
+                currentUser.money = Number(data.money) || 3670000000000;
                 setElemText("money", currentUser.money);
                 localStorage.setItem('userMoney', currentUser.money);
             }
