@@ -1312,8 +1312,6 @@ function chonCaNgauNhien() {
         localStorage.setItem("tuDienCa", JSON.stringify(tuDienCa));
     }
 }
- 
-
 
 function updateMiniGameFisc() {
     if (dangGiuManHinh) {
@@ -1328,7 +1326,6 @@ function updateMiniGameFisc() {
     let vungMucTieuEl = document.getElementById("vungMucTieu");
     if (vungMucTieuEl) vungMucTieuEl.style.left = viTriThanhXanh + "px";
 
-        // Thay thế đoạn code xử lý tocDoCaX cũ bằng đoạn này:
     if (typeof window.tocDoCaX === 'undefined' || window.tocDoCaX === 0) {
         window.tocDoCaX = (Math.random() < 0.5 ? 1 : -1) * (Math.random() * 2 + 1.5);
     }
@@ -1349,7 +1346,7 @@ function updateMiniGameFisc() {
 
     let thanhConTroCaEl = document.getElementById("thanhConTroCa");
     if (thanhConTroCaEl) thanhConTroCaEl.style.left = viTriConCa + "px";
- 
+
     let dauThanhXanh = viTriThanhXanh;
     let cuoiThanhXanh = viTriThanhXanh + 90;
 
@@ -1385,8 +1382,7 @@ function updateMiniGameFisc() {
         alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
         resetTrangThaiCau();
     }
-}
-
+}   
 function DungMiniGameCauCa() {
     if (timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
