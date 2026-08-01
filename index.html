@@ -1116,7 +1116,7 @@ function xoaSuKienGiuNut() {
     btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
     btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
 }
-// --- TOÀN BỘ LOGIC HỆ THỐNG CÂU CÁ, KHO ĐỒ, TỪ ĐIỂN & DEBUFF ---
+// --- TOÀN BỘ LOGIC HỆ THỐNG CÂU CÁ, KHO ĐỒ, TỪ ĐIỂN, DEBUFF & SỰ KIỆN NÚT ---
 
 const DANH_SACH_CA = [
     // --- BASIC (90%) ---
@@ -1146,7 +1146,7 @@ const DANH_SACH_CA = [
     { ten: "🐟 Cá sú mì", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 150 },
     { ten: "🐟 Cá tráp", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 130 },
     { ten: "🐟 Cá bò hòm", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 140 },
-    { ten: "🗿 Sò tai tượng", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 160 },
+    { ten: "🗿 So tài tượng", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 160 },
     { ten: "🐟 Cá chó", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 135 },
     { ten: "✨ Cá thủy tinh", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 180 },
     { ten: "🐙 Bạch tuộc khổng lồ", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 200 },
@@ -1195,7 +1195,6 @@ function chonCaNgauNhien() {
     
     caDangCauHienTai = caChon;
 
-    // Thiết lập tốc độ bơi theo độ hiếm (Càng hiếm bơi càng nhanh)
     let heSoTocDo = 1;
     if (caChon.loai === "Rare") heSoTocDo = 1.3;
     else if (caChon.loai === "Epic") heSoTocDo = 1.7;
@@ -1206,7 +1205,6 @@ function chonCaNgauNhien() {
     window.tocDoCaGoc = heSoTocDo;
     window.fishTimerDungIm = 0;
 
-    // Thêm vào từ điển nếu chưa có
     if (!tuDienCa.includes(caChon.ten)) {
         tuDienCa.push(caChon.ten);
         localStorage.setItem("tuDienCa", JSON.stringify(tuDienCa));
@@ -1227,9 +1225,10 @@ function updateMiniGameFisc() {
     if (viTriThanhXanh < 0) viTriThanhXanh = 0;
     if (viTriThanhXanh > 210) viTriThanhXanh = 210;
 
-    document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
+    let vungMucTieuEl = document.getElementById("vungMucTieu");
+    if (vungMucTieuEl) vungMucTieuEl.style.left = viTriThanhXanh + "px";
 
-    // 2. Con cá tự động bơi lội (Tốc độ tuỳ thuộc vào độ hiếm)
+    // 2. Con cá tự động bơi lội
     if (typeof window.tocDoCaX === 'undefined') {
         let tocDoNen = window.tocDoCaGoc || 1.5;
         window.tocDoCaX = (Math.random() - 0.5) * tocDoNen;
@@ -1249,13 +1248,13 @@ function updateMiniGameFisc() {
         }
     }
 
-    // Giới hạn cá không bơi ra ngoài khung
     if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = -window.tocDoCaX; }
     if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -window.tocDoCaX; }
 
-    document.getElementById("thanhConTroCa").style.left = viTriConCa + "px";
+    let thanhConTroCaEl = document.getElementById("thanhConTroCa");
+    if (thanhConTroCaEl) thanhConTroCaEl.style.left = viTriConCa + "px";
 
-    // 3. Hiển thị thông tin Debuff tốc độ tiến trình ra giao diện
+    // 3. Hiển thị thông tin Debuff
     let thongTinDebuff = "";
     if (caDangCauHienTai && caDangCauHienTai.debuff > 0) {
         let phanTramDebuff = caDangCauHienTai.debuff * 100;
@@ -1287,35 +1286,37 @@ function updateMiniGameFisc() {
     if (tienTrinhCau < 0) tienTrinhCau = 0;
     if (tienTrinhCau > 100) tienTrinhCau = 100;
 
-    document.getElementById("thanhTienTrinh").style.width = tienTrinhCau + "%";
-    document.getElementById("txtPhanTram").innerText = Math.floor(tienTrinhCau) + "%";
+    let thanhTienTrinhEl = document.getElementById("thanhTienTrinh");
+    if (thanhTienTrinhEl) thanhTienTrinhEl.style.width = tienTrinhCau + "%";
+    
+    let txtPhanTramEl = document.getElementById("txtPhanTram");
+    if (txtPhanTramEl) txtPhanTramEl.innerText = Math.floor(tienTrinhCau) + "%";
 
     // Kết quả Thắng / Thua
     if (tienTrinhCau >= 100) {
         DungMiniGameCauCaFisc();
         let caVuaBat = caDangCauHienTai || chonCaNgauNhien();
         
-        // Lưu vào kho đồ
         khoDoCa.push({ id: Date.now() + Math.random(), ...caVuaBat, yeuThich: false });
         localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
 
         alert("🎉 Chúc mừng bạn đã bắt thành công: [" + caVuaBat.loai + "] " + caVuaBat.ten + "!");
-        resetTrangThaiCau();
+        if (typeof resetTrangThaiCau === 'function') resetTrangThaiCau();
     } else if (tienTrinhCau <= 0) {
         DungMiniGameCauCaFisc();
         alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
-        resetTrangThaiCau();
+        if (typeof resetTrangThaiCau === 'function') resetTrangThaiCau();
     }
 }
 
 // Hàm Dừng Minigame
 function DungMiniGameCauCaFisc() {
-    if (timerMiniGame) clearInterval(timerMiniGame);
+    if (typeof timerMiniGame !== 'undefined' && timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
-    xoaSuKienGiunut();
+    if (typeof xoaSuKienGiunut === 'function') xoaSuKienGiunut();
 }
 
-// 5. Chức năng Quản lý Kho Đồ (Yêu thích & Bán cá)
+// 5. Quản lý Kho Đồ (Yêu thích & Bán cá)
 function toggleYeuThich(idCa) {
     let item = khoDoCa.find(c => c.id === idCa);
     if (item) {
@@ -1333,21 +1334,42 @@ function banCa(idCa) {
             return;
         }
         let tienBan = khoDoCa[index].gia;
-        // Cộng tiền vào tài khoản game của bạn tại đây nếu có biến tiền
         khoDoCa.splice(index, 1);
         localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
         if (typeof hienThiKhoDo === 'function') hienThiKhoDo();
         alert("💰 Đã bán cá thành công nhận được " + tienBan + " vàng!");
     }
-     }
- 
- 
-     
-function DungMiniGameCauCaFisc() {
-    if (timerMiniGame) clearInterval(timerMiniGame);
-    dangGiuManHinh = false;
-    xoaSuKienGiuNut();
 }
+
+// 6. Gán sự kiện nhấn giữ nút kéo cá để thanh xanh chạy
+function ganSuKienGiuNut() {
+    let btn = document.getElementById("btnGiuKeoCa"); // Đổi id này nếu nút của bạn khác tên
+    if (!btn) return;
+
+    let batDauGiu = (e) => {
+        e.preventDefault();
+        dangGiuManHinh = true;
+    };
+
+    let ketThucGiu = (e) => {
+        e.preventDefault();
+        dangGiuManHinh = false;
+    };
+
+    btn.onmousedown = batDauGiu;
+    btn.onmouseup = ketThucGiu;
+    btn.onmouseleave = ketThucGiu;
+
+    btn.ontouchstart = batDauGiu;
+    btn.ontouchend = ketThucGiu;
+    btn.ontouchcancel = ketThucGiu;
+}
+
+// Tự động kích hoạt gán sự kiện nút khi tải xong file
+document.addEventListener("DOMContentLoaded", () => {
+    ganSuKienGiuNut();
+});
  
+        
         
 </script>
