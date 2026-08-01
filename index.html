@@ -1,10 +1,147 @@
 <!DOCTYPE html>
+<!-- MÀN HÌNH SẢNH GAME (LOBBY) -->
+<div id="sanhGame" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; font-family: 'ZCOOL KuaiLe', cursive;">
+ <!-- NÚT MENU CHÍNH -->
+<div style="position: absolute; top: 20px; left: 20px; z-index: 100;">
+    <button onclick="toggleMenuGame()" style="background: #222; color: #d4af37; border: 2px solid #d4af37; padding: 8px 14px; border-radius: 20px; font-size: 16px; cursor: pointer; font-weight: bold;">☰ Menu</button>
+    
+    <!-- HỘP THOẠI MENU -->
+    <div id="menuGameDropdown" style="display: none; position: absolute; top: 45px; left: 0; background: #1a1a1a; border: 2px solid #d4af37; border-radius: 10px; width: 150px; overflow: hidden; box-shadow: 0px 4px 15px rgba(0,0,0,0.5);">
+        <button onclick="chuyenGame('nongTrai')" style="width: 100%; padding: 10px; background: none; color: #fff; border: none; text-align: left; cursor: pointer; font-size: 14px; border-bottom: 1px solid #333;">🌾 Nông Trại</button>
+        <button onclick="chuyenGame('tapVe')" style="width: 100%; padding: 10px; background: none; color: #ff99cc; border: none; text-align: left; cursor: pointer; font-size: 14px; border-bottom: 1px solid #333;">🎨 Tập Vẽ</button>
+        <button onclick="chuyenGame('cauCa')" style="width: 100%; padding: 10px; background: none; color: #44ccff; border: none; text-align: left; cursor: pointer; font-size: 14px;">🎣 Câu Cá</button>
+    </div>
+</div>
+    
+    <h1 style="color: #d4af37; font-size: 38px; margin-bottom: 10px; text-shadow: 0 0 15px rgba(212,175,55,0.6);">🌾 Nông Trại 🌾</h1>
+    <p style="color: #bbb; font-size: 16px; margin-bottom: 30px;">Tu Tiên Nông Trại - Bản Cổ Phong</p>
+    
+    <button onclick="vaoGame()" style="padding: 14px 45px; background: linear-gradient(135deg, #d4af37, #aa820a); color: #1a1a1a; border: none; border-radius: 30px; font-size: 22px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.4); margin-bottom: 15px;">🎮 VÀO GAME</button>
+    
+    <button onclick="moThanhTuu()" style="padding: 10px 30px; background: #222; color: #d4af37; border: 2px solid #d4af37; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🏆 THÀNH TỰU</button>
+    <button onclick="moTapVe()" style="padding: 10px 30px; background: #222; color: #ff99cc; border: 2px solid #ff99cc; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🎨 Tập Vẽ</button>
+    
+    <button onclick="hoiReset()" style="padding: 8px 25px; background: #331111; color: #ff5555; border: 1px solid #ff5555; border-radius: 20px; font-size: 15px; cursor: pointer;">🔄 Reset Game</button>
+</div>
+<div id="modalCauCa" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #1ca3ec, #004d80); flex-direction: column; justify-content: space-between; align-items: center; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; padding: 15px; box-sizing: border-box;">
+    
+    <!-- Tiêu đề & Nút về sảnh -->
+    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="color: #fff; margin: 0; font-size: 20px; text-shadow: 2px 2px #003366;">🌊 Vùng Biển Khơi Xanh</h3>
+        <button onclick="dongCauCa()" style="background: rgba(0,0,0,0.4); color: #fff; border: 1px solid #fff; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-weight: bold;">🏠 Về Sảnh</button>
+    </div>
+
+    <!-- KHUNG CẢNH GIỮA BIỂN & CẦN CÂU -->
+    <div id="khungNhinThuNhat" style="position: relative; width: 100%; max-width: 350px; height: 220px; background: linear-gradient(to bottom, #4fc3f7, #0288d1); border: 3px solid #fff; border-radius: 15px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
+        <!-- Sóng nước trang trí -->
+        <div style="position: absolute; top: 0; width: 100%; height: 20px; background: rgba(255,255,255,0.2);"></div>
+        <!-- Hình ảnh nhân vật / cần câu thả xuống -->
+        <div id="hieuUngCanCau" style="font-size: 45px; margin-bottom: 20px; transition: transform 0.3s; transform-origin: top right;">🎣</div>
+        <div style="position: absolute; bottom: 10px; width: 90%; background: rgba(0, 0, 0, 0.4); padding: 8px; border-radius: 10px; text-align: center;">
+            <p id="trangThaiCau" style="color: #ffeb3b; font-size: 14px; margin: 0; font-weight: bold;">Chạm nút bên dưới để quăng cần thả thính!</p>
+        </div>
+    </div>
+
+    <!-- MINI-GAME KIỂU FISC (THANH TRƯỢT KÉO CÁ) -->
+    <div id="vungMiniGame" style="display: none; width: 100%; max-width: 350px; background: rgba(0, 0, 0, 0.7); border: 2px solid #ffeb3b; padding: 12px; border-radius: 12px; box-sizing: border-box;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="color: #ffeb3b; font-size: 12px; font-weight: bold;">🎣 ĐANG KÉO CÁ LÊN!</span>
+            <span id="txtPhanTram" style="color: #4caf50; font-size: 12px; font-weight: bold;">50%</span>
+        </div>
+        
+        <!-- Thanh tiến trình tổng -->
+        <div style="width: 100%; background: #333; height: 10px; border-radius: 5px; margin-bottom: con; margin-bottom: 10px; overflow: hidden; border: 1px solid #777;">
+            <div id="thanhTienTrinh" style="width: 50%; height: 100%; background: #4caf50; transition: width 0.1s;"></div>
+        </div>
+
+        <!-- Thanh mini-game thu nhỏ kiểu Roblox Fisc -->
+        <div style="position: relative; width: 100%; height: 26px; background: #222; border-radius: 13px; border: 2px solid #555; overflow: hidden;">
+            <!-- Vùng mục tiêu màu xanh lá -->
+            <div id="vungMucTieu" style="position: absolute; left: 100px; width: 90px; height: 100%; background: #4caf50; border-radius: 10px;"></div>
+            <!-- Con trượt/Icon con cá đang chạy -->
+            <div id="thanhConTro" style="position: absolute; left: 120px; width: 26px; height: 100%; background: #ff5722; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px; box-shadow: 0 0 5px #fff;">🐟</div>
+        </div>
+        <p style="color: #ccc; font-size: 11px; text-align: center; margin: 6px 0 0 0;">Nhấn và Giữ nút bên dưới để giữ cá trong vùng xanh!</p>
+    </div>
+
+    <!-- Nút hành động thao tác chính -->
+    <div style="width: 100%; max-width: 350px; padding-bottom: 10px;">
+        <button id="btnHanhDong" style="width: 100%; padding: 14px; background: #ff9800; color: #fff; border: 2px solid #fff; border-radius: 25px; font-weight: bold; font-size: 17px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-shadow: 1px 1px #000;">🌊 Quăng Cần Câu</button>
+    </div>
+
+</div>
+
+
+<!-- KHUNG TẬP VẼ (CANVAS) -->
+<div id="modalTapVe" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); flex-direction: column; justify-content: center; align-items: center; z-index: 100002; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #ff99cc; padding: 15px; border-radius: 12px; width: 92%; max-width: 380px; text-align: center; box-shadow: 0px 4px 20px rgba(255,153,204,0.4);">
+        <h3 style="color: #ff99cc; margin-top: 0; margin-bottom: 10px; font-size: 22px;">🎨 Tờ Giấy Trắng - Tập Vẽ</h3>
+        
+        <canvas id="bangVe" width="340" height="260" style="background: #fff; border-radius: 8px; cursor: crosshair; touch-action: none; box-shadow: inset 0 0 10px rgba(0,0,0,0.2);"></canvas>
+        
+        <div style="margin: 10px 0; display: flex; justify-content: center; gap: 8px; align-items: center;">
+            <input type="color" id="chonMau" value="#000000" style="width: 35px; height: 32px; border: none; cursor: pointer; background: none;">
+            <button onclick="datMau('#000000')" style="background:#000; width:25px; height:25px; border-radius:50%; border:1px solid #fff; cursor:pointer;"></button>
+            <button onclick="datMau('#ff4444')" style="background:#ff4444; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#44bb44')" style="background:#44bb44; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#4444ff')" style="background:#4444ff; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="datMau('#ffcc00')" style="background:#ffcc00; width:25px; height:25px; border-radius:50%; border:none; cursor:pointer;"></button>
+            <button onclick="xoaBang()" style="padding: 5px 10px; background: #555; color: #fff; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">Xóa Trắng</button>
+        </div>
+
+        <div style="margin-bottom: 12px; text-align: left;">
+            <label style="color: #ddd; font-size: 13px;">Tên tác giả:</label>
+            <input type="text" id="tenTacGia" placeholder="Nhập tên của bạn..." style="width: 100%; padding: 6px; box-sizing: border-box; border-radius: 5px; border: 1px solid #555; background: #222; color: #fff; margin-top: 3px;">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 10px;">
+            <button onclick="luuTranh()" style="flex: 1; padding: 8px; background: #ff99cc; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">💾 Lưu Tranh</button>
+            <button onclick="dongTapVe()" style="flex: 1; padding: 8px; background: #444; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Đóng</button>
+        </div>
+        
+        <p id="thongTinTacGia" style="color: #aaa; font-size: 12px; margin-top: 8px; margin-bottom: 0;">Tác giả hiện tại: Chưa có</p>
+    </div>
+</div>
+
+<!-- KHUNG XÁC NHẬN RESET -->
+<div id="modalReset" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100001; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #ff5555; padding: 25px; border-radius: 12px; width: 85%; max-width: 300px; text-align: center; box-shadow: 0px 4px 15px rgba(255,85,85,0.4);">
+        <h3 style="color: #ff5555; margin-top: 0; font-size: 20px;">⚠️ Cảnh Báo</h3>
+        <p style="color: #f3f3f3; font-size: 15px; line-height: 1.6; margin-bottom: 20px;">
+            Bạn có chắc chắn muốn reset game không, mọi thứ sẽ trở lại từ đầu!
+        </p>
+        <div style="display: flex; justify-content: space-around;">
+            <button onclick="thucHienReset()" style="padding: 8px 20px; background: #ff5555; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Có</button>
+            <button onclick="dongReset()" style="padding: 8px 20px; background: #444; color: #fff; border: none; border-radius: 6px; cursor: pointer;">Không</button>
+        </div>
+    </div>
+</div>
+
+<!-- KHUNG BẢNG THÀNH TỰU -->
+<div id="modalThanhTuu" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100000; font-family: 'ZCOOL KuaiLe', cursive;">
+    <div style="background: #1a1a1a; border: 2px solid #d4af37; padding: 25px; border-radius: 12px; width: 85%; max-width: 320px; text-align: center; box-shadow: 0px 4px 15px rgba(212,175,55,0.4);">
+        <h3 style="color: #d4af37; margin-top: 0; font-size: 24px;">🏆 Thành Tựu Nông Dân</h3>
+        <div style="color: #f3f3f3; line-height: 1.8; font-size: 15px; text-align: left; margin-bottom: 20px;">
+            <p id="tt1">1. ??? (Sử dụng nút reset game)</p>
+            <p id="tt2">2. ??? (Tích được 3000 Kim cương)</p>
+        </div>
+        <button onclick="dongThanhTuu()" style="padding: 8px 20px; background: #d4af37; color: #1a1a1a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">Đóng</button>
+    </div>
+</div>
+
+<!-- BẢNG THÔNG BÁO NHẬN THÀNH TỰU -->
+<div id="modalThongBaoTT" style="display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #d4af37; color: #1a1a1a; padding: 12px 25px; border-radius: 25px; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+    🎉 Chúc mừng! Đã mở khóa thành tựu mới!
+</div>
+
 <html lang="vi">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Farm - Tu Tiên Nông Trại</title>
+    <!-- Khắc phục lỗi 404 Favicon -->
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
 
     <!-- CSS Bổ sung dành cho Hiệu ứng Weather & Đổi chủ đề toàn bộ Skin -->
@@ -197,11 +334,11 @@
 
         <!-- ==================== THANH ĐIỀU HƯỚNG (NAV) ==================== -->
         <nav class="main-nav">
-            <button class="nav-btn active" onclick="openTab('farm')">🌾 Nông Trại</button>
-            <button class="nav-btn" onclick="openTab('animals')">🐾 Chuồng Thú</button>
-            <button class="nav-btn" onclick="openTab('shop')">🛒 Cửa Hàng</button>
-            <button class="nav-btn" onclick="openTab('bag')">🎒 Túi Đồ</button>
-            <button class="nav-btn" onclick="openTab('temple')">🔔 Chùa Công Đức</button>
+            <button class="nav-btn active" onclick="openTab(event, 'farm')">🌾 Nông Trại</button>
+            <button class="nav-btn" onclick="openTab(event, 'animals')">🐾 Chuồng Thú</button>
+            <button class="nav-btn" onclick="openTab(event, 'shop')">🛒 Cửa Hàng</button>
+            <button class="nav-btn" onclick="openTab(event, 'bag')">🎒 Túi Đồ</button>
+            <button class="nav-btn" onclick="openTab(event, 'temple')">🔔 Chùa Công Đức</button>
             
             <a href="admin.html">
                 <button type="button" class="nav-btn">⚙️ Đến trang Admin</button>
@@ -538,9 +675,8 @@
                     <div id="chatBox" class="chat-messages">
                         <div id="messageList" class="chat-messages-list" style="height: 200px; overflow-y: auto;">
                         </div>
-                    </div>
-
-                    <div id="chatInputBox" class="chat-input-area" style="display: flex; margin-top: 8px;">
+                            </div>
+                            <div id="chatInputBox" class="chat-input-area" style="display: flex; margin-top: 8px;">
                         <input type="text" id="chatMessageInput" placeholder="Nhập tin nhắn..." onkeypress="handleChatKeyPress(event)" style="flex: 1;" />
                         <button onclick="sendChatMessage()">Gửi</button>
                     </div>
@@ -568,8 +704,10 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    <!-- Scripts Game -->
+    <!-- Script Game chính -->
     <script src="online.js"></script>
+
+    <!-- Script Quản lý UI Skin & Modal -->
     <script>
         // Quản lý lưu trữ Skin bằng LocalStorage
         let currentSkin = localStorage.getItem('activeSkin') || 'default';
@@ -580,7 +718,6 @@
             let kcElement = document.getElementById("diamondCount");
             let currentKC = kcElement ? parseInt(kcElement.innerText) || 0 : 0;
 
-            // Kiểm tra xem đã sở hữu skin chưa
             if (ownedSkins.includes(skinName)) {
                 currentSkin = skinName;
                 localStorage.setItem('activeSkin', currentSkin);
@@ -589,7 +726,6 @@
                 return;
             }
 
-            // Nếu chưa mua -> tiến hành trừ Kim Cương
             if (currentKC >= cost) {
                 currentKC -= cost;
                 
@@ -612,18 +748,13 @@
 
         // Cập nhật giao diện & Khởi tạo hiệu ứng động
         function updateTheme() {
-            // Xóa toàn bộ class skin cũ
             document.body.classList.remove('skin-cherry', 'skin-desert', 'skin-winter');
 
-            // Áp dụng class mới
             if (currentSkin !== 'default') {
                 document.body.classList.add('skin-' + currentSkin);
             }
 
-            // Cập nhật trạng thái hiển thị của các nút Mua -> Áp dụng
             updateShopButtons();
-
-            // Tạo hiệu ứng thời tiết tương ứng
             renderWeatherEffects();
         }
 
@@ -647,10 +778,10 @@
         // Tạo hiệu ứng thời tiết
         function renderWeatherEffects() {
             const fxContainer = document.getElementById("fx-overlay");
-            fxContainer.innerHTML = ""; // Clear hiệu ứng cũ
+            if (!fxContainer) return;
+            fxContainer.innerHTML = "";
 
             if (currentSkin === 'cherry') {
-                // Tạo cánh hoa rơi
                 for (let i = 0; i < 25; i++) {
                     let petal = document.createElement("div");
                     petal.className = "fx-petal";
@@ -663,47 +794,407 @@
                     fxContainer.appendChild(petal);
                 }
             } else if (currentSkin === 'desert') {
-                // Hiệu ứng bụi cát
                 let dust = document.createElement("div");
                 dust.className = "fx-dust";
                 fxContainer.appendChild(dust);
 
-                // Cỏ khô thổi ngang
-                let tumbleweed = document.createElement("div");
-                tumbleweed.className = "fx-tumbleweed";
-                tumbleweed.innerText = "🌾";
-                tumbleweed.style.animationDuration = "7s";
-                fxContainer.appendChild(tumbleweed);
+                let weed = document.createElement("div");
+                weed.className = "fx-tumbleweed";
+                weed.innerText = "🌾";
+                weed.style.animationDuration = "12s";
+                fxContainer.appendChild(weed);
             } else if (currentSkin === 'winter') {
-                // Hiệu ứng tuyết rơi
-                for (let i = 0; i < 35; i++) {
+                for (let i = 0; i < 30; i++) {
                     let flake = document.createElement("div");
                     flake.className = "fx-snowflake";
                     flake.innerText = "❄";
                     flake.style.left = Math.random() * 100 + "vw";
                     flake.style.fontSize = (Math.random() * 10 + 10) + "px";
                     flake.style.animationDuration = (Math.random() * 3 + 3) + "s";
-                    flake.style.animationDelay = (Math.random() * 4) + "s";
+                    flake.style.animationDelay = (Math.random() * 5) + "s";
                     fxContainer.appendChild(flake);
                 }
             }
         }
 
+        // Hàm mở/đóng Modal Thơ Bí Kíp Nông Dân
         function moGhiChu() {
-            document.getElementById("modalTho").style.display = "flex";
+            let m = document.getElementById("modalTho");
+            if (m) m.style.display = "flex";
         }
 
         function dongGhiChu() {
-            document.getElementById("modalTho").style.display = "none";
+            let m = document.getElementById("modalTho");
+            if (m) m.style.display = "none";
         }
 
-        // Tự động load theme khi vừa vào trang web
         window.addEventListener('DOMContentLoaded', () => {
             updateTheme();
         });
     </script>
-    <script src="script.js"></script>
-
 </body>
-
 </html>
+<script>
+function kiemTraThanhTuu() {
+    let daReset = localStorage.getItem("da_reset") === "true";
+    let kimCung = parseInt(localStorage.getItem("kim_cuong") || "0");
+
+    if (daReset) {
+        document.getElementById("tt1").innerHTML = "1. <b>Còn cái nịt</b> (Đã hoàn thành)";
+        document.getElementById("tt1").style.color = "#4eff4e";
+    } else {
+        document.getElementById("tt1").innerHTML = "1. ??? (Sử dụng nút reset game)";
+        document.getElementById("tt1").style.color = "#f3f3f3";
+    }
+
+    if (kimCung >= 3000) {
+        document.getElementById("tt2").innerHTML = "2. <b>Đại Jaa</b> (Đã hoàn thành)";
+        document.getElementById("tt2").style.color = "#4eff4e";
+    } else {
+        document.getElementById("tt2").innerHTML = "2. ??? (Tích được 3000 Kim cương)";
+        document.getElementById("tt2").style.color = "#f3f3f3";
+    }
+}
+
+function moThanhTuu() {
+    kiemTraThanhTuu();
+    document.getElementById("modalThanhTuu").style.display = "flex";
+}
+
+function dongThanhTuu() {
+    document.getElementById("modalThanhTuu").style.display = "none";
+}
+
+function vaoGame() {
+    document.getElementById("sanhGame").style.display = "none";
+}
+
+function hoiReset() {
+    document.getElementById("modalReset").style.display = "flex";
+}
+
+function dongReset() {
+    document.getElementById("modalReset").style.display = "none";
+}
+
+function thucHienReset() {
+    localStorage.setItem("da_reset", "true");
+    localStorage.clear();
+    localStorage.setItem("da_reset", "true");
+
+    dongReset();
+    hienThongBaoTT("Đã reset game thành công! Nhận được thành tựu: Còn cái nịt");
+    
+    setTimeout(() => {
+        location.reload();
+    }, 1500);
+}
+
+function hienThongBaoTT(noiDung) {
+    let tb = document.getElementById("modalThongBaoTT");
+    tb.innerText = "🎉 " + noiDung;
+    tb.style.display = "block";
+    setTimeout(() => {
+        tb.style.display = "none";
+    }, 3000);
+}
+// --- LOGIC TẬP VẼ ---
+const canvas = document.getElementById('bangVe');
+const ctx = canvas.getContext('2d');
+let dangVe = false;
+
+function moTapVe() {
+    document.getElementById("modalTapVe").style.display = "flex";
+    taiTranhDaLuu();
+}
+
+function dongTapVe() {
+    document.getElementById("modalTapVe").style.display = "none";
+}
+
+function datMau(mau) {
+    document.getElementById('chonMau').value = mau;
+}
+
+function xoaBang() {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    document.getElementById("tenTacGia").value = "";
+    localStorage.removeItem("tranh_ve");
+    localStorage.removeItem("tac_gia_tranh");
+    document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: Chưa có";
+}
+    canvas.addEventListener('mousedown', (e) => {
+    dangVe = true;
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!dangVe) return;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = document.getElementById('chonMau').value;
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+});
+
+canvas.addEventListener('mouseup', () => dangVe = false);
+canvas.addEventListener('mouseleave', () => dangVe = false);
+
+canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    let rect = canvas.getBoundingClientRect();
+    let touch = e.touches[0];
+    dangVe = true;
+    ctx.beginPath();
+    ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (!dangVe) return;
+    let rect = canvas.getBoundingClientRect();
+    let touch = e.touches[0];
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = document.getElementById('chonMau').value;
+    ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    ctx.stroke();
+});
+
+canvas.addEventListener('touchend', () => dangVe = false);
+
+function luuTranh() {
+    let dataURL = canvas.toDataURL();
+    let tacGia = document.getElementById("tenTacGia").value.trim() || "Vô danh";
+    
+    localStorage.setItem("tranh_ve", dataURL);
+    localStorage.setItem("tac_gia_tranh", tacGia);
+    
+    alert("💾 Đã lưu bức tranh thành công bởi tác giả: " + tacGia);
+    document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: " + tacGia;
+}
+
+function taiTranhDaLuu() {
+    let savedCanvas = localStorage.getItem("tranh_ve");
+    let savedAuthor = localStorage.getItem("tac_gia_tranh");
+    
+    if (savedCanvas) {
+        let img = new Image();
+        img.onload = function() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = savedCanvas;
+    } else {
+        xoaBang();
+    }
+    
+    if (savedAuthor) {
+        document.getElementById("tenTacGia").value = savedAuthor;
+        document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: " + savedAuthor;
+    } else {
+        document.getElementById("thongTinTacGia").innerText = "Tác giả hiện tại: Chưa có";
+    }
+                         }
+   // --- XỬ LÝ MENU CHỌN GAME ---
+function toggleMenuGame() {
+    let menu = document.getElementById("menuGameDropdown");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+function chuyenGame(loai) {
+    document.getElementById("menuGameDropdown").style.display = "none";
+    document.getElementById("sanhGame").style.display = "none";
+    document.getElementById("modalTapVe").style.display = "none";
+    document.getElementById("modalCauCa").style.display = "none";
+
+    if (loai === 'nongTrai') {
+        document.getElementById("sanhGame").style.display = "flex";
+    } else if (loai === 'tapVe') {
+        document.getElementById("modalTapVe").style.display = "flex";
+        if (typeof taiTranhDaLuu === 'function') taiTranhDaLuu();
+    } else if (loai === 'cauCa') {
+        document.getElementById("modalCauCa").style.display = "flex";
+        resetTrangThaiCau();
+    }
+}
+
+function dongCauCa() {
+    document.getElementById("modalCauCa").style.display = "none";
+    document.getElementById("sanhGame").style.display = "flex";
+    DungMiniGameCauCa();
+}
+// --- XỬ LÝ LOGIC CÂU CÁ CHUẨN KIỂU FISC (ROBLOX) ---
+let dangGiuManHinh = false;
+let viTriThanhXanh = 100; // Vị trí thanh trượt xanh lá của bạn
+let viTriConCa = 150;     // Vị trí con cá đang chạy
+let tocDoCa = 3;
+let tienTrinhCau = 50;
+let timerMiniGame = null;
+let trangThaiCauCa = "CHU_CHUAN_BI";
+
+function resetTrangThaiCau() {
+    trangThaiCauCa = "CHU_CHUAN_BI";
+    document.getElementById("trangThaiCau").innerText = "Chạm nút bên dưới để quăng cần thả thính!";
+    let btn = document.getElementById("btnHanhDong");
+    btn.innerText = "🌊 Quăng Cần Câu";
+    btn.style.background = "#ff9800";
+    document.getElementById("vungMiniGame").style.display = "none";
+    document.getElementById("hieuUngCanCau").style.transform = "rotate(0deg)";
+    
+    btn.onclick = quangCanCau;
+    xoaSuKienGiuNut();
+}
+
+function quangCanCau() {
+    if (trangThaiCauCa === "CHU_CHUAN_BI") {
+        trangThaiCauCa = "CHO_CA";
+        document.getElementById("trangThaiCau").innerText = "⏳ Phao đang nổi... Chờ cá cắn câu nhé!";
+        let btn = document.getElementById("btnHanhDong");
+        btn.innerText = "Đang chờ cá...";
+        btn.style.background = "#607d8b";
+        document.getElementById("hieuUngCanCau").style.transform = "rotate(-20deg)";
+
+        let thoiGianCho = Math.floor(Math.random() * 2000) + 2000;
+        setTimeout(() => {
+            if (trangThaiCauCa === "CHO_CA") {
+                kichHoatMiniGameCauCa();
+            }
+        }, thoiGianCho);
+    }
+}
+
+function kichHoatMiniGameCauCa() {
+    trangThaiCauCa = "DANG_CAN_CA";
+    document.getElementById("trangThaiCau").innerText = "🚨 CÓ CÁ CẮN CÂU! GIỮ NÚT ĐỂ KÉO!";
+    document.getElementById("vungMiniGame").style.display = "block";
+    
+    let btn = document.getElementById("btnHanhDong");
+    btn.innerText = "🎣 GIỮ ĐỂ KÉO CÁ";
+    btn.style.background = "#4caf50";
+
+    tiengTucLapSuKienGiuNut();
+
+    tienTrinhCau = 50;
+    viTriThanhXanh = 100;
+    viTriConCa = 150;
+    tocDoCa = 4;
+
+    if (timerMiniGame) clearInterval(timerMiniGame);
+    timerMiniGame = setInterval(updateMiniGameFisc, 40);
+}
+
+let pressTimer = null;
+function tiengTucLapSuKienGiuNut() {
+    let btn = document.getElementById("btnHanhDong");
+    btn.onclick = null;
+
+    const batDauGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = true;
+    };
+    const ketThucGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = false;
+    };
+
+    btn.onmousedown = batDauGiu;
+    btn.onmouseup = ketThucGiu;
+    btn.onmouseleave = ketThucGiu;
+    
+    btn.ontouchstart = batDauGiu;
+    btn.ontouchend = ketThucGiu;
+    btn.ontouchcancel = ketThucGiu;
+}
+
+function xoaSuKienGiuNut() {
+    let btn = document.getElementById("btnHanhDong");
+    btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
+    btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
+}
+function updateMiniGameFisc() {
+    // 1. Điều khiển thanh xanh lá: Giữ thì dịch sang phải, thả ra thì trôi về trái
+    if (dangGiuManHinh) {
+        viTriThanhXanh += 7;
+    } else {
+        viTriThanhXanh -= 6;
+    }
+
+    if (viTriThanhXanh < 0) viTriThanhXanh = 0;
+    if (viTriThanhXanh > 210) viTriThanhXanh = 210;
+
+    document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
+
+        // 2. Cải tiến cá: Bơi nhanh hơn và ít đứng im lại
+    if (typeof fishTimerDungIm === 'undefined') {
+        window.fishTimerDungIm = 0;
+        window.tocDoCaX = (Math.random() - 0.5) * 3; // Tăng tốc độ lên cho vừa tay hơn
+    }
+
+    if (fishTimerDungIm > 0) {
+        fishTimerDungIm--; // Giảm thời gian đứng im lại
+    } else {
+        // Giảm tỷ lệ đứng im xuống còn 2% và thời gian đứng im cực ngắn (từ 5 đến 15 khung hình)
+        if (Math.random() < 0.02) {
+            fishTimerDungIm = Math.floor(Math.random() * 10) + 5;
+        } else {
+            // Đổi hướng ngẫu nhiên mượt mà
+            if (Math.random() < 0.1) {
+                window.tocDoCaX = (Math.random() - 0.5) * 3;
+            }
+            viTriConCa += window.tocDoCaX;
+        }
+    }
+ 
+
+    // Giới hạn cá không bị bơi ra khỏi khung
+    if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = Math.abs(window.tocDoCaX); }
+    if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -Math.abs(window.tocDoCaX); }
+
+    document.getElementById("thanhConTro").style.left = viTriConCa + "px";
+
+    // 3. Kiểm tra bắt cá & điều chỉnh tốc độ thanh tiến trình (Tăng giữ nguyên, giảm chậm lại)
+    let dauThanhXanh = viTriThanhXanh;
+    let cuoiThanhXanh = viTriThanhXanh + 90;
+
+    if (viTriConCa >= dauThanhXanh && viTriConCa <= cuoiThanhXanh) {
+        tienTrinhCau += 0.8; // Tăng tiến trình giữ nguyên như cũ
+    } else {
+        tienTrinhCau -= 0.4; // Giảm tiến trình chậm lại một nửa để dễ thở hơn
+    }
+
+    if (tienTrinhCau < 0) tienTrinhCau = 0;
+    if (tienTrinhCau > 100) tienTrinhCau = 100;
+
+    document.getElementById("thanhTienTrinh").style.width = tienTrinhCau + "%";
+    document.getElementById("txtPhanTram").innerText = Math.floor(tienTrinhCau) + "%";
+
+    // Kết quả Thắng / Thua
+    if (tienTrinhCau >= 100) {
+        DungMiniGameCauCaFisc();
+        let dsCaCau = [
+            "🐟 Cá đối", "🐟 Cá thu", "🐟 Cá hồi", "🐟 Cá sơn", 
+            "🦐 Tôm sú", "🐡 Cá nóc", "🐟 Cá quân", "🐟 Cá bọ cạp", 
+            "⭐ Sao biển", "🦑 Mực lá"
+        ];
+        let caNhanDc = dsCaCau[Math.floor(Math.random() * dsCaCau.length)];
+        alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: " + caNhanDc + "!");
+        resetTrangThaiCau();
+    } else if (tienTrinhCau <= 0) {
+        DungMiniGameCauCaFisc();
+        alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
+        resetTrangThaiCau();
+    }
+}
+ 
+     
+function DungMiniGameCauCaFisc() {
+    if (timerMiniGame) clearInterval(timerMiniGame);
+    dangGiuManHinh = false;
+    xoaSuKienGiuNut();
+}
+ 
+        
+</script>
