@@ -1283,13 +1283,28 @@ function xoaSuKienGiunut() {
     btn.ontouchstart = null;
     btn.ontouchend = null;
 }
-
 function chonCaNgauNhien() {
     let rand = Math.random() * 100;
-    let nhomHopLe = DANH_SACH_CA.filter(c => rand <= c.tiLe);
-    if (nhomHopLe.length === 0) {
+    let nhomHopLe = [];
+    
+    if (rand <= 0.5) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Secret");
+    } else if (rand <= 3) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "VIP");
+    } else if (rand <= 7) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Legend");
+    } else if (rand <= 35) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Epic");
+    } else if (rand <= 65) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Rare");
+    } else {
         nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Basic");
     }
+
+    if (!nhomHopLe || nhomHopLe.length === 0) {
+        nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Basic");
+    }
+    
     caDangCauHienTai = nhomHopLe[Math.floor(Math.random() * nhomHopLe.length)];
 
     if (!tuDienCa.includes(caDangCauHienTai.ten)) {
@@ -1297,6 +1312,8 @@ function chonCaNgauNhien() {
         localStorage.setItem("tuDienCa", JSON.stringify(tuDienCa));
     }
 }
+ 
+
 
 function updateMiniGameFisc() {
     if (dangGiuManHinh) {
@@ -1311,21 +1328,28 @@ function updateMiniGameFisc() {
     let vungMucTieuEl = document.getElementById("vungMucTieu");
     if (vungMucTieuEl) vungMucTieuEl.style.left = viTriThanhXanh + "px";
 
-    if (typeof window.tocDoCaX === 'undefined') {
-        window.tocDoCaX = (Math.random() - 0.5) * 2;
+        // Thay thế đoạn code xử lý tocDoCaX cũ bằng đoạn này:
+    if (typeof window.tocDoCaX === 'undefined' || window.tocDoCaX === 0) {
+        window.tocDoCaX = (Math.random() < 0.5 ? 1 : -1) * (Math.random() * 2 + 1.5);
     }
     
-    if (Math.random() < 0.05) {
-        window.tocDoCaX = (Math.random() - 0.5) * 3;
+    if (Math.random() < 0.08) {
+        window.tocDoCaX = (Math.random() - 0.5) * 4;
     }
     viTriConCa += window.tocDoCaX;
 
-    if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = -window.tocDoCaX; }
-    if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -window.tocDoCaX; }
+    if (viTriConCa < 0) { 
+        viTriConCa = 0; 
+        window.tocDoCaX = Math.abs(window.tocDoCaX); 
+    }
+    if (viTriConCa > 284) { 
+        viTriConCa = 284; 
+        window.tocDoCaX = -Math.abs(window.tocDoCaX); 
+    }
 
     let thanhConTroCaEl = document.getElementById("thanhConTroCa");
     if (thanhConTroCaEl) thanhConTroCaEl.style.left = viTriConCa + "px";
-
+ 
     let dauThanhXanh = viTriThanhXanh;
     let cuoiThanhXanh = viTriThanhXanh + 90;
 
