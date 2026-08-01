@@ -1116,7 +1116,7 @@ function xoaSuKienGiuNut() {
     btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
     btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
 }
- // --- TOÀN BỘ LOGIC HỆ THỐNG CÂU CÁ, KHO ĐỒ, TỪ ĐIỂN, DEBUFF & SỰ KIỆN NÚT ---
+ // --- XỬ LÝ LOGIC HỆ THỐNG CÂU CÁ, KHO ĐỒ, TỪ ĐIỂN & MINIGAME ---
 
 const DANH_SACH_CA = [
     // --- BASIC (90%) ---
@@ -1187,53 +1187,118 @@ let khoDoCa = JSON.parse(localStorage.getItem("khoDoCa")) || [];
 let tuDienCa = JSON.parse(localStorage.getItem("tuDienCa")) || [];
 let caDangCauHienTai = null;
 
-// Chọn ngẫu nhiên loại cá chuẩn xác theo tỉ lệ và đa dạng hóa tên cá
+let dangGiuManHinh = false;
+let viTriThanhXanh = 100;
+let viTriConCa = 150;
+let tocDoCa = 3;
+let tienTrinhCau = 40;
+let timerMiniGame = null;
+let trangThaiCauCa = "CHU_CHUAN_BI";
+
+function resetTrangThaiCau() {
+    trangThaiCauCa = "CHU_CHUAN_BI";
+    let btn = document.getElementById("btnQuangCanCau") || document.getElementById("btnGiuKeoCa");
+    if(btn) {
+        btn.innerText = "🌊 Quăng Cần Câu";
+        btn.style.background = "#ff9800";
+        btn.onclick = quangCanCau;
+    }
+    let vungMiniGame = document.getElementById("vungMiniGame");
+    if(vungMiniGame) vungMiniGame.style.display = "none";
+}
+
+function quangCanCau() {
+    if (trangThaiCauCa === "CHU_CHUAN_BI") {
+        trangThaiCauCa = "CHO_CA";
+        let btn = document.getElementById("btnQuangCanCau") || document.getElementById("btnGiuKeoCa");
+        if(btn) {
+            btn.innerText = "⏳ Đang chờ cá cắn câu...";
+            btn.style.background = "#607d8b";
+            btn.onclick = null;
+        }
+        
+        let thờiGianChờ = Math.floor(Math.random() * 2000) + 1500;
+        setTimeout(() => {
+            if (trangThaiCauCa === "CHO_CA") {
+                kichHoatMiniGameCauCa();
+            }
+        }, thờiGianChờ);
+    }
+}
+
+function kichHoatMiniGameCauCa() {
+    trangThaiCauCa = "DANG_CAN_CA";
+    chonCaNgauNhien();
+
+    let vungMiniGame = document.getElementById("vungMiniGame");
+    if(vungMiniGame) vungMiniGame.style.display = "block";
+
+    let btn = document.getElementById("btnGiuKeoCa") || document.getElementById("btnQuangCanCau");
+    if(btn) {
+        btn.innerText = "🎣 GIỮ ĐỂ KÉO CÁ";
+        btn.style.background = "#4caf50";
+    }
+
+    tiengTucLapSuKienGiuNut();
+
+    tienTrinhCau = 50;
+    viTriThanhXanh = 100;
+    viTriConCa = Math.random() * 200 + 40;
+    
+    if (timerMiniGame) clearInterval(timerMiniGame);
+    timerMiniGame = setInterval(updateMiniGameFisc, 50);
+}
+
+let pressTimer = null;
+function tiengTucLapSuKienGiuNut() {
+    let btn = document.getElementById("btnGiuKeoCa") || document.getElementById("btnQuangCanCau");
+    if(!btn) return;
+    
+    btn.onclick = null;
+
+    const batDauGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = true;
+    };
+
+    const ketThucGiu = (e) => {
+        if(e) e.preventDefault();
+        dangGiuManHinh = false;
+    };
+
+    btn.onmousedown = batDauGiu;
+    btn.onmouseup = ketThucGiu;
+    btn.onmouseleave = ketThucGiu;
+
+    btn.ontouchstart = batDauGiu;
+    btn.ontouchend = ketThucGiu;
+    btn.ontouchcancel = ketThucGiu;
+}
+
+function xoaSuKienGiunut() {
+    let btn = document.getElementById("btnGiuKeoCa") || document.getElementById("btnQuangCanCau");
+    if(!btn) return;
+    btn.onmousedown = null;
+    btn.onmouseup = null;
+    btn.ontouchstart = null;
+    btn.ontouchend = null;
+}
+
 function chonCaNgauNhien() {
     let rand = Math.random() * 100;
-    
-    // Lọc các nhóm cá theo tỉ lệ từ hiếm tới thường
     let nhomHopLe = DANH_SACH_CA.filter(c => rand <= c.tiLe);
     if (nhomHopLe.length === 0) {
         nhomHopLe = DANH_SACH_CA.filter(c => c.loai === "Basic");
     }
-    
-    let caChon = nhomHopLe[Math.floor(Math.random() * nhomHopLe.length)];
-    caDangCauHienTai = caChon;
+    caDangCauHienTai = nhomHopLe[Math.floor(Math.random() * nhomHopLe.length)];
 
-    // Khởi tạo vị trí ngẫu nhiên cho con cá để nó không đứng yên một chỗ
-    if (typeof viTriConCa === 'undefined') {
-        window.viTriConCa = 100;
-    } else {
-        window.viTriConCa = Math.random() * 200 + 40;
-    }
-
-    let heSoTocDo = 1;
-    if (caChon.loai === "Rare") heSoTocDo = 1.3;
-    else if (caChon.loai === "Epic") heSoTocDo = 1.7;
-    else if (caChon.loai === "Legend") heSoTocDo = 2.2;
-    else if (caChon.loai === "VIP") heSoTocDo = 3.0;
-    else if (caChon.loai === "Secret") heSoTocDo = 4.0;
-
-    window.tocDoCaGoc = heSoTocDo;
-    window.fishTimerDungIm = 0;
-    window.tocDoCaX = (Math.random() - 0.5) * heSoTocDo;
-
-    if (!tuDienCa.includes(caChon.ten)) {
-        tuDienCa.push(caChon.ten);
+    if (!tuDienCa.includes(caDangCauHienTai.ten)) {
+        tuDienCa.push(caDangCauHienTai.ten);
         localStorage.setItem("tuDienCa", JSON.stringify(tuDienCa));
     }
-    
-    return caChon;
 }
 
-// Hàm cập nhật minigame câu cá chính
 function updateMiniGameFisc() {
-    if (typeof dangGiuManHinh === 'undefined') window.dangGiuManHinh = false;
-    if (typeof viTriThanhXanh === 'undefined') window.viTriThanhXanh = 100;
-    if (typeof viTriConCa === 'undefined') window.viTriConCa = 100;
-    if (typeof tienTrinhCau === 'undefined') window.tienTrinhCau = 50;
-
-    // 1. Điều khiển thanh xanh lá khi bấm giữ
     if (dangGiuManHinh) {
         viTriThanhXanh += 7;
     } else {
@@ -1246,24 +1311,14 @@ function updateMiniGameFisc() {
     let vungMucTieuEl = document.getElementById("vungMucTieu");
     if (vungMucTieuEl) vungMucTieuEl.style.left = viTriThanhXanh + "px";
 
-    // 2. Con cá tự động bơi lội
     if (typeof window.tocDoCaX === 'undefined') {
-        window.tocDoCaX = (Math.random() - 0.5) * 1.5;
+        window.tocDoCaX = (Math.random() - 0.5) * 2;
     }
-
-    if (window.fishTimerDungIm > 0) {
-        window.fishTimerDungIm--;
-    } else {
-        if (Math.random() < 0.02) {
-            window.fishTimerDungIm = Math.floor(Math.random() * 10) + 5;
-        } else {
-            let tocDoNen = window.tocDoCaGoc || 1.5;
-            if (Math.random() < 0.15) {
-                window.tocDoCaX = (Math.random() - 0.5) * tocDoNen * 1.5;
-            }
-            viTriConCa += window.tocDoCaX;
-        }
+    
+    if (Math.random() < 0.05) {
+        window.tocDoCaX = (Math.random() - 0.5) * 3;
     }
+    viTriConCa += window.tocDoCaX;
 
     if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = -window.tocDoCaX; }
     if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -window.tocDoCaX; }
@@ -1271,31 +1326,14 @@ function updateMiniGameFisc() {
     let thanhConTroCaEl = document.getElementById("thanhConTroCa");
     if (thanhConTroCaEl) thanhConTroCaEl.style.left = viTriConCa + "px";
 
-    // 3. Hiển thị thông tin Debuff
-    let thongTinDebuff = "";
-    if (caDangCauHienTai && caDangCauHienTai.debuff > 0) {
-        let phanTramDebuff = caDangCauHienTai.debuff * 100;
-        thongTinDebuff = "⚠️ [" + caDangCauHienTai.loai + "] Giảm " + phanTramDebuff + "% tốc độ tiến trình!";
-    } else {
-        thongTinDebuff = "✨ Đang kéo cá bình thường...";
-    }
-    
-    let elDebuff = document.getElementById("txtDebuffCa");
-    if (elDebuff) elDebuff.innerText = thongTinDebuff;
-
-    // 4. Kiểm tra bắt cá & áp dụng Debuff tiến trình
     let dauThanhXanh = viTriThanhXanh;
     let cuoiThanhXanh = viTriThanhXanh + 90;
 
     let giamTocDo = caDangCauHienTai ? caDangCauHienTai.debuff : 0;
-    let tocDoTangChuan = 0.8;
-    let tocDoGiamChuan = 0.4;
-
     if (viTriConCa >= dauThanhXanh && viTriConCa <= cuoiThanhXanh) {
-        let tocDoThucTe = tocDoTangChuan * (1 - giamTocDo);
-        tienTrinhCau += Math.max(tocDoThucTe, 0.05);
+        tienTrinhCau += Math.max(0.8 * (1 - giamTocDo), 0.05);
     } else {
-        tienTrinhCau -= tocDoGiamChuan;
+        tienTrinhCau -= 0.4;
     }
 
     if (tienTrinhCau < 0) tienTrinhCau = 0;
@@ -1307,31 +1345,30 @@ function updateMiniGameFisc() {
     let txtPhanTramEl = document.getElementById("txtPhanTram");
     if (txtPhanTramEl) txtPhanTramEl.innerText = Math.floor(tienTrinhCau) + "%";
 
-    // Kết quả Thắng / Thua
     if (tienTrinhCau >= 100) {
-        DungMiniGameCauCaFisc();
-        let caVuaBat = caDangCauHienTai || chonCaNgauNhien();
+        clearInterval(timerMiniGame);
+        xoaSuKienGiunut();
         
+        let caVuaBat = caDangCauHienTai || DANH_SACH_CA[0];
         khoDoCa.push({ id: Date.now() + Math.random(), ...caVuaBat, yeuThich: false });
         localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
 
         alert("🎉 Chúc mừng bạn đã bắt thành công: [" + caVuaBat.loai + "] " + caVuaBat.ten + "!");
-        if (typeof resetTrangThaiCau === 'function') resetTrangThaiCau();
+        resetTrangThaiCau();
     } else if (tienTrinhCau <= 0) {
-        DungMiniGameCauCaFisc();
+        clearInterval(timerMiniGame);
+        xoaSuKienGiunut();
         alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
-        if (typeof resetTrangThaiCau === 'function') resetTrangThaiCau();
+        resetTrangThaiCau();
     }
 }
 
-// Hàm Dừng Minigame
-function DungMiniGameCauCaFisc() {
-    if (typeof timerMiniGame !== 'undefined' && timerMiniGame) clearInterval(timerMiniGame);
-    window.dangGiuManHinh = false;
-    if (typeof xoaSuKienGiunut === 'function') xoaSuKienGiunut();
+function DungMiniGameCauCa() {
+    if (timerMiniGame) clearInterval(timerMiniGame);
+    dangGiuManHinh = false;
+    xoaSuKienGiunut();
 }
 
-// 5. Quản lý Kho Đồ
 function toggleYeuThich(idCa) {
     let item = khoDoCa.find(c => c.id === idCa);
     if (item) {
@@ -1356,35 +1393,8 @@ function banCa(idCa) {
     }
 }
 
-// 6. Gán sự kiện nhấn giữ nút kéo cá
-function ganSuKienGiuNut() {
-    let btn = document.getElementById("btnGiuKeoCa"); 
-    if (!btn) return;
-
-    let batDauGiu = (e) => {
-        e.preventDefault();
-        window.dangGiuManHinh = true;
-    };
-
-    let ketThucGiu = (e) => {
-        e.preventDefault();
-        window.dangGiuManHinh = false;
-    };
-
-    btn.onmousedown = batDauGiu;
-    btn.onmouseup = ketThucGiu;
-    btn.onmouseleave = ketThucGiu;
-
-    btn.ontouchstart = batDauGiu;
-    btn.ontouchend = ketThucGiu;
-    btn.ontouchcancel = ketThucGiu;
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-    ganSuKienGiuNut();
-    if (!caDangCauHienTai) chonCaNgauNhien();
-});            
-    
+    resetTrangThaiCau();
+});
  
-              
 </script>
