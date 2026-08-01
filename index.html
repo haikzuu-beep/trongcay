@@ -1116,8 +1116,108 @@ function xoaSuKienGiuNut() {
     btn.onmousedown = null; btn.onmouseup = null; btn.onmouseleave = null;
     btn.ontouchstart = null; btn.ontouchend = null; btn.ontouchcancel = null;
 }
+// --- TOÀN BỘ LOGIC HỆ THỐNG CÂU CÁ, KHO ĐỒ, TỪ ĐIỂN & DEBUFF ---
+
+const DANH_SACH_CA = [
+    // --- BASIC (90%) ---
+    { ten: "🐟 Cá đối", loai: "Basic", tiLe: 90, debuff: 0, gia: 10 },
+    { ten: "🐟 Cá thu", loai: "Basic", tiLe: 90, debuff: 0, gia: 15 },
+    { ten: "🐟 Cá hồi", loai: "Basic", tiLe: 90, debuff: 0, gia: 20 },
+    { ten: "🐟 Cá sơn", loai: "Basic", tiLe: 90, debuff: 0, gia: 12 },
+    { ten: "🦐 Tôm sú", loai: "Basic", tiLe: 90, debuff: 0, gia: 18 },
+    { ten: "🐡 Cá nóc", loai: "Basic", tiLe: 90, debuff: 0, gia: 25 },
+    { ten: "🐟 Cá quân", loai: "Basic", tiLe: 90, debuff: 0, gia: 15 },
+    { ten: "🐟 Cá bọ cạp", loai: "Basic", tiLe: 90, debuff: 0, gia: 22 },
+    { ten: "⭐ Sao biển", loai: "Basic", tiLe: 90, debuff: 0, gia: 8 },
+    { ten: "🦑 Mực lá", loai: "Basic", tiLe: 90, debuff: 0, gia: 30 },
+
+    // --- RARE (65%) ---
+    { ten: "🐟 Cá dẹt", loai: "Rare", tiLe: 65, debuff: 0, gia: 50 },
+    { ten: "🐟 Cá cam", loai: "Rare", tiLe: 65, debuff: 0, gia: 60 },
+    { ten: "🦀 Ghẹ mặt trăng", loai: "Rare", tiLe: 65, debuff: 0, gia: 55 },
+    { ten: "🐚 Ốc bươu biển", loai: "Rare", tiLe: 65, debuff: 0, gia: 45 },
+    { ten: "🦑 Mực năng", loai: "Rare", tiLe: 65, debuff: 0, gia: 70 },
+    { ten: "🐟 Cá bàn chài đầu đen", loai: "Rare", tiLe: 65, debuff: 0, gia: 65 },
+    { ten: "🐟 Cá lưỡi trâu", loai: "Rare", tiLe: 65, debuff: 0, gia: 50 },
+    { ten: "🐟 Cá nục", loai: "Rare", tiLe: 65, debuff: 0, gia: 40 },
+
+    // --- EPIC (35% - Giảm 5% tốc độ tiến trình) ---
+    { ten: "🐟 Cá ngừ", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 120 },
+    { ten: "🐟 Cá sú mì", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 150 },
+    { ten: "🐟 Cá tráp", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 130 },
+    { ten: "🐟 Cá bò hòm", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 140 },
+    { ten: "🗿 Sò tai tượng", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 160 },
+    { ten: "🐟 Cá chó", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 135 },
+    { ten: "✨ Cá thủy tinh", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 180 },
+    { ten: "🐙 Bạch tuộc khổng lồ", loai: "Epic", tiLe: 35, debuff: 0.05, gia: 200 },
+
+    // --- LEGEND (7%) ---
+    { ten: "🦑 Mực khổng lồ", loai: "Legend", tiLe: 7, debuff: 0.05, gia: 500 },
+    { ten: "🐰 Cá mặt thỏ biển", loai: "Legend", tiLe: 7, debuff: 0, gia: 450 },
+    { ten: "🗡️ Cá kiếm", loai: "Legend", tiLe: 7, debuff: 0.05, gia: 550 },
+    { ten: "🦈 Cá mập", loai: "Legend", tiLe: 7, debuff: 0.10, gia: 600 },
+    { ten: "⚡ Lươn điện", loai: "Legend", tiLe: 7, debuff: 0, gia: 580 },
+    { ten: "🦐 Tôm tích búa", loai: "Legend", tiLe: 7, debuff: 0, gia: 520 },
+    { ten: "🐟 Cá thương", loai: "Legend", tiLe: 7, debuff: 0.05, gia: 530 },
+    { ten: "🦈 Cá buồm", loai: "Legend", tiLe: 7, debuff: 0.05, gia: 570 },
+    { ten: "🦈 Cá đuối đỏ", loai: "Legend", tiLe: 7, debuff: 0, gia: 590 },
+    { ten: "🐉 Sam đuôi tam giác", loai: "Legend", tiLe: 7, debuff: 0, gia: 620 },
+
+    // --- VIP (3%) ---
+    { ten: "🦈 Cá nhám búa", loai: "VIP", tiLe: 3, debuff: 0.40, gia: 1500 },
+    { ten: "🦈 Cá mập trắng khổng lồ", loai: "VIP", tiLe: 3, debuff: 0.50, gia: 2000 },
+    { ten: "🦈 Cá mập Greenland", loai: "VIP", tiLe: 3, debuff: 0.30, gia: 1800 },
+    { ten: "🦈 Cá mập mũi cưa", loai: "VIP", tiLe: 3, debuff: 0.30, gia: 1700 },
+    { ten: "🦖 Cá Dunkleosteus", loai: "VIP", tiLe: 3, debuff: 0.20, gia: 2200 },
+    { ten: "🐋 Cá nhà táng", loai: "VIP", tiLe: 3, debuff: 0.70, gia: 3000 },
+    { ten: "🐍 Cá mái chèo khổng lồ", loai: "VIP", tiLe: 3, debuff: 0.20, gia: 1900 },
+    { ten: "🦈 Cá mập mõm rộng", loai: "VIP", tiLe: 3, debuff: 0.30, gia: 2100 },
+    { ten: "🐬 Cá voi sát thủ", loai: "VIP", tiLe: 3, debuff: 0.40, gia: 2500 },
+    { ten: "🐬 Cá heo bụng trắng", loai: "VIP", tiLe: 3, debuff: 0.05, gia: 1400 },
+
+    // --- SECRET (0.5%) ---
+    { ten: "🐳 Moby Dick", loai: "Secret", tiLe: 0.5, debuff: 0.95, gia: 10000 },
+    { ten: "🐉 Rồng xanh biển sâu", loai: "Secret", tiLe: 0.5, debuff: 0.80, gia: 8000 },
+    { ten: "🐋 Cá voi Lyngbakr", loai: "Secret", tiLe: 0.5, debuff: 0.95, gia: 12000 },
+    { ten: "🐙 Kraken", loai: "Secret", tiLe: 0.5, debuff: 0.90, gia: 15000 },
+    { ten: "🦈 Ancient Orca", loai: "Secret", tiLe: 0.5, debuff: 0.90, gia: 14000 }
+];
+
+let khoDoCa = JSON.parse(localStorage.getItem("khoDoCa")) || [];
+let tuDienCa = JSON.parse(localStorage.getItem("tuDienCa")) || [];
+let caDangCauHienTai = null;
+
+// Chọn ngẫu nhiên loại cá, thiết lập tốc độ bơi và hệ số khó dựa theo độ hiếm
+function chonCaNgauNhien() {
+    let rand = Math.random() * 100;
+    let nhomHopLe = DANH_SACH_CA.filter(c => rand <= c.tiLe || c.loai === "Basic");
+    let caChon = nhomHopLe[Math.floor(Math.random() * nhomHopLe.length)];
+    
+    caDangCauHienTai = caChon;
+
+    // Thiết lập tốc độ bơi theo độ hiếm (Càng hiếm bơi càng nhanh)
+    let heSoTocDo = 1;
+    if (caChon.loai === "Rare") heSoTocDo = 1.3;
+    else if (caChon.loai === "Epic") heSoTocDo = 1.7;
+    else if (caChon.loai === "Legend") heSoTocDo = 2.2;
+    else if (caChon.loai === "VIP") heSoTocDo = 3.0;
+    else if (caChon.loai === "Secret") heSoTocDo = 4.0;
+
+    window.tocDoCaGoc = heSoTocDo;
+    window.fishTimerDungIm = 0;
+
+    // Thêm vào từ điển nếu chưa có
+    if (!tuDienCa.includes(caChon.ten)) {
+        tuDienCa.push(caChon.ten);
+        localStorage.setItem("tuDienCa", JSON.stringify(tuDienCa));
+    }
+    
+    return caChon;
+}
+
+// Hàm cập nhật minigame câu cá chính
 function updateMiniGameFisc() {
-    // 1. Điều khiển thanh xanh lá: Giữ thì dịch sang phải, thả ra thì trôi về trái
+    // 1. Điều khiển thanh xanh lá
     if (dangGiuManHinh) {
         viTriThanhXanh += 7;
     } else {
@@ -1129,42 +1229,59 @@ function updateMiniGameFisc() {
 
     document.getElementById("vungMucTieu").style.left = viTriThanhXanh + "px";
 
-        // 2. Cải tiến cá: Bơi nhanh hơn và ít đứng im lại
-    if (typeof fishTimerDungIm === 'undefined') {
-        window.fishTimerDungIm = 0;
-        window.tocDoCaX = (Math.random() - 0.5) * 3; // Tăng tốc độ lên cho vừa tay hơn
+    // 2. Con cá tự động bơi lội (Tốc độ tuỳ thuộc vào độ hiếm)
+    if (typeof window.tocDoCaX === 'undefined') {
+        let tocDoNen = window.tocDoCaGoc || 1.5;
+        window.tocDoCaX = (Math.random() - 0.5) * tocDoNen;
     }
 
-    if (fishTimerDungIm > 0) {
-        fishTimerDungIm--; // Giảm thời gian đứng im lại
+    if (window.fishTimerDungIm > 0) {
+        window.fishTimerDungIm--;
     } else {
-        // Giảm tỷ lệ đứng im xuống còn 2% và thời gian đứng im cực ngắn (từ 5 đến 15 khung hình)
         if (Math.random() < 0.02) {
-            fishTimerDungIm = Math.floor(Math.random() * 10) + 5;
+            window.fishTimerDungIm = Math.floor(Math.random() * 10) + 5;
         } else {
-            // Đổi hướng ngẫu nhiên mượt mà
-            if (Math.random() < 0.1) {
-                window.tocDoCaX = (Math.random() - 0.5) * 3;
+            let tocDoNen = window.tocDoCaGoc || 1.5;
+            if (Math.random() < 0.15) {
+                window.tocDoCaX = (Math.random() - 0.5) * tocDoNen * 1.5;
             }
             viTriConCa += window.tocDoCaX;
         }
     }
- 
 
-    // Giới hạn cá không bị bơi ra khỏi khung
-    if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = Math.abs(window.tocDoCaX); }
-    if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -Math.abs(window.tocDoCaX); }
+    // Giới hạn cá không bơi ra ngoài khung
+    if (viTriConCa < 0) { viTriConCa = 0; window.tocDoCaX = -window.tocDoCaX; }
+    if (viTriConCa > 284) { viTriConCa = 284; window.tocDoCaX = -window.tocDoCaX; }
 
-    document.getElementById("thanhConTro").style.left = viTriConCa + "px";
+    document.getElementById("thanhConTroCa").style.left = viTriConCa + "px";
 
-    // 3. Kiểm tra bắt cá & điều chỉnh tốc độ thanh tiến trình (Tăng giữ nguyên, giảm chậm lại)
+    // 3. Hiển thị thông tin Debuff tốc độ tiến trình ra giao diện
+    let thongTinDebuff = "";
+    if (caDangCauHienTai && caDangCauHienTai.debuff > 0) {
+        let phanTramDebuff = caDangCauHienTai.debuff * 100;
+        thongTinDebuff = "⚠️ [" + caDangCauHienTai.loai + "] Giảm " + phanTramDebuff + "% tốc độ tiến trình!";
+    } else {
+        thongTinDebuff = "✨ Đang kéo cá bình thường...";
+    }
+    
+    let elDebuff = document.getElementById("txtDebuffCa");
+    if (elDebuff) {
+        elDebuff.innerText = thongTinDebuff;
+    }
+
+    // 4. Kiểm tra bắt cá & áp dụng Debuff tiến trình
     let dauThanhXanh = viTriThanhXanh;
     let cuoiThanhXanh = viTriThanhXanh + 90;
 
+    let giamTocDo = caDangCauHienTai ? caDangCauHienTai.debuff : 0;
+    let tocDoTangChuan = 0.8;
+    let tocDoGiamChuan = 0.4;
+
     if (viTriConCa >= dauThanhXanh && viTriConCa <= cuoiThanhXanh) {
-        tienTrinhCau += 0.8; // Tăng tiến trình giữ nguyên như cũ
+        let tocDoThucTe = tocDoTangChuan * (1 - giamTocDo);
+        tienTrinhCau += Math.max(tocDoThucTe, 0.05);
     } else {
-        tienTrinhCau -= 0.4; // Giảm tiến trình chậm lại một nửa để dễ thở hơn
+        tienTrinhCau -= tocDoGiamChuan;
     }
 
     if (tienTrinhCau < 0) tienTrinhCau = 0;
@@ -1176,13 +1293,13 @@ function updateMiniGameFisc() {
     // Kết quả Thắng / Thua
     if (tienTrinhCau >= 100) {
         DungMiniGameCauCaFisc();
-        let dsCaCau = [
-            "🐟 Cá đối", "🐟 Cá thu", "🐟 Cá hồi", "🐟 Cá sơn", 
-            "🦐 Tôm sú", "🐡 Cá nóc", "🐟 Cá quân", "🐟 Cá bọ cạp", 
-            "⭐ Sao biển", "🦑 Mực lá"
-        ];
-        let caNhanDc = dsCaCau[Math.floor(Math.random() * dsCaCau.length)];
-        alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: " + caNhanDc + "!");
+        let caVuaBat = caDangCauHienTai || chonCaNgauNhien();
+        
+        // Lưu vào kho đồ
+        khoDoCa.push({ id: Date.now() + Math.random(), ...caVuaBat, yeuThich: false });
+        localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
+
+        alert("🎉 Chúc mừng bạn đã bắt thành công: [" + caVuaBat.loai + "] " + caVuaBat.ten + "!");
         resetTrangThaiCau();
     } else if (tienTrinhCau <= 0) {
         DungMiniGameCauCaFisc();
@@ -1190,6 +1307,40 @@ function updateMiniGameFisc() {
         resetTrangThaiCau();
     }
 }
+
+// Hàm Dừng Minigame
+function DungMiniGameCauCaFisc() {
+    if (timerMiniGame) clearInterval(timerMiniGame);
+    dangGiuManHinh = false;
+    xoaSuKienGiunut();
+}
+
+// 5. Chức năng Quản lý Kho Đồ (Yêu thích & Bán cá)
+function toggleYeuThich(idCa) {
+    let item = khoDoCa.find(c => c.id === idCa);
+    if (item) {
+        item.yeuThich = !item.yeuThich;
+        localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
+        if (typeof hienThiKhoDo === 'function') hienThiKhoDo();
+    }
+}
+
+function banCa(idCa) {
+    let index = khoDoCa.findIndex(c => c.id === idCa);
+    if (index !== -1) {
+        if (khoDoCa[index].yeuThich) {
+            alert("⚠️ Con cá này đã được đánh dấu yêu thích, không thể bán nhầm đâu bạn ơi!");
+            return;
+        }
+        let tienBan = khoDoCa[index].gia;
+        // Cộng tiền vào tài khoản game của bạn tại đây nếu có biến tiền
+        khoDoCa.splice(index, 1);
+        localStorage.setItem("khoDoCa", JSON.stringify(khoDoCa));
+        if (typeof hienThiKhoDo === 'function') hienThiKhoDo();
+        alert("💰 Đã bán cá thành công nhận được " + tienBan + " vàng!");
+    }
+     }
+ 
  
      
 function DungMiniGameCauCaFisc() {
