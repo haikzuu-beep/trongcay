@@ -1172,18 +1172,105 @@ function updateMiniGameFisc() {
     document.getElementById("txtPhanTram").innerText = Math.floor(tienTrinhCau) + "%";
 
     // Kết quả Thắng / Thua
-    if (tienTrinhCau >= 100) {
-        DungMiniGameCauCaFisc();
-        let dsCaCau = [
-            "🐟 Cá đối", "🐟 Cá thu", "🐟 Cá hồi", "🐟 Cá sơn", 
-            "🦐 Tôm sú", "🐡 Cá nóc", "🐟 Cá quân", "🐟 Cá bọ cạp", 
-            "⭐ Sao biển", "🦑 Mực lá"
-        ];
-        let caNhanDc = dsCaCau[Math.floor(Math.random() * dsCaCau.length)];
-        alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: " + caNhanDc + "!");
-        resetTrangThaiCau();
-    } else if (tienTrinhCau <= 0) {
-        DungMiniGameCauCaFisc();
+            // Kết quả Thắng / Thua (Đã nâng cấp cá hiếm chạy nhanh + kho đồ)
+        if (tienTrinhCau >= 100) {
+            DungMiniGameCauCaFisc();
+            
+            if (typeof khoDoCa === 'undefined') {
+                window.khoDoCa = JSON.parse(localStorage.getItem('khoDoCa')) || [];
+                window.tuDienDaGap = JSON.parse(localStorage.getItem('tuDienDaGap')) || {};
+            }
+
+            const danhSachTatCaCa = [
+                // Basic (90%) - Tốc độ bơi bình thường
+                { ten: "Cá đỗi", loai: "Basic", gia: 10, tocDoBoi: 2.0 },
+                { ten: "Cá thu", loai: "Basic", gia: 12, tocDoBoi: 2.2 },
+                { ten: "Cá hồi", loai: "Basic", gia: 15, tocDoBoi: 2.1 },
+                { ten: "Cá sơn", loai: "Basic", gia: 14, tocDoBoi: 2.0 },
+                { ten: "Tôm sú", loai: "Basic", gia: 16, tocDoBoi: 2.3 },
+                { ten: "Cá nóc", loai: "Basic", gia: 18, tocDoBoi: 2.0 },
+                { ten: "Cá quân", loai: "Basic", gia: 13, tocDoBoi: 2.1 },
+                { ten: "Cá bọ cạp", loai: "Basic", gia: 20, tocDoBoi: 2.4 },
+                { ten: "Sao biển", loai: "Basic", gia: 8, tocDoBoi: 1.5 },
+                { ten: "Mực lá", loai: "Basic", gia: 22, tocDoBoi: 2.5 },
+
+                // Rare (65%) - Tốc độ nhanh hơn chút
+                { ten: "Cá dẹt", loai: "Rare", gia: 50, tocDoBoi: 3.0 },
+                { ten: "Cá cam", loai: "Rare", gia: 60, tocDoBoi: 3.2 },
+                { ten: "Ghẹ mặt trăng", loai: "Rare", gia: 55, tocDoBoi: 3.1 },
+                { ten: "Ốc bươu biển", loai: "Rare", gia: 40, tocDoBoi: 2.8 },
+                { ten: "Mực nang", loai: "Rare", gia: 70, tocDoBoi: 3.4 },
+                { ten: "Cá bàn chài đầu đen", loai: "Rare", gia: 65, tocDoBoi: 3.2 },
+                { ten: "Cá lưỡi trâu", loai: "Rare", gia: 45, tocDoBoi: 2.9 },
+                { ten: "Cá nục", loai: "Rare", gia: 50, tocDoBoi: 3.0 },
+
+                // Epic (35%) - Bắt đầu bơi lượn lắt léo, nhanh
+                { ten: "Cá ngừ", loai: "Epic", gia: 150, tocDoBoi: 4.2 },
+                { ten: "Cá sú mì", loai: "Epic", gia: 180, tocDoBoi: 4.5 },
+                { ten: "Cá tráp", loai: "Epic", gia: 160, tocDoBoi: 4.3 },
+                { ten: "Cá bò hòm", loai: "Epic", gia: 170, tocDoBoi: 4.4 },
+                { ten: "So tài tượng", loai: "Epic", gia: 200, tocDoBoi: 4.6 },
+                { ten: "Cá chó", loai: "Epic", gia: 140, tocDoBoi: 4.0 },
+                { ten: "Cá thủy tinh", loai: "Epic", gia: 190, tocDoBoi: 4.5 },
+                { ten: "Bạch tuộc khổng lồ", loai: "Epic", gia: 220, tocDoBoi: 4.8 },
+
+                // Legend (7%) - Bơi rất nhanh, đổi hướng liên tục
+                { ten: "Mực khổng lồ", loai: "Legend", gia: 500, tocDoBoi: 6.0 },
+                { ten: "Cá mặt thỏ biển", loai: "Legend", gia: 450, tocDoBoi: 5.5 },
+                { ten: "Cá kiếm", loai: "Legend", gia: 600, tocDoBoi: 6.5 },
+                { ten: "Cá mập", loai: "Legend", gia: 700, tocDoBoi: 7.0 },
+                { ten: "Lươn điện", loai: "Legend", gia: 550, tocDoBoi: 6.2 },
+                { ten: "Tôm tích búa", loai: "Legend", gia: 520, tocDoBoi: 5.8 },
+                { ten: "Cá thương", loai: "Legend", gia: 580, tocDoBoi: 6.3 },
+                { ten: "Cá buồm", loai: "Legend", gia: 650, tocDoBoi: 6.6 },
+                { ten: "Cá đuối đỏ", loai: "Legend", gia: 600, tocDoBoi: 6.0 },
+                { ten: "Sam đuôi tam giác", loai: "Legend", gia: 480, tocDoBoi: 5.6 },
+
+                // Vip (3%) - Cực kỳ cuồng nộ, lao vùn vụt
+                { ten: "Cá nhám búa", loai: "Vip", gia: 1500, tocDoBoi: 9.0 },
+                { ten: "Cá mập trắng khổng lồ", loai: "Vip", gia: 2000, tocDoBoi: 10.5 },
+                { ten: "Cá mập Greenland", loai: "Vip", gia: 1800, tocDoBoi: 9.5 },
+                { ten: "Cá mập mũi cưa", loai: "Vip", gia: 1600, tocDoBoi: 9.2 },
+                { ten: "Cá Dukleoteus", loai: "Vip", gia: 2200, tocDoBoi: 10.0 },
+                { ten: "Cá nhà táng", loai: "Vip", gia: 3000, tocDoBoi: 12.0 },
+                { ten: "Cá mái chèo khổng lồ", loai: "Vip", gia: 1700, tocDoBoi: 9.0 },
+                { ten: "Cá mập mõm rộng", loai: "Vip", gia: 1900, tocDoBoi: 9.8 },
+                { ten: "Cá voi sát thủ", loai: "Vip", gia: 2500, tocDoBoi: 11.0 },
+                { ten: "Cá heo bụng trắng", loai: "Vip", gia: 1400, tocDoBoi: 8.5 },
+
+                // Secret (0.5%) - Tốc độ thần sầu, thách thức mọi game thủ
+                { ten: "Moby", loai: "Secret", gia: 10000, tocDoBoi: 15.0 },
+                { ten: "Rồng xanh đến từ biển", loai: "Secret", gia: 8000, tocDoBoi: 14.0 },
+                { ten: "Cá voi Lyngbakr", loai: "Secret", gia: 10000, tocDoBoi: 15.0 },
+                { ten: "Kraken", loai: "Secret", gia: 9500, tocDoBoi: 14.5 },
+                { ten: "Ancient Orca", loai: "Secret", gia: 9000, tocDoBoi: 14.0 }
+            ];
+
+            let rand = Math.random() * 100;
+            let pool = [];
+            if (rand <= 0.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Secret"); }
+            else if (rand <= 3.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Vip"); }
+            else if (rand <= 10.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Legend"); }
+            else if (rand <= 45.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Epic"); }
+            else if (rand <= 95.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Rare"); }
+            else { pool = danhSachTatCaCa.filter(c => c.loai === "Basic"); }
+
+            let caChon = pool[Math.floor(Math.random() * pool.length)];
+
+            alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: [" + caChon.loai + "] " + caChon.ten + " (+" + caChon.gia + " vàng)!");
+            
+            if (!window.khoDoCa) window.khoDoCa = [];
+            if (!window.tuDienDaGap) window.tuDienDaGap = {};
+            
+            window.khoDoCa.push({ id: Date.now() + Math.random(), ...caChon, favorite: false });
+            window.tuDienDaGap[caChon.ten] = true;
+            
+            localStorage.setItem('khoDoCa', JSON.stringify(window.khoDoCa));
+            localStorage.setItem('tuDienDaGap', JSON.stringify(window.tuDienDaGap));
+
+            resetTrangThaiCau();
+             }
+             
         alert("😢 Ôi tiếc quá, cá quẫy đứt dây chạy mất tiêu rồi!");
         resetTrangThaiCau();
     }
