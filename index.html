@@ -1250,25 +1250,16 @@ function updateMiniGameFisc() {
             ];
 
             let rand = Math.random() * 100;
-let pool = [];
+            let pool = [];
+            if (rand <= 0.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Secret"); }
+            else if (rand <= 3.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Vip"); }
+            else if (rand <= 10.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Legend"); }
+            else if (rand <= 45.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Epic"); }
+            else if (rand <= 95.5) { pool = danhSachTatCaCa.filter(c => c.loai === "Rare"); }
+            else { pool = danhSachTatCaCa.filter(c => c.loai === "Basic"); }
 
-if (rand <= 0.5) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Secret");
-} else if (rand <= 3.5) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Vip");
-} else if (rand <= 10.5) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Legend");
-} else if (rand <= 45.5) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Epic");
-} else if (rand <= 95.5) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Rare");
-} else {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Basic");
-}
-
-if (!pool || pool.length === 0) {
-    pool = danhSachTatCaCa.filter(c => c.loai === "Basic");
-}
+            let caChon = pool[Math.floor(Math.random() * pool.length)];
+         
          
 
             alert("🎉 Chúc mừng bạn đã kéo thành công và bắt được: [" + caChon.loai + "] " + caChon.ten + " (+" + caChon.gia + " vàng)!");
