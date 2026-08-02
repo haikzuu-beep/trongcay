@@ -22,6 +22,9 @@
     <button onclick="moTapVe()" style="padding: 10px 30px; background: #222; color: #ff99cc; border: 2px solid #ff99cc; border-radius: 25px; font-size: 18px; cursor: pointer; margin-bottom: 15px;">🎨 Tập Vẽ</button>
     
     <button onclick="hoiReset()" style="padding: 8px 25px; background: #331111; color: #ff5555; border: 1px solid #ff5555; border-radius: 20px; font-size: 15px; cursor: pointer;">🔄 Reset Game</button>
+ <button onclick="moKhoDo()">🎒 Kho Đồ</button>
+<button onclick="moTuDien()">📖 Từ Điển Cá</button>
+ 
 </div>
 <div id="modalCauCa" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, #1ca3ec, #004d80); flex-direction: column; justify-content: space-between; align-items: center; z-index: 100005; font-family: 'ZCOOL KuaiLe', cursive; padding: 15px; box-sizing: border-box;">
     
@@ -1281,6 +1284,22 @@ function DungMiniGameCauCaFisc() {
     if (timerMiniGame) clearInterval(timerMiniGame);
     dangGiuManHinh = false;
     xoaSuKienGiuNut();
+}
+function moKhoDo() {
+    let kho = JSON.parse(localStorage.getItem('khoDoCa')) || [];
+    if (kho.length === 0) {
+        alert("🎒 Kho đồ của bạn đang trống! Hãy đi câu ngay nào.");
+    } else {
+        let danhSachHienThi = kho.map(c => "- [" + c.loai + "] " + c.ten + " (+" + c.gia + " vàng)").join("\n");
+        alert("🎒 KHO ĐỒ CỦA BẠN:\n" + danhSachHienThi);
+    }
+}
+
+function moTuDien() {
+    let tuDien = JSON.parse(localStorage.getItem('tuDienDaGap')) || {};
+    let soLuong = Object.keys(tuDien).length;
+    let danhSachDaGap = Object.keys(tuDien).map(ten => "✔️ " + ten).join("\n");
+    alert("📖 TỪ ĐIỂN CÁ (" + soLuong + " loài đã gặp):\n" + (soLuong === 0 ? "Chưa gặp con cá nào cả!" : danhSachDaGap));
 }
  
         
